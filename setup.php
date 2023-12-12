@@ -1,73 +1,140 @@
-/**
-SEED RANDOM TEST USERS
-FOR THE DATABASE TABLES
+<?php
+/*
+=======================================================================
+===                                                                 ===
+===              REAL ESTATE APPLICATION DATABASE SETUP             ===
+===                                                                 ===
+=======================================================================
+
+This PHP script sets up the database for the Real Estate application.
+
+1. It defines the database name, username, and password.
+2. Establishes a connection to the MySQL server.
+3. Creates the database if it doesn't exist.
+4. Switches to the real estate database.
+5. Creates tables for users, plots, payments, notifications, and user-plot associations if they don't exist.
+6. Inserts sample data into the users, plots, and user-plot association tables.
+7. Inserts sample notification data for testing.
+
+=======================================================================
 */
 
-<?php
 // Replace these variables with your database credentials
-$dbName = "db__real__estate";
+$dbName = "real__estate";
 $dbUser = "root";
 $dbPassword = "";
 
-// Create a connection to the database
-$connection = new PDO("mysql:host=localhost;dbname=$dbName", $dbUser, $dbPassword);
-$connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+try {
+    // Create a connection to the MySQL server
+    $mysqlConnection = new PDO("mysql:host=localhost", $dbUser, $dbPassword);
+    $mysqlConnection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-// Create the "users" table
-$createUsersTableQuery = "
-CREATE TABLE IF NOT EXISTS users (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    username VARCHAR(255) NOT NULL,
-    email VARCHAR(255) NOT NULL,
-    password VARCHAR(255) NOT NULL,
-    role VARCHAR(50) NOT NULL
-)";
-$connection->exec($createUsersTableQuery);
+    // Create the database if it doesn't exist
+    $createDatabaseQuery = "CREATE DATABASE IF NOT EXISTS $dbName";
+    $mysqlConnection->exec($createDatabaseQuery);
 
-// Create the "usersonplot" table
-$createUsersonplotTableQuery = "
-CREATE TABLE IF NOT EXISTS usersonplot (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    user_id INT NOT NULL,
-    plot_name VARCHAR(255) NOT NULL,
-    FOREIGN KEY (user_id) REFERENCES users(id)
-)";
-$connection->exec($createUsersonplotTableQuery);
+    // Switch to the real estate database
+    $connection = new PDO("mysql:host=localhost;dbname=$dbName", $dbUser, $dbPassword);
+    $connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-// Create the "plots" table
-$createPlotsTableQuery = "
-CREATE TABLE IF NOT EXISTS plots (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    plot_name VARCHAR(255) NOT NULL
-)";
-$connection->exec($createPlotsTableQuery);
+    // Create the "users" table
+    $createUsersTableQuery = "
+    CREATE TABLE IF NOT EXISTS users (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        username VARCHAR(255) NOT NULL,
+        email VARCHAR(255) NOT NULL,
+        password VARCHAR(255) NOT NULL,
+        role ENUM('user', 'admin') NOT NULL,
+        UNIQUE KEY (id)
+    )";
+    $connection->exec($createUsersTableQuery);
 
-// Insert sample data into the "users" table
-$insertUsersDataQuery = "
-INSERT INTO users (username, email, password, role) VALUES
-('user1', 'user1@example.com', 'password1', 'user'),
-('user2', 'user2@example.com', 'password2', 'user'),
-('admin', 'admin@example.com', 'adminpassword', 'admin')
-";
-$connection->exec($insertUsersDataQuery);
+    // Create the "plots" table
+    $createPlotsTableQuery = "
+    CREATE TABLE IF NOT EXISTS plots (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        plot_name VARCHAR(255) NOT NULL,
+        location VARCHAR(255) NOT NULL,
+        size INT NOT NULL,
+        price DECIMAL(10, 2) NOT NULL,
+        UNIQUE KEY (id)
+    )";
+    $connection->exec($createPlotsTableQuery);
 
-// Insert sample data into the "usersonplot" table
-$insertUsersonplotDataQuery = "
-INSERT INTO usersonplot (user_id, plot_name) VALUES
-(1, 'Plot A'),
-(2, 'Plot B'),
-(3, 'Plot C')
-";
-$connection->exec($insertUsersonplotDataQuery);
+    // Create the "payments" table
+    $createPaymentsTableQuery = "
+    CREATE TABLE IF NOT EXISTS payments (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        user_id INT NOT NULL,
+        plot_id INT NOT NULL,
+        amount DECIMAL(10, 2) NOT NULL,
+        payment_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        FOREIGN KEY (user_id) REFERENCES users(id),
+        FOREIGN KEY (plot_id) REFERENCES plots(id)
+    )";
+    $connection->exec($createPaymentsTableQuery);
 
-// Insert sample data into the "plots" table
-$insertPlotsDataQuery = "
-INSERT INTO plots (plot_name) VALUES
-('Plot A'),
-('Plot B'),
-('Plot C')
-";
-$connection->exec($insertPlotsDataQuery);
+    // Create the "notifications" table
+    $createNotificationsTableQuery = "
+    CREATE TABLE IF NOT EXISTS notifications (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        user_id INT NOT NULL,
+        message TEXT NOT NULL,
+        notification_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        FOREIGN KEY (user_id) REFERENCES users(id)
+    )";
+    $connection->exec($createNotificationsTableQuery);
 
-echo "Database and tables created, and sample data inserted.";
+    // Create the "usersonplot" table
+    $createUsersonplotTableQuery = "
+    CREATE TABLE IF NOT EXISTS usersonplot (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        user_id INT NOT NULL,
+        plot_id INT NOT NULL,
+        FOREIGN KEY (user_id) REFERENCES users(id),
+        FOREIGN KEY (plot_id) REFERENCES plots(id)
+    )";
+    $connection->exec($createUsersonplotTableQuery);
+
+    // Insert sample data into the "users" table
+    $insertUsersDataQuery = "
+    INSERT INTO users (username, email, password, role) VALUES
+    ('user1', 'user1@example.com', 'password1', 'user'),
+    ('user2', 'user2@example.com', 'password2', 'user'),
+    ('admin', 'admin@example.com', 'adminpassword', 'admin')
+    ";
+    $connection->exec($insertUsersDataQuery);
+
+    // Insert sample data into the "plots" table
+    $insertPlotsDataQuery = "
+    INSERT INTO plots (plot_name, location, size, price) VALUES
+    ('Plot A', 'Location A', 500, 100000),
+    ('Plot B', 'Location B', 600, 120000),
+    ('Plot C', 'Location C', 700, 150000)
+    ";
+    $connection->exec($insertPlotsDataQuery);
+
+    // Insert sample data into the "usersonplot" table
+    $insertUsersonplotDataQuery = "
+    INSERT INTO usersonplot (user_id, plot_id) VALUES
+    (1, 1),
+    (2, 2),
+    (3, 3)
+    ";
+    $connection->exec($insertUsersonplotDataQuery);
+
+    // Insert sample data into the "notifications" table
+    $insertNotificationsDataQuery = "
+    INSERT INTO notifications (user_id, message) VALUES
+    (1, 'Notification 1 for User 1'),
+    (2, 'Notification 1 for User 2'),
+    (3, 'Notification 1 for Admin'),
+    (1, 'Notification 2 for User 1')
+    ";
+    $connection->exec($insertNotificationsDataQuery);
+
+    echo "Database and tables created, and sample data inserted.";
+} catch (PDOException $e) {
+    echo "Error: " . $e->getMessage();
+}
 ?>
