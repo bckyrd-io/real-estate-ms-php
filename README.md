@@ -33,31 +33,17 @@ This web-based application aims to enhance the real Estate experience by address
 
 ### Installation
 
-1. Clone the repository to your local machine:
+1. Clone the repository to your local machine or download zip to server htdocs
 
-    ```bash
-    git clone https://github.com/yourusername/realestate.git
-    ```
-
-2. Navigate to the project directory:
-
-    ```bash
-    cd realestate
-    ```
+2. Navigate to the project directory `realestate` 
 
 3. Open your web browser and visit `http://localhost/phpmyadmin`.
 
 4. Create a new database named `realestate`.
 
-5. Open a terminal or command prompt, navigate to the project directory, and run the following command:
-
-    ```bash
-    php setup.php
-    ```
-
-   This will execute the SQL scripts to initiate database creation.
-
-6. Open your web browser and visit `http://localhost/realestate` to access the project.
+5. Open your web browser and navigate to `http://localhost/realestate/setup.php` to run create database scripts.
+   
+7. Visit `http://localhost/realestate` to access the project.
 
 ### Usage
 
