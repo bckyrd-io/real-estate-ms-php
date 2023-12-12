@@ -26,12 +26,50 @@ This web-based application aims to enhance the real Estate experience by address
 7. **Comprehensive Data Reports:**
    Access valuable insights through comprehensive data reports.
 
-## Get Started
+### Prerequisites
 
-Transform your Cherrywood Estate experience in a few simple steps:
+- [XAMPP](https://www.apachefriends.org/index.html) or [WAMP](https://www.wampserver.com/en/) installed.
+- Ensure Apache and MySQL servers are running.
 
-1. [Sign up](#) for an account on our platform.
+### Installation
+
+1. Clone the repository to your local machine:
+
+    ```bash
+    git clone https://github.com/yourusername/realestate.git
+    ```
+
+2. Navigate to the project directory:
+
+    ```bash
+    cd realestate
+    ```
+
+3. Open your web browser and visit `http://localhost/phpmyadmin`.
+
+4. Create a new database named `realestate`.
+
+5. Open a terminal or command prompt, navigate to the project directory, and run the following command:
+
+    ```bash
+    php setup.php
+    ```
+
+   This will execute the SQL scripts to initiate database creation.
+
+6. Open your web browser and visit `http://localhost/realestate` to access the project.
+
+### Usage
+
+1. Sign up for an account on the platform.
+
 2. Explore available plots and submit your application online.
+
 3. Schedule viewings, either in person or virtually, to assess the plots.
+
 4. Make secure online payments for your selected plots and services.
+
 5. Stay informed with timely notifications and access comprehensive data reports.
+
+
+
