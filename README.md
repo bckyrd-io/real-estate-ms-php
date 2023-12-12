@@ -41,10 +41,9 @@ This web-based application aims to enhance the real Estate experience by address
 
 4. Create a new database named `realestate`.
 
-5. Open your web browser and navigate to `http://localhost/realestate/setup.php` to create database.
-   This will execute the SQL scripts to initiate database creation.
+5. Open your web browser and navigate to `http://localhost/realestate/setup.php` to run create database scripts.
    
-7. Open your web browser and visit `http://localhost/realestate` to access the project.
+7. Visit `http://localhost/realestate` to access the project.
 
 ### Usage
 
