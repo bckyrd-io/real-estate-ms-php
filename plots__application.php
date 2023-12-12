@@ -1,12 +1,52 @@
 <?php
 session_start();
-include_once('serve/db.php'); // Assuming the path to your database connection script is 'serve/db.php'
 
-// Fetch data from the "plots" table
-$selectPlotsDataQuery = "SELECT * FROM plots";
-$stmt = $conn->query($selectPlotsDataQuery);
-$plotsData = $stmt->fetchAll(PDO::FETCH_ASSOC);
+if (isset($_POST['submit'])) {
+    include_once('serve/db.php');
+
+    // Additional attributes
+    $fullName = $_POST['full_name'];
+    $occupation = $_POST['occupation'];
+    $paymentPlan = $_POST['payment_plan'];
+    $userBudget = $_POST['user_budget'];
+    $desiredLocations = implode(', ', $_POST['desired_locations']);
+    $extraDescription = $_POST['extra_description'];
+
+    // Default status
+    $status = 'pending';
+
+    // SQL query to insert user data
+    $insertQuery = "INSERT INTO usersonplot (user_id, status, 
+                    full_name, occupation, payment_plan, user_budget, 
+                    desired_locations, extra_description) 
+                    VALUES (:user_id, :status, 
+                    :full_name, :occupation, :payment_plan, 
+                    :user_budget, :desired_locations, :extra_description)";
+
+    // Prepare the SQL statement
+    $stmt = $conn->prepare($insertQuery);
+
+    // Bind parameters
+    $_SESSION['user_id'] = 1;
+    $stmt->bindParam(':user_id', $_SESSION['user_id']);
+    $stmt->bindParam(':status', $status);
+    $stmt->bindParam(':full_name', $fullName);
+    $stmt->bindParam(':occupation', $occupation);
+    $stmt->bindParam(':payment_plan', $paymentPlan);
+    $stmt->bindParam(':user_budget', $userBudget);
+    $stmt->bindParam(':desired_locations', $desiredLocations);
+    $stmt->bindParam(':extra_description', $extraDescription);
+
+    // Execute the statement
+    $stmt->execute();
+
+    // Execute JavaScript to show a success alert
+    echo "<script>alert('Application submitted successfully.');</script>";
+}
 ?>
+
+
+
 
 <!doctype html>
 <html lang="en">
@@ -148,24 +188,54 @@ $plotsData = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 
                 <div class="row">
-                    <?php foreach ($plotsData as $plot) : ?>
-                        <div class="col-sm-6 col-xl-3">
-                            <div class="card overflow-hidden rounded-2">
-                                <div class="position-relative">
-                                    <a href="javascript:void(0)"><img src="<?php echo $plot['image_path']; ?>" class="card-img-top rounded-0" alt="..."></a>
-                                    <a href="javascript:void(0)" class="bg-dark rounded-circle p-2 text-white d-inline-flex position-absolute bottom-0 end-0 mb-n3 me-3" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Add To Cart"><i class="ti ti-basket fs-4"></i></a>
-                                </div>
-                                <div class="card-body pt-3 p-4">
-                                    <h6 class="fw-semibold fs-4"><?php echo $plot['plot_name']; ?><span class="ms-2 fw-normal text-muted fs-3">- <?php echo $plot['location']; ?></span></h6>
-                                    <div class="d-flex align-items-center justify-content-between">
-                                        <h6 class="fw-semibold fs-4 mb-0">Mwk<?php echo $plot['price']; ?> <span class="ms-2 fw-normal text-muted fs-3"> - <?php echo $plot['size']; ?> hectors</span></h6>
+                    <div class="card mb-0">
+                        <div class="card-body">
+                            <form action="" method="post">
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label for="occupation" class="form-label">Occupation</label>
+                                            <input type="text" name="occupation" class="form-control" id="occupation" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label for="payment_plan" class="form-label">Payment Plan</label>
+                                            <select name="payment_plan" class="form-control" id="payment_plan" required>
+                                                <option value="monthly">Monthly</option>
+                                                <option value="quarterly">Quarterly</option>
+                                                <option value="annually">Annually</option>
+                                            </select>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label for="user_budget" class="form-label">User Budget</label>
+                                            <input type="number" name="user_budget" class="form-control" id="user_budget" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label for="desired_locations" class="form-label">Desired Locations</label>
+                                            <input type="text" name="desired_locations[]" class="form-control" id="desired_locations" placeholder="Location 1, Location 2, ..." required>
+                                            <!-- Add more input fields dynamically for additional desired locations -->
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="extra_description" class="form-label">Extra Description</label>
+                                    <textarea name="extra_description" class="form-control" id="extra_description" rows="4" required></textarea>
+                                </div>
+
+                                <button type="submit" name="submit" class="btn btn-primary">Submit Application</button>
+                            </form>
                         </div>
-                    <?php endforeach; ?>
-
-
+                    </div>
                 </div>
 
             </div>

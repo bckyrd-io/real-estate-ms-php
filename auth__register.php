@@ -75,7 +75,7 @@ if (isset($_POST['submit'])) {
                                     <button type="submit" name="submit" class="btn btn-primary w-100 py-8 fs-4 mb-4 rounded-2">Sign Up</button>
                                     <div class="d-flex align-items-center justify-content-center">
                                         <p class="fs-4 mb-0 fw-bold">Already have an Account?</p>
-                                        <a class="text-primary fw-bold ms-2" href="./auth__login.php">Sign In</a>
+                                        <a class="text-primary fw-bold ms-2" href="./index.php">Sign In</a>
                                     </div>
                                 </form>
                             </div>

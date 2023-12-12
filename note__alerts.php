@@ -145,29 +145,34 @@ $plotsData = $stmt->fetchAll(PDO::FETCH_ASSOC);
             </header>
             <!--  Header End -->
             <div class="container-fluid">
-
-
-                <div class="row">
-                    <?php foreach ($plotsData as $plot) : ?>
-                        <div class="col-sm-6 col-xl-3">
-                            <div class="card overflow-hidden rounded-2">
-                                <div class="position-relative">
-                                    <a href="javascript:void(0)"><img src="<?php echo $plot['image_path']; ?>" class="card-img-top rounded-0" alt="..."></a>
-                                    <a href="javascript:void(0)" class="bg-dark rounded-circle p-2 text-white d-inline-flex position-absolute bottom-0 end-0 mb-n3 me-3" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Add To Cart"><i class="ti ti-basket fs-4"></i></a>
-                                </div>
-                                <div class="card-body pt-3 p-4">
-                                    <h6 class="fw-semibold fs-4"><?php echo $plot['plot_name']; ?><span class="ms-2 fw-normal text-muted fs-3">- <?php echo $plot['location']; ?></span></h6>
-                                    <div class="d-flex align-items-center justify-content-between">
-                                        <h6 class="fw-semibold fs-4 mb-0">Mwk<?php echo $plot['price']; ?> <span class="ms-2 fw-normal text-muted fs-3"> - <?php echo $plot['size']; ?> hectors</span></h6>
-                                    </div>
-                                </div>
-                            </div>
+                <div class="card mb-0">
+                    <div class="card-body p-4">
+                        <div class="alert alert-primary" role="alert">
+                            A simple primary alert—check it out!
                         </div>
-                    <?php endforeach; ?>
-
-
+                        <div class="alert alert-secondary" role="alert">
+                            A simple secondary alert—check it out!
+                        </div>
+                        <div class="alert alert-success" role="alert">
+                            A simple success alert—check it out!
+                        </div>
+                        <div class="alert alert-danger" role="alert">
+                            A simple danger alert—check it out!
+                        </div>
+                        <div class="alert alert-warning" role="alert">
+                            A simple warning alert—check it out!
+                        </div>
+                        <div class="alert alert-info" role="alert">
+                            A simple info alert—check it out!
+                        </div>
+                        <div class="alert alert-light" role="alert">
+                            A simple light alert—check it out!
+                        </div>
+                        <div class="alert alert-dark" role="alert">
+                            A simple dark alert—check it out!
+                        </div>
+                    </div>
                 </div>
-
             </div>
         </div>
     </div>

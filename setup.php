@@ -57,6 +57,7 @@ try {
         location VARCHAR(255) NOT NULL,
         size INT NOT NULL,
         price DECIMAL(10, 2) NOT NULL,
+        image_path VARCHAR(255) NOT NULL,
         UNIQUE KEY (id)
     )";
     $connection->exec($createPlotsTableQuery);
@@ -90,7 +91,13 @@ try {
     CREATE TABLE IF NOT EXISTS usersonplot (
         id INT AUTO_INCREMENT PRIMARY KEY,
         user_id INT NOT NULL,
-        plot_id INT NOT NULL,
+        plot_id INT,
+        status VARCHAR(50) NOT NULL,
+        occupation VARCHAR(255) NOT NULL,
+        payment_plan VARCHAR(50) NOT NULL,
+        user_budget DECIMAL(10, 2) NOT NULL,
+        desired_locations TEXT NOT NULL,
+        extra_description TEXT,
         FOREIGN KEY (user_id) REFERENCES users(id),
         FOREIGN KEY (plot_id) REFERENCES plots(id)
     )";
@@ -107,19 +114,19 @@ try {
 
     // Insert sample data into the "plots" table
     $insertPlotsDataQuery = "
-    INSERT INTO plots (plot_name, location, size, price) VALUES
-    ('Plot A', 'Location A', 500, 100000),
-    ('Plot B', 'Location B', 600, 120000),
-    ('Plot C', 'Location C', 700, 150000)
+    INSERT INTO plots (plot_name, location, size, price, image_path) VALUES
+    ('Plot A', 'Location A', 500, 100000, 'uploads/plot_a_image.jpg'),
+    ('Plot B', 'Location B', 600, 120000, 'uploads/plot_b_image.jpg'),
+    ('Plot C', 'Location C', 700, 150000, 'uploads/plot_c_image.jpg')
     ";
     $connection->exec($insertPlotsDataQuery);
 
     // Insert sample data into the "usersonplot" table
     $insertUsersonplotDataQuery = "
-    INSERT INTO usersonplot (user_id, plot_id) VALUES
-    (1, 1),
-    (2, 2),
-    (3, 3)
+    INSERT INTO usersonplot (user_id, plot_id, status, full_name, email, phone_number, occupation, payment_plan, user_budget, desired_locations, extra_description) VALUES
+    (1, 1, 'pending', 'John Doe', 'john@example.com', '123456789', 'Engineer', 'monthly', 120000, 'Location A, Location B', 'Looking for a plot for residential purpose'),
+    (2, 2, 'pending', 'Jane Doe', 'jane@example.com', '987654321', 'Architect', 'quarterly', 150000, 'Location C', 'Interested in a plot with a good view'),
+    (3, 3, 'pending', 'Admin User', 'admin@example.com', '111222333', 'Admin Professional', 'annual', 200000, 'Location D', 'Admin application for testing')
     ";
     $connection->exec($insertUsersonplotDataQuery);
 
