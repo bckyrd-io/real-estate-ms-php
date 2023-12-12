@@ -26,10 +26,6 @@ This web-based application aims to enhance the real Estate experience by address
 7. **Comprehensive Data Reports:**
    Access valuable insights through comprehensive data reports.
 
-## Getting Started
-
-To set up the Cherrywood Estate Transformation Project on your local machine, follow these steps:
-
 ### Prerequisites
 
 - [XAMPP](https://www.apachefriends.org/index.html) or [WAMP](https://www.wampserver.com/en/) installed.
