@@ -1,6 +1,6 @@
 <?php
 session_start();
-include_once('serve/db.php'); // Assuming the path to your database connection script is 'serve/db.php'
+include_once('db.php'); // Assuming the path to your database connection script is '/db.php'
 
 // Fetch data from the "plots" table
 $selectPlotsDataQuery = "SELECT * FROM plots";

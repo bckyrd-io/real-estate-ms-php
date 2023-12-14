@@ -1,6 +1,6 @@
 <?php
 if (isset($_POST['submit'])) {
-    include_once('serve/db.php'); // Assuming the path to your database connection script is 'serve/db.php'
+    include_once('db.php'); // Assuming the path to your database connection script is '/db.php'
 
     // Get user input
     $username = $_POST['username'];

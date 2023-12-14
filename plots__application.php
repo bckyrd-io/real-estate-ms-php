@@ -2,7 +2,7 @@
 session_start();
 
 if (isset($_POST['submit'])) {
-    include_once('serve/db.php');
+    include_once('db.php');
 
     // Additional attributes
     $fullName = $_POST['full_name'];
