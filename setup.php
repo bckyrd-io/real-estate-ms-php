@@ -140,8 +140,17 @@ try {
     ";
     $connection->exec($insertNotificationsDataQuery);
 
+    // Insert sample data into the "payments" table
+    $insertPaymentsDataQuery = "
+    INSERT INTO payments (user_id, plot_id, amount, payment_date) VALUES
+    (1, 1, 50000, '2023-01-15'),
+    (2, 2, 75000, '2023-02-20'),
+    (1, 3, 60000, '2023-03-25'),
+    (3, 1, 80000, '2023-04-10')
+    ";
+    $connection->exec($insertPaymentsDataQuery);
+
     echo "Database and tables created, and sample data inserted.";
 } catch (PDOException $e) {
     echo "Error: " . $e->getMessage();
 }
-?>
