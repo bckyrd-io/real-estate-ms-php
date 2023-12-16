@@ -151,7 +151,7 @@ $plotsData = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <!--  Header End -->
             <div class="container-fluid">
                 <!-- Filters -->
-                <div class="filters-button-group mb-3">
+                <div class="filters-button-group mb-4">
                     <button class="btn btn-outline-primary" data-filter="*">Show all</button>
                     <button class="btn btn-outline-primary" data-filter=".residential">Residential</button>
                     <button class="btn btn-outline-primary" data-filter=".commercial">Commercial</button>
@@ -162,7 +162,7 @@ $plotsData = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 </div>
 
                 <!-- Search field -->
-                <input type="text" id="quicksearch" placeholder="Search" class="form-control mb-5" />
+                <input type="text" id="quicksearch" placeholder="Search" class="form-control mb-4" />
 
                 <!-- Gallery -->
                 <!-- <div class="grid">
