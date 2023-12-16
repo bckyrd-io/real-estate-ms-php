@@ -40,7 +40,7 @@ $(function () {
             },
 
 
-            colors: ["#5D87FF", "#49BEFF"],
+            colors: ["#8a0000","#13DEB9"],
 
 
             plotOptions: {
@@ -126,60 +126,6 @@ $(function () {
 
 
 
-        // =====================================
-        // Breakup
-        // =====================================
-        // Example: Update Breakup Chart
-        var breakupChartOptions = {
-            series: statusCounts,
-            labels: userStatuses,
-            color: "#adb5bd",
-            chart: {
-                width: 180,
-                type: "donut",
-                fontFamily: "Plus Jakarta Sans', sans-serif",
-                foreColor: "#adb0bb",
-            },
-            plotOptions: {
-                pie: {
-                    startAngle: 0,
-                    endAngle: 360,
-                    donut: {
-                        size: '75%',
-                    },
-                },
-            },
-            stroke: {
-                show: false,
-            },
-
-            dataLabels: {
-                enabled: false,
-            },
-
-            legend: {
-                show: false,
-            },
-            colors: ["#5D87FF", "#ecf2ff", "#F9F9FD"],
-
-            responsive: [
-                {
-                    breakpoint: 991,
-                    options: {
-                        chart: {
-                            width: 150,
-                        },
-                    },
-                },
-            ],
-            tooltip: {
-                theme: "dark",
-                fillSeriesColor: false,
-            },
-        };
-
-        var breakupChart = new ApexCharts(document.querySelector("#breakup"), breakupChartOptions);
-        breakupChart.render();
 
 
 
@@ -205,7 +151,7 @@ $(function () {
                 },
                 series: [{
                     name: "Earnings",
-                    color: "#49BEFF",
+                    color: "#13DEB9",
                     data: totalEarnings,
                 }],
                 stroke: {

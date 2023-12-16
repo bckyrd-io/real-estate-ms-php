@@ -1,12 +1,26 @@
 <?php
 session_start();
 include_once('db.php'); // Assuming the path to your database connection script is '/db.php'
+$user_id = 1;
 
-// Fetch data from the "plots" table
-$selectPlotsDataQuery = "SELECT * FROM plots";
-$stmt = $conn->query($selectPlotsDataQuery);
-$plotsData = $stmt->fetchAll(PDO::FETCH_ASSOC);
+// Fetch data from the database
+$selectInvoiceDataQuery = "
+    SELECT u.username, u.email, p.plot_name, p.location, p.size, p.price, pay.amount, pay.payment_date
+    FROM users u
+    JOIN payments pay ON u.id = pay.user_id
+    JOIN plots p ON pay.plot_id = p.id
+    WHERE u.id = $user_id";
+$stmt = $conn->query($selectInvoiceDataQuery);
+$invoiceData = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+// Calculate total
+$total = 0;
+foreach ($invoiceData as $data) {
+    $total += $data['amount'];
+}
+
 ?>
+
 
 <!doctype html>
 <html lang="en">
@@ -62,7 +76,7 @@ $plotsData = $stmt->fetchAll(PDO::FETCH_ASSOC);
                             </a>
                         </li>
                         <li class="sidebar-item">
-                            <a class="sidebar-link" href="./ui-buttons.html" aria-expanded="false">
+                            <a class="sidebar-link" href="./invoice__pay.php" aria-expanded="false">
                                 <span>
                                     <i class="ti ti-cards"></i>
                                 </span>
@@ -116,7 +130,7 @@ $plotsData = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     </ul>
                     <div class="navbar-collapse justify-content-end px-0" id="navbarNav">
                         <ul class="navbar-nav flex-row ms-auto align-items-center justify-content-end">
-                            <a href="https://adminmart.com/product/modernize-free-bootstrap-admin-dashboard/" target="_blank" class="btn btn-primary">Download Free</a>
+                            <!-- <a href="https://adminmart.com/product/modernize-free-bootstrap-admin-dashboard/" target="_blank" class="btn btn-primary">Download Free</a> -->
                             <li class="nav-item dropdown">
                                 <a class="nav-link nav-icon-hover" href="javascript:void(0)" id="drop2" data-bs-toggle="dropdown" aria-expanded="false">
                                     <img src="assets/images/profile/user-1.jpg" alt="" width="35" height="35" class="rounded-circle">
@@ -146,32 +160,44 @@ $plotsData = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <!--  Header End -->
             <div class="container-fluid">
                 <div class="card mb-0">
-                    <div class="card-body p-4">
-                        <div class="alert alert-primary" role="alert">
-                            A simple primary alert—check it out!
-                        </div>
-                        <div class="alert alert-secondary" role="alert">
-                            A simple secondary alert—check it out!
-                        </div>
-                        <div class="alert alert-success" role="alert">
-                            A simple success alert—check it out!
-                        </div>
-                        <div class="alert alert-danger" role="alert">
-                            A simple danger alert—check it out!
-                        </div>
-                        <div class="alert alert-warning" role="alert">
-                            A simple warning alert—check it out!
-                        </div>
-                        <div class="alert alert-info" role="alert">
-                            A simple info alert—check it out!
-                        </div>
-                        <div class="alert alert-light" role="alert">
-                            A simple light alert—check it out!
-                        </div>
-                        <div class="alert alert-dark" role="alert">
-                            A simple dark alert—check it out!
-                        </div>
+                    <div class="card-body">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Plot Name</th>
+                                    <th>Location</th>
+                                    <th>Size</th>
+                                    <th>Price</th>
+                                    <th>Paid Amount</th>
+                                    <th>Payment Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php foreach ($invoiceData as $data) : ?>
+                                    <tr>
+                                        <td><?php echo htmlspecialchars($data['plot_name']); ?></td>
+                                        <td><?php echo htmlspecialchars($data['location']); ?></td>
+                                        <td><?php echo htmlspecialchars($data['size']); ?></td>
+                                        <td><?php echo htmlspecialchars($data['price']); ?></td>
+                                        <td><?php echo htmlspecialchars($data['amount']); ?></td>
+                                        <td><?php echo htmlspecialchars($data['payment_date']); ?></td>
+                                    </tr>
+                                <?php endforeach; ?>
+                                <tr>
+                                    <td colspan="6">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <strong>Total Amount Due: MWK <?php echo htmlspecialchars(number_format($total, 2)); ?></strong>
+                                            <form action="checkout_process.php" method="POST">
+                                                <input type="hidden" name="user_id" value="<?php echo htmlspecialchars($user_id); ?>">
+                                                <button type="submit" class="btn btn-outline-primary">Payment</button>
+                                            </form>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
+
                 </div>
             </div>
         </div>

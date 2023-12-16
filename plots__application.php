@@ -5,7 +5,6 @@ if (isset($_POST['submit'])) {
     include_once('db.php');
 
     // Additional attributes
-    $fullName = $_POST['full_name'];
     $occupation = $_POST['occupation'];
     $paymentPlan = $_POST['payment_plan'];
     $userBudget = $_POST['user_budget'];
@@ -14,30 +13,26 @@ if (isset($_POST['submit'])) {
 
     // Default status
     $status = 'pending';
+    $_SESSION['user_id'] = 1;
 
     // SQL query to insert user data
     $insertQuery = "INSERT INTO usersonplot (user_id, status, 
-                    full_name, occupation, payment_plan, user_budget, 
-                    desired_locations, extra_description) 
-                    VALUES (:user_id, :status, 
-                    :full_name, :occupation, :payment_plan, 
-                    :user_budget, :desired_locations, :extra_description)";
+                occupation, payment_plan, user_budget, 
+                desired_locations, extra_description) 
+                VALUES (:user_id, :status, 
+                :occupation, :payment_plan, 
+                :user_budget, :desired_locations, :extra_description)";
 
-    // Prepare the SQL statement
     $stmt = $conn->prepare($insertQuery);
 
-    // Bind parameters
-    $_SESSION['user_id'] = 1;
     $stmt->bindParam(':user_id', $_SESSION['user_id']);
     $stmt->bindParam(':status', $status);
-    $stmt->bindParam(':full_name', $fullName);
     $stmt->bindParam(':occupation', $occupation);
     $stmt->bindParam(':payment_plan', $paymentPlan);
     $stmt->bindParam(':user_budget', $userBudget);
     $stmt->bindParam(':desired_locations', $desiredLocations);
     $stmt->bindParam(':extra_description', $extraDescription);
 
-    // Execute the statement
     $stmt->execute();
 
     // Execute JavaScript to show a success alert
@@ -78,7 +73,7 @@ if (isset($_POST['submit'])) {
                 <nav class="sidebar-nav scroll-sidebar" data-simplebar="">
                     <ul id="sidebarnav">
                         <li class="sidebar-item">
-                            <a class="sidebar-link" href="./index.html" aria-expanded="false">
+                            <a class="sidebar-link" href="dashboard.php" aria-expanded="false">
                                 <span>
                                     <i class="ti ti-layout-dashboard"></i>
                                 </span>
@@ -86,35 +81,35 @@ if (isset($_POST['submit'])) {
                             </a>
                         </li>
                         <li class="sidebar-item">
-                            <a class="sidebar-link" href="./ui-buttons.html" aria-expanded="false">
+                            <a class="sidebar-link" href="./property__listings.php" aria-expanded="false">
                                 <span>
-                                    <i class="ti ti-article"></i>
+                                    <i class="ti ti-map"></i>
                                 </span>
                                 <span class="hide-menu">Property Listings</span>
                             </a>
                         </li>
                         <li class="sidebar-item">
-                            <a class="sidebar-link" href="./ui-buttons.html" aria-expanded="false">
+                            <a class="sidebar-link" href="./plots__application.php" aria-expanded="false">
                                 <span>
-                                    <i class="ti ti-user-plus"></i>
+                                    <i class="ti ti-clipboard"></i>
                                 </span>
-                                <span class="hide-menu">Profile</span>
+                                <span class="hide-menu">Application</span>
                             </a>
                         </li>
                         <li class="sidebar-item">
-                            <a class="sidebar-link" href="./ui-buttons.html" aria-expanded="false">
+                            <a class="sidebar-link" href="./pay__calculation.php" aria-expanded="false">
+                                <span>
+                                    <i class="ti ti-article"></i>
+                                </span>
+                                <span class="hide-menu">Calculator</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link" href="./pay__alerts.php" aria-expanded="false">
                                 <span>
                                     <i class="ti ti-cards"></i>
                                 </span>
                                 <span class="hide-menu">Payments</span>
-                            </a>
-                        </li>
-                        <li class="sidebar-item">
-                            <a class="sidebar-link" href="./ui-buttons.html" aria-expanded="false">
-                                <span>
-                                    <i class="ti ti-alert-circle"></i>
-                                </span>
-                                <span class="hide-menu">Notifications</span>
                             </a>
                         </li>
 

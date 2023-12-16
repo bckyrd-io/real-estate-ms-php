@@ -3,9 +3,47 @@ session_start();
 include_once('db.php'); // Assuming the path to your database connection script is 'serve/db.php'
 
 // Fetch data from the "plots" table
+$selectDataQuery = "SELECT 
+    t.id as tour_id, 
+    t.tour_date, 
+    t.appointment_status, 
+    p.plot_name, 
+    p.location, 
+    p.price, 
+    pay.amount as payment_amount,
+    pay.payment_date,
+    u.username,
+    u.id as user_id,
+    u.email
+    FROM property_tours t
+    JOIN plots p ON t.plot_id = p.id
+    LEFT JOIN payments pay ON p.id = pay.plot_id
+    LEFT JOIN users u ON pay.user_id = u.id";
+$stmt = $conn->query($selectDataQuery);
+$resultsData = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+
+// Fetch data from the "plots" table
 $selectPlotsDataQuery = "SELECT * FROM plots";
-$stmt = $conn->query($selectPlotsDataQuery);
-$plotsData = $stmt->fetchAll(PDO::FETCH_ASSOC);
+$stmtPlots = $conn->query($selectPlotsDataQuery);
+$plotsData = $stmtPlots->fetchAll(PDO::FETCH_ASSOC);
+
+
+// Submited Notifications
+
+if (isset($_POST['submit'])) {
+    echo $plot_id = $_POST['plot_id'];
+    echo $tour_date = $_POST['tour_date'];
+    // SQL query to insert media data
+    $updateQuery = "INSERT INTO plot_media (plot_id, media_type, media_path, description) VALUES (:plot_id, :media_type, :media_path, :description)";
+    $stmt = $conn->prepare($updateQuery);
+
+
+
+    echo "<script>alert('Update added successfully.');</script>";
+}
+
+
 ?>
 
 <!doctype html>
@@ -27,7 +65,7 @@ $plotsData = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <!-- Sidebar scroll-->
             <div>
                 <div class="brand-logo d-flex align-items-center justify-content-between">
-                    <a href="./index.php" class="text-nowrap logo-img">
+                    <a href="./index.html" class="text-nowrap logo-img">
                         <img src="assets/images/logos/dark-logo.svg" width="180" alt="" />
                     </a>
                     <div class="close-btn d-xl-none d-block sidebartoggler cursor-pointer" id="sidebarCollapse">
@@ -38,19 +76,11 @@ $plotsData = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <nav class="sidebar-nav scroll-sidebar" data-simplebar="">
                     <ul id="sidebarnav">
                         <li class="sidebar-item">
-                            <a class="sidebar-link" href="dashboard.php" aria-expanded="false">
+                            <a class="sidebar-link" href="./index.html" aria-expanded="false">
                                 <span>
                                     <i class="ti ti-layout-dashboard"></i>
                                 </span>
                                 <span class="hide-menu">Dashboard</span>
-                            </a>
-                        </li>
-                        <li class="sidebar-item">
-                            <a class="sidebar-link" href="property__admin.php" aria-expanded="false">
-                                <span>
-                                    <i class="ti ti-checklist"></i>
-                                </span>
-                                <span class="hide-menu">Edit Listings</span>
                             </a>
                         </li>
                         <li class="sidebar-item">
@@ -61,7 +91,6 @@ $plotsData = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                 <span class="hide-menu">Property Listings</span>
                             </a>
                         </li>
-
                         <li class="sidebar-item">
                             <a class="sidebar-link" href="./ui-buttons.html" aria-expanded="false">
                                 <span>
@@ -144,7 +173,7 @@ $plotsData = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                             <i class="ti ti-list-check fs-6"></i>
                                             <p class="mb-0 fs-3">My Task</p>
                                         </a>
-                                        <a href="./logout.php" class="btn btn-outline-primary mx-3 mt-2 d-block">Logout</a>
+                                        <a href="logout.php" class="btn btn-outline-primary mx-3 mt-2 d-block">Logout</a>
                                     </div>
                                 </div>
                             </li>
@@ -159,31 +188,65 @@ $plotsData = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <div class="row">
                     <div class="card mb-0">
                         <div class="card-body">
-                            <h2> <a href="property__admin__add.php" class="btn btn-outline-primary fs-4 mb-4 rounded-2">Add Property</a>
-                            </h2>
+                            <!-- <h2>Plots Data</h2> -->
 
                             <table class="table">
                                 <thead>
                                     <tr>
-                                        <th>ID</th>
-                                        <th>Plot Name</th>
-                                        <th>Location</th>
-                                        <th>Size</th>
-                                        <th>Price</th>
-                                        <th>Add Details</th>
+                                        <th>Customer</th>
+                                        <th>Status</th>
+                                        <th>Amount</th>
+                                        <th>Property</th>
+                                        <th>Date</th>
+                                        <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <?php foreach ($plotsData as $plot) : ?>
+                                    <?php foreach ($resultsData as $plot) : ?>
                                         <tr>
-                                            <td><?php echo $plot['id']; ?></td>
-                                            <td><?php echo $plot['plot_name']; ?></td>
-                                            <td><?php echo $plot['location']; ?></td>
-                                            <td><?php echo $plot['size']; ?></td>
-                                            <td><?php echo $plot['price']; ?></td>
+                                            <td><?php echo $plot['username']; ?></td>
                                             <td>
-                                                <a class="btn btn-outline-primary" href="property__add__det.php?id=<?php echo $plot['id']; ?>"> Add</a>
+                                                <div class="d-flex align-items-center gap-2">
+                                                    <span class="badge 
+                                                    <?php
+                                                    switch (strtolower('pending')) {
+                                                        case 'pending':
+                                                            echo 'bg-warning';
+                                                            break; // Yellow
+                                                        case 'approved':
+                                                            echo 'bg-success';
+                                                            break; // Green
+                                                        case 'applied':
+                                                            echo 'bg-primary';
+                                                            break; // Blue
+                                                            // Add more cases as needed
+                                                        default:
+                                                            echo 'bg-secondary'; // Default color
+                                                    }
+                                                    ?>
+                                                    rounded-3 fw-semibold"><?php echo 'pending'; ?></span>
+                                                </div>
                                             </td>
+                                            <td><?php echo $plot['payment_amount']; ?></td>
+                                            <form action="" method="post">
+                                                <td>
+                                                    <select name="plot_id" class=" form-control form-control-md" aria-label="Default select example">
+                                                        <option selected>Select:</option>
+                                                        <?php foreach ($plotsData as $property) : ?>
+                                                            <option value="<?php echo $property['id']; ?>"><?php echo $property['plot_name']; ?></option>
+                                                        <?php endforeach; ?>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <input type="date" name="tour_date" class="form-control form-control-md" aria-describedby="Select Date">
+                                                </td>
+                                                <td>
+                                                    <input type="hidden" name="user_id" value="<?php echo $plot['user_id']; ?>">
+                                                    <button type="submit" name="submit" class="btn btn-outline-primary fs-2 fw-semibold form-control form-control-md">Send</button>
+                                                </td>
+                                            </form>
+
+
                                         </tr>
                                     <?php endforeach; ?>
                                 </tbody>

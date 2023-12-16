@@ -1,12 +1,40 @@
 <?php
 session_start();
-include_once('db.php'); // Assuming the path to your database connection script is 'serve/db.php'
+include_once('db.php');
 
-// Fetch data from the "plots" table
-$selectPlotsDataQuery = "SELECT * FROM plots";
-$stmt = $conn->query($selectPlotsDataQuery);
-$plotsData = $stmt->fetchAll(PDO::FETCH_ASSOC);
+if (isset($_POST['submit'])) {
+    // Get plot ID from the URL parameter
+    $plotId = isset($_GET['id']) ? intval($_GET['id']) : 0;
+
+    // File upload handling
+    $uploadDir = 'uploads/';  // Specify the directory for uploading images
+    $uploadFile = $uploadDir . basename($_FILES['property_image']['name']);
+
+    if ($plotId > 0 && move_uploaded_file($_FILES['property_image']['tmp_name'], $uploadFile)) {
+        // Image uploaded successfully, proceed with database insertion
+
+        // SQL query to insert media data
+        $insertMediaQuery = "INSERT INTO plot_media (plot_id, media_type, media_path, description) VALUES (:plot_id, :media_type, :media_path, :description)";
+        $stmt = $conn->prepare($insertMediaQuery);
+        $mediaType = 'image'; // Assuming the uploaded file is an image
+        $description = $_POST['description']; // Replace with actual description if available
+
+        $stmt->bindParam(':plot_id', $plotId);
+        $stmt->bindParam(':media_type', $mediaType);
+        $stmt->bindParam(':media_path', $uploadFile);
+        $stmt->bindParam(':description', $description);
+        $stmt->execute();
+
+        echo "<script>alert('Media added successfully.');</script>";
+    } else {
+        echo "<script>alert('Error uploading image or invalid plot ID.');</script>";
+    }
+}
 ?>
+
+
+
+
 
 <!doctype html>
 <html lang="en">
@@ -27,7 +55,7 @@ $plotsData = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <!-- Sidebar scroll-->
             <div>
                 <div class="brand-logo d-flex align-items-center justify-content-between">
-                    <a href="./index.php" class="text-nowrap logo-img">
+                    <a href="./index.html" class="text-nowrap logo-img">
                         <img src="assets/images/logos/dark-logo.svg" width="180" alt="" />
                     </a>
                     <div class="close-btn d-xl-none d-block sidebartoggler cursor-pointer" id="sidebarCollapse">
@@ -38,19 +66,11 @@ $plotsData = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <nav class="sidebar-nav scroll-sidebar" data-simplebar="">
                     <ul id="sidebarnav">
                         <li class="sidebar-item">
-                            <a class="sidebar-link" href="dashboard.php" aria-expanded="false">
+                            <a class="sidebar-link" href="./index.html" aria-expanded="false">
                                 <span>
                                     <i class="ti ti-layout-dashboard"></i>
                                 </span>
                                 <span class="hide-menu">Dashboard</span>
-                            </a>
-                        </li>
-                        <li class="sidebar-item">
-                            <a class="sidebar-link" href="property__admin.php" aria-expanded="false">
-                                <span>
-                                    <i class="ti ti-checklist"></i>
-                                </span>
-                                <span class="hide-menu">Edit Listings</span>
                             </a>
                         </li>
                         <li class="sidebar-item">
@@ -61,7 +81,6 @@ $plotsData = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                 <span class="hide-menu">Property Listings</span>
                             </a>
                         </li>
-
                         <li class="sidebar-item">
                             <a class="sidebar-link" href="./ui-buttons.html" aria-expanded="false">
                                 <span>
@@ -144,7 +163,7 @@ $plotsData = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                             <i class="ti ti-list-check fs-6"></i>
                                             <p class="mb-0 fs-3">My Task</p>
                                         </a>
-                                        <a href="./logout.php" class="btn btn-outline-primary mx-3 mt-2 d-block">Logout</a>
+                                        <a href="serve/logout.php" class="btn btn-outline-primary mx-3 mt-2 d-block">Logout</a>
                                     </div>
                                 </div>
                             </li>
@@ -159,35 +178,19 @@ $plotsData = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <div class="row">
                     <div class="card mb-0">
                         <div class="card-body">
-                            <h2> <a href="property__admin__add.php" class="btn btn-outline-primary fs-4 mb-4 rounded-2">Add Property</a>
-                            </h2>
+                            <form action="" method="post" enctype="multipart/form-data">
+                                <div class="mb-3">
+                                    <label for="propertyImage" class="form-label">Property Image</label>
+                                    <input type="file" name="property_image" class="form-control" id="propertyImage" accept="image/*" required>
+                                </div>
 
-                            <table class="table">
-                                <thead>
-                                    <tr>
-                                        <th>ID</th>
-                                        <th>Plot Name</th>
-                                        <th>Location</th>
-                                        <th>Size</th>
-                                        <th>Price</th>
-                                        <th>Add Details</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <?php foreach ($plotsData as $plot) : ?>
-                                        <tr>
-                                            <td><?php echo $plot['id']; ?></td>
-                                            <td><?php echo $plot['plot_name']; ?></td>
-                                            <td><?php echo $plot['location']; ?></td>
-                                            <td><?php echo $plot['size']; ?></td>
-                                            <td><?php echo $plot['price']; ?></td>
-                                            <td>
-                                                <a class="btn btn-outline-primary" href="property__add__det.php?id=<?php echo $plot['id']; ?>"> Add</a>
-                                            </td>
-                                        </tr>
-                                    <?php endforeach; ?>
-                                </tbody>
-                            </table>
+                                <div class="mb-3">
+                                    <label for="description" class="form-label">Description</label>
+                                    <textarea name="description" class="form-control" id="description" rows="3" required></textarea>
+                                </div>
+
+                                <button type="submit" name="submit" class="btn btn-primary w-100 fs-4 mb-4 rounded-2">Add Media</button>
+                            </form>
                         </div>
                     </div>
                 </div>

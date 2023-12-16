@@ -1,11 +1,20 @@
 <?php
 session_start();
 include_once('db.php'); // Assuming the path to your database connection script is 'serve/db.php'
+$selectedPlotId = $_GET['id']; // Example plot ID
 
-// Fetch data from the "plots" table
-$selectPlotsDataQuery = "SELECT * FROM plots";
-$stmt = $conn->query($selectPlotsDataQuery);
-$plotsData = $stmt->fetchAll(PDO::FETCH_ASSOC);
+// Query to fetch plot details
+$queryPlotDetails = "SELECT * FROM plots WHERE id = :plot_id";
+$stmt = $conn->prepare($queryPlotDetails);
+$stmt->execute(['plot_id' => $selectedPlotId]);
+$plotDetails = $stmt->fetch(PDO::FETCH_ASSOC);
+
+// Query to fetch plot media with descriptions
+$queryPlotMedia = "SELECT * FROM plot_media WHERE plot_id = :plot_id";
+$stmt = $conn->prepare($queryPlotMedia);
+$stmt->execute(['plot_id' => $selectedPlotId]);
+$plotMedia = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
 ?>
 
 <!doctype html>
@@ -116,7 +125,7 @@ $plotsData = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     </ul>
                     <div class="navbar-collapse justify-content-end px-0" id="navbarNav">
                         <ul class="navbar-nav flex-row ms-auto align-items-center justify-content-end">
-                            <a href="https://adminmart.com/product/modernize-free-bootstrap-admin-dashboard/" target="_blank" class="btn btn-primary">Download Free</a>
+                            <!-- <a href="https://adminmart.com/product/modernize-free-bootstrap-admin-dashboard/" target="_blank" class="btn btn-primary">Download Free</a> -->
                             <li class="nav-item dropdown">
                                 <a class="nav-link nav-icon-hover" href="javascript:void(0)" id="drop2" data-bs-toggle="dropdown" aria-expanded="false">
                                     <img src="assets/images/profile/user-1.jpg" alt="" width="35" height="35" class="rounded-circle">
@@ -135,7 +144,7 @@ $plotsData = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                             <i class="ti ti-list-check fs-6"></i>
                                             <p class="mb-0 fs-3">My Task</p>
                                         </a>
-                                        <a href="serve/logout.php" class="btn btn-outline-primary mx-3 mt-2 d-block">Logout</a>
+                                        <a href="logout.php" class="btn btn-outline-primary mx-3 mt-2 d-block">Logout</a>
                                     </div>
                                 </div>
                             </li>
@@ -145,28 +154,24 @@ $plotsData = $stmt->fetchAll(PDO::FETCH_ASSOC);
             </header>
             <!--  Header End -->
             <div class="container-fluid">
-                
 
-                <div class="row col-xl-6 col-sm-12">
-                <h6 class="fw-semibold fs-4 mb-5">Chikangawa Plot</h6>
-                    <?php foreach ($plotsData as $plot) : ?>
-                        <div class="col-sm-12  col-xl-12">
-                            <div class="card overflow-hidden rounded-2">
-                                <div class="position-relative">
-                                    <a href="javascript:void(0)"><img src="<?php echo $plot['image_path']; ?>" class="card-img-top rounded-0" alt="..."></a>
-                                </div>
-                                <div class="card-body pt-3 p-4">
-                                    <div class="d-flex align-items-center justify-content-between">
-                                        <span class="ms-2 fw-normal text-muted fs-3"> - <?php echo $plot['size']; ?> hectors</span>
-                                    </div>
+                <div class="col">
+                    <?php if ($plotDetails) : ?>
+                        <h4>Tour Of <?php echo htmlspecialchars($plotDetails['plot_name']); ?> - <?php echo htmlspecialchars($plotDetails['location']); ?></h4>
+                    <?php endif; ?>
+
+                    <!-- Display additional plot media with descriptions -->
+                    <?php foreach ($plotMedia as $media) : ?>
+                        <div class="col-sm-12 col-xl-6 mt-3">
+                            <div class="card">
+                                <img src="<?php echo htmlspecialchars($media['media_path']); ?>" class="card-img-top" alt="Plot Media">
+                                <div class="card-body">
+                                    <p class="card-text"><?php echo htmlspecialchars($media['description']); ?></p>
                                 </div>
                             </div>
                         </div>
                     <?php endforeach; ?>
-
-
                 </div>
-
             </div>
         </div>
     </div>

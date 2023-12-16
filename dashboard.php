@@ -6,6 +6,11 @@ include_once('db.php'); // Assuming the path to your database connection script 
 $selectPlotsDataQuery = "SELECT * FROM plots";
 $stmt = $conn->query($selectPlotsDataQuery);
 $plotsData = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+// total payment
+$payQuery = "SELECT SUM(amount) as total FROM payments";
+$payStmt = $conn->query($payQuery);
+$payData = $payStmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
 <!doctype html>
@@ -27,7 +32,7 @@ $plotsData = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <!-- Sidebar scroll-->
             <div>
                 <div class="brand-logo d-flex align-items-center justify-content-between">
-                    <a href="./index.html" class="text-nowrap logo-img">
+                    <a href="./index.php" class="text-nowrap logo-img">
                         <img src="assets/images/logos/dark-logo.svg" width="180" alt="" />
                     </a>
                     <div class="close-btn d-xl-none d-block sidebartoggler cursor-pointer" id="sidebarCollapse">
@@ -38,11 +43,19 @@ $plotsData = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <nav class="sidebar-nav scroll-sidebar" data-simplebar="">
                     <ul id="sidebarnav">
                         <li class="sidebar-item">
-                            <a class="sidebar-link" href="./index.html" aria-expanded="false">
+                            <a class="sidebar-link" href="dashboard.php" aria-expanded="false">
                                 <span>
                                     <i class="ti ti-layout-dashboard"></i>
                                 </span>
                                 <span class="hide-menu">Dashboard</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link" href="property__admin.php" aria-expanded="false">
+                                <span>
+                                    <i class="ti ti-checklist"></i>
+                                </span>
+                                <span class="hide-menu">Edit Listings</span>
                             </a>
                         </li>
                         <li class="sidebar-item">
@@ -53,6 +66,7 @@ $plotsData = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                 <span class="hide-menu">Property Listings</span>
                             </a>
                         </li>
+
                         <li class="sidebar-item">
                             <a class="sidebar-link" href="./ui-buttons.html" aria-expanded="false">
                                 <span>
@@ -116,7 +130,7 @@ $plotsData = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     </ul>
                     <div class="navbar-collapse justify-content-end px-0" id="navbarNav">
                         <ul class="navbar-nav flex-row ms-auto align-items-center justify-content-end">
-                            <a href="https://adminmart.com/product/modernize-free-bootstrap-admin-dashboard/" target="_blank" class="btn btn-primary">Download Free</a>
+                            <!-- <a href="https://adminmart.com/product/modernize-free-bootstrap-admin-dashboard/" target="_blank" class="btn btn-primary">Download Free</a> -->
                             <li class="nav-item dropdown">
                                 <a class="nav-link nav-icon-hover" href="javascript:void(0)" id="drop2" data-bs-toggle="dropdown" aria-expanded="false">
                                     <img src="assets/images/profile/user-1.jpg" alt="" width="35" height="35" class="rounded-circle">
@@ -135,7 +149,7 @@ $plotsData = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                             <i class="ti ti-list-check fs-6"></i>
                                             <p class="mb-0 fs-3">My Task</p>
                                         </a>
-                                        <a href="./authentication-login.html" class="btn btn-outline-primary mx-3 mt-2 d-block">Logout</a>
+                                        <a href="./logout.php" class="btn btn-outline-primary mx-3 mt-2 d-block">Logout</a>
                                     </div>
                                 </div>
                             </li>
@@ -152,7 +166,7 @@ $plotsData = $stmt->fetchAll(PDO::FETCH_ASSOC);
                             <div class="card-body">
                                 <div class="d-sm-flex d-block align-items-center justify-content-between mb-9">
                                     <div class="mb-3 mb-sm-0">
-                                        <h5 class="card-title fw-semibold">Sales Overview</h5>
+                                        <h5 class="card-title fw-semibold">Plots Sales </h5>
                                     </div>
                                     <div>
                                         <select class="form-select">
@@ -169,60 +183,20 @@ $plotsData = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     </div>
                     <div class="col-lg-4">
                         <div class="row">
-                            <div class="col-lg-12">
-                                <!-- Yearly Breakup -->
-                                <div class="card overflow-hidden">
-                                    <div class="card-body p-4">
-                                        <h5 class="card-title mb-9 fw-semibold">Yearly Breakup</h5>
-                                        <div class="row align-items-center">
-                                            <div class="col-8">
-                                                <h4 class="fw-semibold mb-3">$36,358</h4>
-                                                <div class="d-flex align-items-center mb-3">
-                                                    <span class="me-1 rounded-circle bg-light-success round-20 d-flex align-items-center justify-content-center">
-                                                        <i class="ti ti-arrow-up-left text-success"></i>
-                                                    </span>
-                                                    <p class="text-dark me-1 fs-3 mb-0">+9%</p>
-                                                    <p class="fs-3 mb-0">last year</p>
-                                                </div>
-                                                <div class="d-flex align-items-center">
-                                                    <div class="me-4">
-                                                        <span class="round-8 bg-primary rounded-circle me-2 d-inline-block"></span>
-                                                        <span class="fs-2">2023</span>
-                                                    </div>
-                                                    <div>
-                                                        <span class="round-8 bg-light-primary rounded-circle me-2 d-inline-block"></span>
-                                                        <span class="fs-2">2023</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-4">
-                                                <div class="d-flex justify-content-center">
-                                                    <div id="breakup"></div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+
                             <div class="col-lg-12">
                                 <!-- Monthly Earnings -->
                                 <div class="card">
                                     <div class="card-body">
                                         <div class="row alig n-items-start">
                                             <div class="col-8">
-                                                <h5 class="card-title mb-9 fw-semibold"> Monthly Earnings </h5>
-                                                <h4 class="fw-semibold mb-3">$6,820</h4>
-                                                <div class="d-flex align-items-center pb-1">
-                                                    <span class="me-2 rounded-circle bg-light-danger round-20 d-flex align-items-center justify-content-center">
-                                                        <i class="ti ti-arrow-down-right text-danger"></i>
-                                                    </span>
-                                                    <p class="text-dark me-1 fs-3 mb-0">+9%</p>
-                                                    <p class="fs-3 mb-0">last year</p>
-                                                </div>
+                                                <h5 class="card-title mb-9 fw-semibold"> Earnings </h5>
+                                                <h4 class="fw-semibold mb-3">MWK <?php echo $payData[0]['total'] ?></h4>
+
                                             </div>
                                             <div class="col-4">
                                                 <div class="d-flex justify-content-end">
-                                                    <div class="text-white bg-secondary rounded-circle p-6 d-flex align-items-center justify-content-center">
+                                                    <div class="text-white bg-dark rounded-circle p-6 d-flex align-items-center justify-content-center">
                                                         <i class="ti ti-currency-dollar fs-6"></i>
                                                     </div>
                                                 </div>

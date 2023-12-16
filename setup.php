@@ -62,6 +62,7 @@ try {
     )";
     $connection->exec($createPlotsTableQuery);
 
+
     // Create the "payments" table
     $createPaymentsTableQuery = "
     CREATE TABLE IF NOT EXISTS payments (
@@ -102,6 +103,31 @@ try {
         FOREIGN KEY (plot_id) REFERENCES plots(id)
     )";
     $connection->exec($createUsersonplotTableQuery);
+
+    // Create the "property_tours" table
+    $createPropertyToursTableQuery = "
+     CREATE TABLE IF NOT EXISTS property_tours (
+         id INT AUTO_INCREMENT PRIMARY KEY,
+         plot_id INT NOT NULL,
+         tour_date DATETIME NOT NULL,
+         appointment_status ENUM('pending', 'confirmed', 'cancelled') NOT NULL,
+         additional_notes TEXT,
+         FOREIGN KEY (plot_id) REFERENCES plots(id)
+     )";
+    $connection->exec($createPropertyToursTableQuery);
+
+    // Modify the table creation query for plot_media to include a description column
+    $createPlotMediaTableQuery = "
+    CREATE TABLE IF NOT EXISTS plot_media (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        plot_id INT NOT NULL,
+        media_type ENUM('image', 'video') NOT NULL,
+        media_path VARCHAR(255) NOT NULL,
+        description TEXT,
+        FOREIGN KEY (plot_id) REFERENCES plots(id)
+    )";
+    $connection->exec($createPlotMediaTableQuery);
+
 
     // Insert sample data into the "users" table
     $insertUsersDataQuery = "
@@ -149,6 +175,27 @@ try {
     (3, 1, 80000, '2023-04-10')
     ";
     $connection->exec($insertPaymentsDataQuery);
+
+    // Insert sample data into the "property_tours" table
+    $insertPropertyToursDataQuery = "
+    INSERT INTO property_tours (plot_id, tour_date, appointment_status, additional_notes) VALUES
+    (1, '2024-01-15 10:00:00', 'pending', 'First tour of the property.'),
+    (2, '2024-02-20 14:00:00', 'confirmed', 'VIP tour for potential investor.'),
+    (3, '2024-03-25 09:00:00', 'cancelled', 'Tour cancelled due to scheduling conflict.')
+    ";
+    $connection->exec($insertPropertyToursDataQuery);
+
+    // Insert sample media into the "plot_media" table with descriptions
+    $insertPlotMediaDataQuery = "
+    INSERT INTO plot_media (plot_id, media_type, media_path, description) VALUES
+    (1, 'image', 'uploads/plot1_img1.jpg', 'Front view of Plot A'),
+    (1, 'image', 'uploads/plot1_img2.jpg', 'Rear garden of Plot A'),
+    (2, 'video', 'uploads/plot2_video.mp4', 'Virtual tour of Plot B'),
+    (3, 'image', 'uploads/plot3_img1.jpg', 'Scenic surroundings of Plot C')
+    ";
+    $connection->exec($insertPlotMediaDataQuery);
+
+
 
     echo "Database and tables created, and sample data inserted.";
 } catch (PDOException $e) {
