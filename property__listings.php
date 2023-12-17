@@ -144,12 +144,12 @@ $plotsData = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <div class="container-fluid">
                 <!-- Filters -->
                 <div class="filters-button-group mb-4">
-                    <button class="btn btn-outline-primary" data-filter="*">Show all</button>
-                    <button class="btn btn-outline-primary" data-filter=".residential">Residential</button>
-                    <button class="btn btn-outline-primary" data-filter=".commercial">Commercial</button>
-                    <button class="btn btn-outline-primary" data-filter=".small">Small</button>
-                    <button class="btn btn-outline-primary" data-filter=".medium">Medium</button>
-                    <button class="btn btn-outline-primary" data-filter=".large">Large</button>
+                    <button class="btn btn-outline-success" data-filter="*">Show all</button>
+                    <button class="btn btn-outline-success" data-filter=".residential">Residential</button>
+                    <button class="btn btn-outline-success" data-filter=".commercial">Commercial</button>
+                    <button class="btn btn-outline-success" data-filter=".small">Small</button>
+                    <button class="btn btn-outline-success" data-filter=".medium">Medium</button>
+                    <button class="btn btn-outline-success" data-filter=".large">Large</button>
                     <!-- Add more filter buttons as needed -->
                 </div>
 
@@ -182,7 +182,7 @@ $plotsData = $stmt->fetchAll(PDO::FETCH_ASSOC);
                             <div class="card overflow-hidden rounded-2">
                                 <div class="position-relative">
                                     <a href="javascript:void(0)"><img src="<?php echo $plot['image_path']; ?>" class="card-img-top rounded-0" alt="Plot Image"></a>
-                                    <a href="javascript:void(0)" class="bg-success rounded-circle p-2 text-white d-inline-flex position-absolute bottom-0 end-0 mb-n3 me-3" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Add To Cart">
+                                    <a href="javascript:void(0)" class="bg-dark rounded-circle p-2 text-white d-inline-flex position-absolute bottom-0 end-0 mb-n3 me-3" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Add To Cart">
                                         <i class="ti ti-basket fs-4"></i>
                                     </a>
                                 </div>

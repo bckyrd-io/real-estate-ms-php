@@ -133,7 +133,7 @@ $plotsData = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <div class="row">
                     <div class="card mb-0">
                         <div class="card-body">
-                            <h2> <a href="property__admin__add.php" class="btn btn-outline-primary fs-4 mb-4 rounded-2">Add Property</a>
+                            <h2> <a href="property__admin__add.php" class="btn btn-outline-success fs-4 mb-4 rounded-2">Add Property</a>
                             </h2>
 
                             <table class="table">

@@ -40,7 +40,7 @@ $(function () {
             },
 
 
-            colors: ["#8a0000","#13DEB9"],
+            colors: ["#8a0000","#28540a"],
 
 
             plotOptions: {
@@ -151,7 +151,7 @@ $(function () {
                 },
                 series: [{
                     name: "Earnings",
-                    color: "#13DEB9",
+                    color: "#8a0000",
                     data: totalEarnings,
                 }],
                 stroke: {
