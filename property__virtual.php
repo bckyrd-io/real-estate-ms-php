@@ -47,43 +47,35 @@ $plotMedia = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <nav class="sidebar-nav scroll-sidebar" data-simplebar="">
                     <ul id="sidebarnav">
                         <li class="sidebar-item">
-                            <a class="sidebar-link" href="./index.html" aria-expanded="false">
+                            <a class="sidebar-link" href="./property__listings.php" aria-expanded="false">
                                 <span>
-                                    <i class="ti ti-layout-dashboard"></i>
-                                </span>
-                                <span class="hide-menu">Dashboard</span>
-                            </a>
-                        </li>
-                        <li class="sidebar-item">
-                            <a class="sidebar-link" href="./ui-buttons.html" aria-expanded="false">
-                                <span>
-                                    <i class="ti ti-article"></i>
+                                    <i class="ti ti-map"></i>
                                 </span>
                                 <span class="hide-menu">Property Listings</span>
                             </a>
                         </li>
                         <li class="sidebar-item">
-                            <a class="sidebar-link" href="./ui-buttons.html" aria-expanded="false">
+                            <a class="sidebar-link" href="./plots__application.php" aria-expanded="false">
                                 <span>
-                                    <i class="ti ti-user-plus"></i>
+                                    <i class="ti ti-clipboard"></i>
                                 </span>
-                                <span class="hide-menu">Profile</span>
+                                <span class="hide-menu">Application</span>
                             </a>
                         </li>
                         <li class="sidebar-item">
-                            <a class="sidebar-link" href="./ui-buttons.html" aria-expanded="false">
+                            <a class="sidebar-link" href="./pay__calculation.php" aria-expanded="false">
+                                <span>
+                                    <i class="ti ti-article"></i>
+                                </span>
+                                <span class="hide-menu">Calculator</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link" href="./invoice__pay.php" aria-expanded="false">
                                 <span>
                                     <i class="ti ti-cards"></i>
                                 </span>
                                 <span class="hide-menu">Payments</span>
-                            </a>
-                        </li>
-                        <li class="sidebar-item">
-                            <a class="sidebar-link" href="./ui-buttons.html" aria-expanded="false">
-                                <span>
-                                    <i class="ti ti-alert-circle"></i>
-                                </span>
-                                <span class="hide-menu">Notifications</span>
                             </a>
                         </li>
 

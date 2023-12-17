@@ -73,14 +73,6 @@ if (isset($_POST['submit'])) {
                 <nav class="sidebar-nav scroll-sidebar" data-simplebar="">
                     <ul id="sidebarnav">
                         <li class="sidebar-item">
-                            <a class="sidebar-link" href="dashboard.php" aria-expanded="false">
-                                <span>
-                                    <i class="ti ti-layout-dashboard"></i>
-                                </span>
-                                <span class="hide-menu">Dashboard</span>
-                            </a>
-                        </li>
-                        <li class="sidebar-item">
                             <a class="sidebar-link" href="./property__listings.php" aria-expanded="false">
                                 <span>
                                     <i class="ti ti-map"></i>
@@ -105,7 +97,7 @@ if (isset($_POST['submit'])) {
                             </a>
                         </li>
                         <li class="sidebar-item">
-                            <a class="sidebar-link" href="./pay__alerts.php" aria-expanded="false">
+                            <a class="sidebar-link" href="./invoice__pay.php" aria-expanded="false">
                                 <span>
                                     <i class="ti ti-cards"></i>
                                 </span>
