@@ -89,7 +89,7 @@ foreach ($invoiceData as $data) {
                         <div class="d-flex">
                             <div class="unlimited-access-title me-3">
                                 <h6 class="fw-semibold fs-4 mb-6 text-dark w-85">Lets Go Home</h6>
-                                <a href="index.html" target="_blank" class="btn btn-primary fs-2 fw-semibold lh-sm">Click</a>
+                                <a href="index.php" target="_blank" class="btn btn-primary fs-2 fw-semibold lh-sm">Click</a>
                             </div>
                             <div class="unlimited-access-img">
                                 <img src="assets/images/backgrounds/rocket.png" alt="" class="img-fluid">
@@ -179,9 +179,10 @@ foreach ($invoiceData as $data) {
                                     <td colspan="6">
                                         <div class="d-flex justify-content-between align-items-center">
                                             <strong>Total Amount Due: MWK <?php echo htmlspecialchars(number_format($total, 2)); ?></strong>
-                                            <form action="checkout_process.php" method="POST">
+                                            <form action="checkout__process.php" method="POST">
                                                 <input type="hidden" name="user_id" value="<?php echo htmlspecialchars($user_id); ?>">
-                                                <button type="submit" class="btn btn-outline-primary">Payment</button>
+                                                <input type="hidden" name="payment_amount" value="<?php echo htmlspecialchars($total); ?>">
+                                                <button type="checkout" name="checkout" class="btn btn-outline-primary">Payment</button>
                                             </form>
                                         </div>
                                     </td>
@@ -198,9 +199,6 @@ foreach ($invoiceData as $data) {
     <script src="assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="assets/js/sidebarmenu.js"></script>
     <script src="assets/js/app.min.js"></script>
-    <script src="assets/libs/apexcharts/dist/apexcharts.min.js"></script>
-    <script src="assets/libs/simplebar/dist/simplebar.js"></script>
-    <script src="assets/js/dashboard.js"></script>
 </body>
 
 </html>

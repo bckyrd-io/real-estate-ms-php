@@ -12,7 +12,7 @@ if (isset($_POST['submit'])) {
     $extraDescription = $_POST['extra_description'];
 
     // Default status
-    $status = 'pending';
+    $status = 'applied';
     $_SESSION['user_id'] = 1;
 
     // SQL query to insert user data

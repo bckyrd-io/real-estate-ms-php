@@ -3,46 +3,23 @@ session_start();
 include_once('db.php'); // Assuming the path to your database connection script is 'serve/db.php'
 
 // Fetch data from the "plots" table
-$selectDataQuery = "SELECT 
-    t.id as tour_id, 
-    t.tour_date, 
-    t.appointment_status, 
-    p.plot_name, 
-    p.location, 
-    p.price, 
-    pay.amount as payment_amount,
-    pay.payment_date,
-    u.username,
-    u.id as user_id,
-    u.email
+$selectDataQuery = "SELECT t.id as tour_id, t.tour_date, 
+    p.plot_name, p.location, p.price, 
+    pay.amount as payment_amount, pay.payment_date,
+    u.username, u.id as user_id, u.email,
+    o.status
     FROM property_tours t
     JOIN plots p ON t.plot_id = p.id
-    LEFT JOIN payments pay ON p.id = pay.plot_id
-    LEFT JOIN users u ON pay.user_id = u.id";
+    JOIN usersonplot o ON p.id = o.plot_id 
+    LEFT JOIN payments pay ON p.id = pay.plot_id AND pay.user_id = o.user_id
+    LEFT JOIN users u ON o.user_id = u.id";
 $stmt = $conn->query($selectDataQuery);
 $resultsData = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
 
 // Fetch data from the "plots" table
 $selectPlotsDataQuery = "SELECT * FROM plots";
 $stmtPlots = $conn->query($selectPlotsDataQuery);
 $plotsData = $stmtPlots->fetchAll(PDO::FETCH_ASSOC);
-
-
-// Submited Notifications
-
-if (isset($_POST['submit'])) {
-    echo $plot_id = $_POST['plot_id'];
-    echo $tour_date = $_POST['tour_date'];
-    // SQL query to insert media data
-    $updateQuery = "INSERT INTO plot_media (plot_id, media_type, media_path, description) VALUES (:plot_id, :media_type, :media_path, :description)";
-    $stmt = $conn->prepare($updateQuery);
-
-
-
-    echo "<script>alert('Update added successfully.');</script>";
-}
-
 
 ?>
 
@@ -167,7 +144,6 @@ if (isset($_POST['submit'])) {
             <!--  Header End -->
             <div class="container-fluid">
 
-
                 <div class="row">
                     <div class="card mb-0">
                         <div class="card-body">
@@ -192,26 +168,26 @@ if (isset($_POST['submit'])) {
                                                 <div class="d-flex align-items-center gap-2">
                                                     <span class="badge 
                                                     <?php
-                                                    switch (strtolower('pending')) {
-                                                        case 'pending':
+                                                    switch (strtolower($plot['status'])) {
+                                                        case 'scheduled':
                                                             echo 'bg-warning';
                                                             break; // Yellow
-                                                        case 'approved':
+                                                        case 'paid':
                                                             echo 'bg-success';
                                                             break; // Green
                                                         case 'applied':
-                                                            echo 'bg-primary';
+                                                            echo 'bg-dark';
                                                             break; // Blue
                                                             // Add more cases as needed
                                                         default:
                                                             echo 'bg-secondary'; // Default color
                                                     }
                                                     ?>
-                                                    rounded-3 fw-semibold"><?php echo 'pending'; ?></span>
+                                                    rounded-3 fw-semibold"><?php echo $plot['status']; ?></span>
                                                 </div>
                                             </td>
                                             <td><?php echo $plot['payment_amount']; ?></td>
-                                            <form action="" method="post">
+                                            <form action="mailer.php" method="post">
                                                 <td>
                                                     <select name="plot_id" class=" form-control form-control-md" aria-label="Default select example">
                                                         <option selected>Select:</option>
@@ -225,7 +201,9 @@ if (isset($_POST['submit'])) {
                                                 </td>
                                                 <td>
                                                     <input type="hidden" name="user_id" value="<?php echo $plot['user_id']; ?>">
-                                                    <button type="submit" name="submit" class="btn btn-outline-primary fs-2 fw-semibold form-control form-control-md">Send</button>
+                                                    <input type="hidden" name="email" value="<?php echo $plot['email']; ?>">
+                                                    <input type="hidden" name="username" value="<?php echo $plot['username']; ?>">
+                                                    <button type="submit" name="submit_approve" class="btn btn-outline-primary fs-2 fw-semibold form-control form-control-md">Send</button>
                                                 </td>
                                             </form>
 

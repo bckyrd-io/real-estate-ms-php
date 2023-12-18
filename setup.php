@@ -99,8 +99,7 @@ try {
         user_budget DECIMAL(10, 2) NOT NULL,
         desired_locations TEXT NOT NULL,
         extra_description TEXT,
-        FOREIGN KEY (user_id) REFERENCES users(id),
-        FOREIGN KEY (plot_id) REFERENCES plots(id)
+        FOREIGN KEY (user_id) REFERENCES users(id)
     )";
     $connection->exec($createUsersonplotTableQuery);
 
@@ -110,7 +109,6 @@ try {
          id INT AUTO_INCREMENT PRIMARY KEY,
          plot_id INT NOT NULL,
          tour_date DATETIME NOT NULL,
-         appointment_status ENUM('pending', 'confirmed', 'cancelled') NOT NULL,
          additional_notes TEXT,
          FOREIGN KEY (plot_id) REFERENCES plots(id)
      )";
@@ -149,10 +147,10 @@ try {
 
     // Insert sample data into the "usersonplot" table
     $insertUsersonplotDataQuery = "
-    INSERT INTO usersonplot (user_id, plot_id, status, full_name, email, phone_number, occupation, payment_plan, user_budget, desired_locations, extra_description) VALUES
-    (1, 1, 'pending', 'John Doe', 'john@example.com', '123456789', 'Engineer', 'monthly', 120000, 'Location A, Location B', 'Looking for a plot for residential purpose'),
-    (2, 2, 'pending', 'Jane Doe', 'jane@example.com', '987654321', 'Architect', 'quarterly', 150000, 'Location C', 'Interested in a plot with a good view'),
-    (3, 3, 'pending', 'Admin User', 'admin@example.com', '111222333', 'Admin Professional', 'annual', 200000, 'Location D', 'Admin application for testing')
+    INSERT INTO usersonplot (user_id, plot_id, status, occupation, payment_plan, user_budget, desired_locations, extra_description) VALUES
+    (1, 1, 'paid', 'Engineer', 'monthly', 120000, 'Location A, Location B', 'Looking for a plot for residential purpose'),
+    (2, 2, 'paid', 'Architect', 'quarterly', 150000, 'Location C', 'Interested in a plot with a good view'),
+    (3, 3, 'scheduled', 'Admin Professional', 'annual', 200000, 'Location D', 'Admin application for testing')
     ";
     $connection->exec($insertUsersonplotDataQuery);
 
@@ -178,10 +176,10 @@ try {
 
     // Insert sample data into the "property_tours" table
     $insertPropertyToursDataQuery = "
-    INSERT INTO property_tours (plot_id, tour_date, appointment_status, additional_notes) VALUES
-    (1, '2024-01-15 10:00:00', 'pending', 'First tour of the property.'),
-    (2, '2024-02-20 14:00:00', 'confirmed', 'VIP tour for potential investor.'),
-    (3, '2024-03-25 09:00:00', 'cancelled', 'Tour cancelled due to scheduling conflict.')
+    INSERT INTO property_tours (plot_id, tour_date, additional_notes) VALUES
+    (1, '2024-01-15 10:00:00', 'First tour of the property.'),
+    (2, '2024-02-20 14:00:00', 'VIP tour for potential investor.'),
+    (3, '2024-03-25 09:00:00', 'Tour cancelled due to scheduling conflict.')
     ";
     $connection->exec($insertPropertyToursDataQuery);
 
