@@ -43,16 +43,12 @@ if (isset($_POST['checkout'])) {
 }
 
 
-
-
-
-
 if (isset($_GET['checkout_pay'])) {
     $plot_id = 1;
     $payment_date = date('Y-m-d');
     $user_id = 1;
     // $user_id = $_SESSION['user_id'];
-    $payment_amount = $_SESSION['payment_amount'];
+    // $payment_amount = $_SESSION['payment_amount'];
     $payment_amount = 12000;
     // Insert payment details into database
     $insertPaymentQuery = "INSERT INTO payments (user_id, plot_id, amount, payment_date) VALUES (?, ?, ?, ?)";

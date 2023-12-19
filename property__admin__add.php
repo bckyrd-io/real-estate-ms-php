@@ -1,7 +1,7 @@
 <?php
 session_start();
 if (isset($_POST['submit'])) {
-    include_once('serve/db.php');
+    include_once('db.php');
 
     // Get plot input
     $plotName = $_POST['plot_name'];
@@ -135,7 +135,7 @@ if (isset($_POST['submit'])) {
                     </ul>
                     <div class="navbar-collapse justify-content-end px-0" id="navbarNav">
                         <ul class="navbar-nav flex-row ms-auto align-items-center justify-content-end">
-                            <a href="https://adminmart.com/product/modernize-free-bootstrap-admin-dashboard/" target="_blank" class="btn btn-primary">Download Free</a>
+                            <!-- <a href="https://adminmart.com/product/modernize-free-bootstrap-admin-dashboard/" target="_blank" class="btn btn-primary">Download Free</a> -->
                             <li class="nav-item dropdown">
                                 <a class="nav-link nav-icon-hover" href="javascript:void(0)" id="drop2" data-bs-toggle="dropdown" aria-expanded="false">
                                     <img src="assets/images/profile/user-1.jpg" alt="" width="35" height="35" class="rounded-circle">
@@ -154,7 +154,7 @@ if (isset($_POST['submit'])) {
                                             <i class="ti ti-list-check fs-6"></i>
                                             <p class="mb-0 fs-3">My Task</p>
                                         </a>
-                                        <a href="serve/logout.php" class="btn btn-outline-primary mx-3 mt-2 d-block">Logout</a>
+                                        <a href="logout.php" class="btn btn-outline-primary mx-3 mt-2 d-block">Logout</a>
                                     </div>
                                 </div>
                             </li>

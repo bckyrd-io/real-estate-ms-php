@@ -1,6 +1,6 @@
 <?php
 session_start();
-include_once('db.php'); // Assuming the path to your database connection script is 'serve/db.php'
+include_once('db.php'); // Adjust the path to your database connection script
 
 // Fetch data from the "plots" table
 $selectPlotsDataQuery = "SELECT * FROM plots";
@@ -8,17 +8,17 @@ $stmt = $conn->query($selectPlotsDataQuery);
 $plotsData = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
+
 <!doctype html>
 <html lang="en">
 
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Real Estate Ms</title>
+    <title>Real Estate Management System</title>
     <link rel="shortcut icon" type="image/png" href="assets/images/logos/favicon.png" />
     <link rel="stylesheet" href="assets/css/styles.min.css" />
     <link rel="stylesheet" href="assets/css/bootstrap.min.css" />
-    <!-- Include Isotope and ImagesLoaded -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.isotope/3.0.6/isotope.pkgd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/4.1.4/imagesloaded.pkgd.min.js"></script>
@@ -145,16 +145,19 @@ $plotsData = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <!-- Filters -->
                 <div class="filters-button-group mb-4">
                     <button class="btn btn-outline-success" data-filter="*">Show all</button>
-                    <button class="btn btn-outline-success" data-filter=".residential">Residential</button>
-                    <button class="btn btn-outline-success" data-filter=".commercial">Commercial</button>
-                    <button class="btn btn-outline-success" data-filter=".small">Small</button>
-                    <button class="btn btn-outline-success" data-filter=".medium">Medium</button>
-                    <button class="btn btn-outline-success" data-filter=".large">Large</button>
-                    <!-- Add more filter buttons as needed -->
+                    <!-- Location Filters -->
+                    <button class="btn btn-outline-success" data-filter=".location-newyork">New York</button>
+                    <button class="btn btn-outline-success" data-filter=".location-losangeles">Los Angeles</button>
+                    <!-- Size Filters -->
+                    <button class="btn btn-outline-success" data-filter=".size-small">Small</button>
+                    <button class="btn btn-outline-success" data-filter=".size-medium">Medium</button>
+                    <!-- Price Filters -->
+                    <button class="btn btn-outline-success" data-filter=".price-low">Low Price</button>
+                    <button class="btn btn-outline-success" data-filter=".price-high">High Price</button>
                 </div>
 
                 <!-- Search field -->
-                <input type="text" id="quicksearch" placeholder="Search" class="form-control mb-4" />
+                <!-- <input type="text" id="quicksearch" placeholder="Search" class="form-control mb-4" /> -->
 
                 <!-- Gallery -->
                 <!-- <div class="grid">

@@ -25,8 +25,14 @@ if (isset($_POST['submit'])) {
         $_SESSION['username'] = $user['username'];
         $_SESSION['role'] = $user['role'];
 
+        if($user['role'] == 'admin') {
+            header('Location: dashboard.php'); // Change 'dashboard.php' to the appropriate page
+        }else{
+            header('Location: property__listings.php'); // Change 'dashboard.php' to the appropriate page
+        }
+
         // Redirect to a dashboard or home page
-        header('Location: dashboard.php'); // Change 'dashboard.php' to the appropriate page
+      
 
         exit();
     } else {
@@ -63,7 +69,7 @@ if (isset($_POST['submit'])) {
                                 </a>
                                 <form action="" method="post">
                                     <div class="mb-3">
-                                        <label for="exampleInputEmail1" class="form-label">Username</label>
+                                        <label for="exampleInputEmail1" class="form-label">Email</label>
                                         <input type="email" name="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
                                     </div>
                                     <div class="mb-4">

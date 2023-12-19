@@ -129,7 +129,6 @@ $plotsData = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <!--  Header End -->
             <div class="container-fluid">
 
-
                 <div class="row">
                     <div class="card mb-0">
                         <div class="card-body">
