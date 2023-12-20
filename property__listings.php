@@ -1,11 +1,30 @@
 <?php
 session_start();
-include_once('db.php'); // Adjust the path to your database connection script
+include_once('db.php'); // Adjust this path to your database connection script
 
 // Fetch data from the "plots" table
 $selectPlotsDataQuery = "SELECT * FROM plots";
 $stmt = $conn->query($selectPlotsDataQuery);
 $plotsData = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+// Process data for unique categories
+$uniqueLocations = [];
+$uniqueSizes = [];
+$uniquePriceRanges = [];
+
+foreach ($plotsData as $plot) {
+    $location = strtolower(str_replace(' ', '-', $plot['location']));
+    $size = ($plot['size'] <= 100) ? 'small' : 'medium'; // Modify this logic as needed
+    $priceRange = ($plot['price'] <= 100000) ? 'low-price' : 'high-price'; // Modify this logic as needed
+
+    $uniqueLocations[$location] = true;
+    $uniqueSizes[$size] = true;
+    $uniquePriceRanges[$priceRange] = true;
+}
+
+$uniqueLocations = array_keys($uniqueLocations);
+$uniqueSizes = array_keys($uniqueSizes);
+$uniquePriceRanges = array_keys($uniquePriceRanges);
 ?>
 
 
@@ -18,10 +37,6 @@ $plotsData = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <title>Real Estate Management System</title>
     <link rel="shortcut icon" type="image/png" href="assets/images/logos/favicon.png" />
     <link rel="stylesheet" href="assets/css/styles.min.css" />
-    <link rel="stylesheet" href="assets/css/bootstrap.min.css" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.isotope/3.0.6/isotope.pkgd.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/4.1.4/imagesloaded.pkgd.min.js"></script>
 </head>
 
 <body>
@@ -144,56 +159,38 @@ $plotsData = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <div class="container-fluid">
                 <!-- Filters -->
                 <div class="filters-button-group mb-4">
-                    <button class="btn btn-outline-success" data-filter="*">Show all</button>
+                    <button class="button btn btn-outline-success" data-filter="*">Show all</button>
                     <!-- Location Filters -->
-                    <button class="btn btn-outline-success" data-filter=".location-newyork">New York</button>
-                    <button class="btn btn-outline-success" data-filter=".location-losangeles">Los Angeles</button>
+                    <?php foreach ($uniqueLocations as $location) : ?>
+                        <button class="button btn btn-outline-success" data-filter=".<?php echo $location; ?>"><?php echo ucfirst($location); ?></button>
+                    <?php endforeach; ?>
+
                     <!-- Size Filters -->
-                    <button class="btn btn-outline-success" data-filter=".size-small">Small</button>
-                    <button class="btn btn-outline-success" data-filter=".size-medium">Medium</button>
-                    <!-- Price Filters -->
-                    <button class="btn btn-outline-success" data-filter=".price-low">Low Price</button>
-                    <button class="btn btn-outline-success" data-filter=".price-high">High Price</button>
+                    <?php foreach ($uniqueSizes as $size) : ?>
+                        <button class="button btn btn-outline-success" data-filter=".<?php echo $size; ?>"><?php echo ucfirst($size); ?></button>
+                    <?php endforeach; ?>
+
+                    <!-- Price Range Filters -->
+                    <?php foreach ($uniquePriceRanges as $priceRange) : ?>
+                        <button class="button btn btn-outline-success" data-filter=".<?php echo $priceRange; ?>"><?php echo ucfirst($priceRange); ?></button>
+                    <?php endforeach; ?>
                 </div>
 
-                <!-- Search field -->
-                <!-- <input type="text" id="quicksearch" placeholder="Search" class="form-control mb-4" /> -->
-
-                <!-- Gallery -->
-                <!-- <div class="grid">
+                <div class="row grid">
                     <?php foreach ($plotsData as $plot) : ?>
                         <?php
-                        $category = isset($plot['category']) ? strtolower($plot['category']) : 'uncategorized';
-                        $sizeClass = 'size-' . strtolower($plot['size']);
-                        $locationClass = 'location-' . strtolower(str_replace(' ', '-', $plot['location']));
-                        $plotName = $plot['plot_name'] ?? 'Unnamed Plot';
+                        $locationClass = strtolower(str_replace(' ', '-', $plot['location']));
+                        $sizeClass = ($plot['size'] <= 100) ? 'small' : 'medium';
+                        $priceClass = ($plot['price'] <= 100000) ? 'low-price' : 'high-price';
                         ?>
-                        <div class="element-item <?php echo $category; ?> <?php echo $sizeClass; ?> <?php echo $locationClass; ?>" data-category="<?php echo $category; ?>">
-                            <h3><?php echo htmlspecialchars($plotName); ?></h3>
-                            <p>Size: <?php echo htmlspecialchars($plot['size']); ?></p>
-                            <p>Location: <?php echo htmlspecialchars($plot['location']); ?></p>
-                            <p>Price: <?php echo htmlspecialchars($plot['price']); ?></p>
-                           
-                        </div>
-                    <?php endforeach; ?>
-                </div> -->
-
-
-                <div class="row">
-                    <?php foreach ($plotsData as $plot) : ?>
-                        <div class="col-sm-6 col-xl-4">
+                        <div class="col-sm-6 col-xl-4 element-item <?php echo $locationClass; ?> <?php echo $sizeClass; ?> <?php echo $priceClass; ?>">
                             <div class="card overflow-hidden rounded-2">
-                                <div class="position-relative">
-                                    <a href="javascript:void(0)"><img src="<?php echo $plot['image_path']; ?>" class="card-img-top rounded-0" alt="Plot Image"></a>
-                                    <a href="javascript:void(0)" class="bg-dark rounded-circle p-2 text-white d-inline-flex position-absolute bottom-0 end-0 mb-n3 me-3" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Add To Cart">
-                                        <i class="ti ti-basket fs-4"></i>
-                                    </a>
-                                </div>
-                                <div class="card-body pt-3 p-4">
-                                    <h6 class="fw-semibold fs-4"><?php echo $plot['plot_name']; ?><span class="ms-2 fw-normal text-muted fs-3">- <?php echo $plot['location']; ?></span></h6>
-                                    <div class="d-flex align-items-center justify-content-between">
-                                        <h6 class="fw-semibold fs-4 mb-0">Mwk<?php echo $plot['price']; ?> <span class="ms-2 fw-normal text-muted fs-3"> - <?php echo $plot['size']; ?> hectares</span></h6>
-                                    </div>
+                                <img src="<?php echo $plot['image_path']; ?>" class="card-img-top" alt="Plot Image">
+                                <div class="card-body">
+                                    <h5 class="card-title"><?php echo $plot['plot_name']; ?></h5>
+                                    <p class="card-text">Location: <?php echo $plot['location']; ?></p>
+                                    <p class="card-text">Size: <?php echo $plot['size']; ?> hectares</p>
+                                    <p class="card-text">Price: Mwk<?php echo $plot['price']; ?></p>
                                     <div class="row">
                                         <a href="property__virtual.php?id=<?php echo $plot['id']; ?>" target="_blank" class="btn btn-outline-primary mt-2">Virtual Tour</a>
                                         <button type="button" class=" btn btn-primary mt-2" data-plot-id="<?php echo $plot['id']; ?>">Schedule Tour</button>
@@ -204,8 +201,6 @@ $plotsData = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     <?php endforeach; ?>
                 </div>
 
-
-
             </div>
 
         </div>
@@ -215,55 +210,43 @@ $plotsData = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     <!-- Scripts -->
     <script src="assets/libs/jquery/dist/jquery.min.js"></script>
+    <script src="assets/libs/isotope.pkgd.min.js"></script>
     <script src="assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="assets/js/sidebarmenu.js"></script>
     <script src="assets/js/app.min.js"></script>
-    <script src="assets/libs/apexcharts/dist/apexcharts.min.js"></script>
-    <script src="assets/libs/simplebar/dist/simplebar.js"></script>
-    <script src="assets/js/dashboard.js"></script>
-    <script src="https://unpkg.com/ag-grid-community/dist/ag-grid-community.min.noStyle.js"></script>
+
+
+   
 
     <script>
-        // Isotope filter and search implementation
-        var $grid = $('.grid').imagesLoaded(function() {
-            $grid.isotope({
+        $(document).ready(function() {
+            // Initialize Isotope
+            var $grid = $('.grid').isotope({
                 itemSelector: '.element-item',
-                layoutMode: 'fitRows',
+                layoutMode: 'fitRows'
             });
-        });
 
-        var qsRegex;
-        var $quicksearch = $('#quicksearch').keyup(debounce(function() {
-            qsRegex = new RegExp($quicksearch.val(), 'gi');
-            $grid.isotope({
-                filter: function() {
-                    return qsRegex ? $(this).text().match(qsRegex) : true;
-                }
+            // Filter items on button click
+            $('.filters-button-group').on('click', 'button', function() {
+                var filterValue = $(this).attr('data-filter');
+                $grid.isotope({
+                    filter: filterValue
+                });
             });
-        }, 200));
 
-        function debounce(fn, threshold) {
-            var timeout;
-            return function debounced() {
-                if (timeout) {
-                    clearTimeout(timeout);
-                }
+            // Debugging: Reinitialize Isotope after a delay (e.g., 500 ms)
+            setTimeout(function() {
+                $grid.isotope('layout');
+            }, 500);
 
-                function delayed() {
-                    fn();
-                    timeout = null;
-                }
-                timeout = setTimeout(delayed, threshold || 100);
-            };
-        }
-
-        $('.filters-button-group').on('click', 'button', function() {
-            var filterValue = $(this).attr('data-filter');
-            $grid.isotope({
-                filter: filterValue
+            // Additional debugging: Print all class names of items
+            $('.element-item').each(function() {
+                console.log(this.className);
             });
         });
     </script>
+
+
 
 
 </body>

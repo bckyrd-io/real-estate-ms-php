@@ -27,8 +27,6 @@ try {
     $mail->Port       = 587;                             //TCP port to connect to; use 465 for `PHPMailer::ENCRYPTION_SMTPS`
 
 
-
-
     // Submitted Notifications
     if (isset($_POST['submit_approve'])) {
         $plot_id = $_POST['plot_id'];
@@ -62,13 +60,10 @@ try {
         $stmtNotification->bindParam(':message', $notificationMessage);
         $stmtNotification->execute();
 
-
         //Recipients
         $mail->setFrom('bckyrd.io@gmail.com', 'Mailer Estate');
         $mail->addAddress($email, $username);     //Add a recipient
         $mail->addReplyTo('bckyrd.io@gmail.com', 'Information');
-
-
 
         //Content
         $mail->isHTML(true);                                  //Set email format to HTML
