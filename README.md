@@ -35,15 +35,15 @@ This web-based application aims to enhance the real Estate experience by address
 
 1. Clone the repository to your local machine or download zip to server htdocs
 
-2. Navigate to the project directory `realestate` 
+2. Navigate to the project directory `real__estate` 
 
 3. Open your web browser and visit `http://localhost/phpmyadmin`.
 
-4. Create a new database named `realestate`.
+4. Create a new database named `real__estate`.
 
 5. Open your web browser and navigate to `http://localhost/realestate/setup.php` to run create database scripts.
    
-7. Visit `http://localhost/realestate` to access the project.
+7. Visit `http://localhost/real__estate` to access the project.
 
 ### Usage
 
