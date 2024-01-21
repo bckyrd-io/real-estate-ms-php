@@ -46,14 +46,14 @@ $uniquePriceRanges = array_keys($uniquePriceRanges);
         <aside class="left-sidebar">
             <!-- Sidebar scroll-->
             <div>
-                <div class="brand-logo d-flex align-items-center justify-content-between">
+                <!-- <div class="brand-logo d-flex align-items-center justify-content-between">
                     <a href="./index.php" class="text-nowrap logo-img">
                         <img src="assets/images/logos/dark-logo.svg" width="180" alt="" />
                     </a>
                     <div class="close-btn d-xl-none d-block sidebartoggler cursor-pointer" id="sidebarCollapse">
                         <i class="ti ti-x fs-8"></i>
                     </div>
-                </div>
+                </div> -->
                 <!-- Sidebar navigation-->
                 <nav class="sidebar-nav scroll-sidebar" data-simplebar="">
                     <ul id="sidebarnav">
@@ -193,7 +193,7 @@ $uniquePriceRanges = array_keys($uniquePriceRanges);
                                     <p class="card-text">Price: Mwk<?php echo $plot['price']; ?></p>
                                     <div class="row">
                                         <a href="property__virtual.php?id=<?php echo $plot['id']; ?>" target="_blank" class="btn btn-outline-primary mt-2">Virtual Tour</a>
-                                        <button type="button" class=" btn btn-primary mt-2" data-plot-id="<?php echo $plot['id']; ?>">Schedule Tour</button>
+                                        <!-- <button type="button" class=" btn btn-primary mt-2" data-plot-id="<?php echo $plot['id']; ?>">Schedule Tour</button> -->
                                     </div>
                                 </div>
                             </div>
