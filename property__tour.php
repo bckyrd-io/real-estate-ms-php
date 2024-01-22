@@ -1,47 +1,28 @@
 <?php
 session_start();
+include_once('db.php'); // Assuming the path to your database connection script is 'serve/db.php'
+$selectedPlotId = $_GET['id']; // Example plot ID
 
-if (isset($_POST['submit'])) {
-    include_once('db.php');
+// Query to fetch plot details
+$queryPlotDetails = "SELECT * FROM plots WHERE id = :plot_id";
+$stmt = $conn->prepare($queryPlotDetails);
+$stmt->execute(['plot_id' => $selectedPlotId]);
+$plotDetails = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    // Additional attributes
-    $occupation = $_POST['occupation'];
-    $paymentPlan = $_POST['payment_plan'];
-    $userBudget = $_POST['user_budget'];
-    $desiredLocations = implode(', ', $_POST['desired_locations']);
-    $extraDescription = $_POST['extra_description'];
+// Query to fetch plot media with descriptions
+$queryPlotMedia = "SELECT * FROM plot_media WHERE plot_id = :plot_id";
+$stmt = $conn->prepare($queryPlotMedia);
+$stmt->execute(['plot_id' => $selectedPlotId]);
+$plotMedia = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-    // Default status
-    $status = 'applied';
-    $_SESSION['user_id'] = 1;
 
-    // SQL query to insert user data
-    $insertQuery = "INSERT INTO usersonplot (user_id, status, 
-                occupation, payment_plan, user_budget, 
-                desired_locations, extra_description) 
-                VALUES (:user_id, :status, 
-                :occupation, :payment_plan, 
-                :user_budget, :desired_locations, :extra_description)";
-
-    $stmt = $conn->prepare($insertQuery);
-
-    $stmt->bindParam(':user_id', $_SESSION['user_id']);
-    $stmt->bindParam(':status', $status);
-    $stmt->bindParam(':occupation', $occupation);
-    $stmt->bindParam(':payment_plan', $paymentPlan);
-    $stmt->bindParam(':user_budget', $userBudget);
-    $stmt->bindParam(':desired_locations', $desiredLocations);
-    $stmt->bindParam(':extra_description', $extraDescription);
-
-    $stmt->execute();
-
-    // Execute JavaScript to show a success alert
-    echo "<script>alert('Application submitted successfully.');</script>";
+if(isset($_POST['request'])){
+    //update status to requested
+   
+   echo "  <script> alert('request sent successfuly. wait for email !')</script>";
 }
+
 ?>
-
-
-
 
 <!doctype html>
 <html lang="en">
@@ -63,7 +44,7 @@ if (isset($_POST['submit'])) {
             <!-- Sidebar scroll-->
             <div>
                 <div class="brand-logo d-flex align-items-center justify-content-between">
-                    <a href="./index.html" class="text-nowrap logo-img">
+                    <a href="./index.php" class="text-nowrap logo-img">
                         <h2>REAL-ESTATE</h2>
                         <!-- <img src="assets/images/logos/dark-logo.svg" width="180" alt="" /> -->
                     </a>
@@ -72,10 +53,10 @@ if (isset($_POST['submit'])) {
                     </div>
                 </div>
                 <!-- Sidebar navigation-->
-                <nav class="sidebar-nav scroll-sidebar" data-simplebar="">
+                <nav class="sidebar-nav scroll-sidebar " data-simplebar="">
                     <ul id="sidebarnav">
                         <li class="sidebar-item">
-                            <a class="sidebar-link" href="./property__listings.php" aria-expanded="false">
+                            <a class="sidebar-link active" href="./property__listings.php" aria-expanded="false">
                                 <span>
                                     <i class="ti ti-map"></i>
                                 </span>
@@ -172,7 +153,7 @@ if (isset($_POST['submit'])) {
                                             <i class="ti ti-list-check fs-6"></i>
                                             <p class="mb-0 fs-3">My Task</p>
                                         </a>
-                                        <a href="serve/logout.php"
+                                        <a href="logout.php"
                                             class="btn btn-outline-primary mx-3 mt-2 d-block">Logout</a>
                                     </div>
                                 </div>
@@ -184,63 +165,23 @@ if (isset($_POST['submit'])) {
             <!--  Header End -->
             <div class="container-fluid">
 
+                <div class="col">
+                    <?php if ($plotDetails) : ?>
+                    <h4>Tour Of
+                        <?php echo htmlspecialchars($plotDetails['plot_name']); ?> -
+                        <?php echo htmlspecialchars($plotDetails['location']); ?>
+                    </h4>
+                    <?php endif; ?>
 
-                <div class="row">
-                    <div class="card mb-0">
-                        <div class="card-body">
-                            <form action="" method="post">
-
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="mb-3">
-                                            <label for="occupation" class="form-label">Occupation</label>
-                                            <input type="text" name="occupation" class="form-control" id="occupation"
-                                                required>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="mb-3">
-                                            <label for="payment_plan" class="form-label">Payment Plan</label>
-                                            <select name="payment_plan" class="form-control" id="payment_plan" required>
-                                                <option value="monthly">Monthly</option>
-                                                <option value="quarterly">Quarterly</option>
-                                                <option value="annually">Annually</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="mb-3">
-                                            <label for="user_budget" class="form-label">User Budget</label>
-                                            <input type="number" name="user_budget" class="form-control"
-                                                id="user_budget" required>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="mb-3">
-                                            <label for="desired_locations" class="form-label">Desired Locations</label>
-                                            <input type="text" name="desired_locations[]" class="form-control"
-                                                id="desired_locations" placeholder="Location 1, Location 2, ..."
-                                                required>
-                                            <!-- Add more input fields dynamically for additional desired locations -->
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="mb-3">
-                                    <label for="extra_description" class="form-label">Extra Description</label>
-                                    <textarea name="extra_description" class="form-control" id="extra_description"
-                                        rows="4" required></textarea>
-                                </div>
-
-                                <button type="submit" name="submit" class="btn btn-primary">Submit Application</button>
-                            </form>
-                        </div>
-                    </div>
+                    <!-- Display additional plot media with descriptions -->
+                    <form action="" method="post" class="row justify-content-between w-100">
+                    <!-- <div class="row justify-content-center w-100"> -->
+                        <button type="submit"   
+                            class="btn btn-outline-primary mt-2" name="request" value="3">Request For Visit</button>
+                        <a href="property__virtual.php?id=<?php echo $_GET['id']; ?>" target="_blank"
+                            class="btn btn-outline-primary mt-2">Take Virtual Tour</a>
+                    </form>
                 </div>
-
             </div>
         </div>
     </div>

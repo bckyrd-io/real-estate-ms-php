@@ -62,7 +62,6 @@ try {
     )";
     $connection->exec($createPlotsTableQuery);
 
-
     // Create the "payments" table
     $createPaymentsTableQuery = "
     CREATE TABLE IF NOT EXISTS payments (
@@ -73,6 +72,16 @@ try {
         payment_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         FOREIGN KEY (user_id) REFERENCES users(id),
         FOREIGN KEY (plot_id) REFERENCES plots(id)
+    )";
+    $connection->exec($createPaymentsTableQuery);
+
+    // Create the "staff" table
+    $createPaymentsTableQuery = "
+    CREATE TABLE IF NOT EXISTS staff (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        staff_name VARCHAR(255) NOT NULL,
+        address VARCHAR(255) NOT NULL,
+        plot_id INT NULL
     )";
     $connection->exec($createPaymentsTableQuery);
 
@@ -125,7 +134,6 @@ try {
         FOREIGN KEY (plot_id) REFERENCES plots(id)
     )";
     $connection->exec($createPlotMediaTableQuery);
-
 
 
     echo "Database and tables created, and sample data inserted.";

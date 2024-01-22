@@ -48,14 +48,15 @@ $uniquePriceRanges = array_keys($uniquePriceRanges);
             <div>
                 <div class="brand-logo d-flex align-items-center justify-content-between">
                     <a href="./index.php" class="text-nowrap logo-img">
-                        <img src="assets/images/logos/dark-logo.svg" width="180" alt="" />
+                        <h2>REAL-ESTATE</h2>
+                        <!-- <img src="assets/images/logos/dark-logo.svg" width="180" alt="" /> -->
                     </a>
                     <div class="close-btn d-xl-none d-block sidebartoggler cursor-pointer" id="sidebarCollapse">
                         <i class="ti ti-x fs-8"></i>
                     </div>
                 </div>
                 <!-- Sidebar navigation-->
-                <nav class="sidebar-nav scroll-sidebar" data-simplebar="">
+                <nav class="sidebar-nav scroll-sidebar " data-simplebar="">
                     <ul id="sidebarnav">
                         <li class="sidebar-item">
                             <a class="sidebar-link" href="./property__listings.php" aria-expanded="false">
@@ -192,8 +193,8 @@ $uniquePriceRanges = array_keys($uniquePriceRanges);
                                     <p class="card-text">Size: <?php echo $plot['size']; ?> hectares</p>
                                     <p class="card-text">Price: Mwk<?php echo $plot['price']; ?></p>
                                     <div class="row">
-                                        <a href="property__virtual.php?id=<?php echo $plot['id']; ?>" target="_blank" class="btn btn-outline-primary mt-2">Virtual Tour</a>
-                                        <button type="button" class=" btn btn-primary mt-2" data-plot-id="<?php echo $plot['id']; ?>">Schedule Tour</button>
+                                        <a href="property__tour.php?id=<?php echo $plot['id']; ?>" target="_blank" class="btn btn-outline-primary mt-2">Tour Around</a>
+                                        <!-- <button type="button" class=" btn btn-primary mt-2" data-plot-id="<?php echo $plot['id']; ?>">Schedule Tour</button> -->
                                     </div>
                                 </div>
                             </div>
@@ -214,8 +215,6 @@ $uniquePriceRanges = array_keys($uniquePriceRanges);
     <script src="assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="assets/js/sidebarmenu.js"></script>
     <script src="assets/js/app.min.js"></script>
-
-
    
 
     <script>

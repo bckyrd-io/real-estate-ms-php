@@ -1,47 +1,52 @@
 <?php
 session_start();
+include_once('db.php'); // Assuming the path to your database connection script is 'serve/db.php'
 
-if (isset($_POST['submit'])) {
-    include_once('db.php');
+// Fetch data from the "plots" table
+$selectStaffDataQuery = "SELECT * FROM staff";
+$stmt = $conn->query($selectStaffDataQuery);
+$staffData = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-    // Additional attributes
-    $occupation = $_POST['occupation'];
-    $paymentPlan = $_POST['payment_plan'];
-    $userBudget = $_POST['user_budget'];
-    $desiredLocations = implode(', ', $_POST['desired_locations']);
-    $extraDescription = $_POST['extra_description'];
+// Fetch data from the "plots" table
+$selectPlotsDataQuery = "SELECT * FROM plots";
+$stmt = $conn->query($selectPlotsDataQuery);
+$plotsData = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-    // Default status
-    $status = 'applied';
-    $_SESSION['user_id'] = 1;
+// Update Staff Assign
+if(isset($_POST['assign'])){
+    // SQL query to update property_Assign and staffonplot
+    $updateAssignQuery = "UPDATE staff SET plot_id = :plot_id WHERE id = :staff_id";
+    $stmtAssign = $conn->prepare($updateAssignQuery);
+    $stmtAssign->bindParam(':staff_id', $_POST['staff_id']);
+    $stmtAssign->bindParam(':plot_id', $_POST['plot_id']);
+    $stmtAssign->execute();
+    echo "<script>alert('Staff Assigned successfully.');</script>";
+}
 
-    // SQL query to insert user data
-    $insertQuery = "INSERT INTO usersonplot (user_id, status, 
-                occupation, payment_plan, user_budget, 
-                desired_locations, extra_description) 
-                VALUES (:user_id, :status, 
-                :occupation, :payment_plan, 
-                :user_budget, :desired_locations, :extra_description)";
+// Update Staff Remove
+if(isset($_POST['remove'])){
+    // SQL query to update property_Assign and staffonplot
+    $updateAssignQuery = "UPDATE staff SET plot_id = NULL WHERE id = :staff_id";
+    $stmtAssign = $conn->prepare($updateAssignQuery);
+    $stmtAssign->bindParam(':staff_id', $_POST['staff_id']);
+    //$stmtAssign->bindParam(':plot_id', NULL');
+    $stmtAssign->execute();
+    echo "<script>alert('Staff rEMOved successfully.');</script>";
+}
 
-    $stmt = $conn->prepare($insertQuery);
-
-    $stmt->bindParam(':user_id', $_SESSION['user_id']);
-    $stmt->bindParam(':status', $status);
-    $stmt->bindParam(':occupation', $occupation);
-    $stmt->bindParam(':payment_plan', $paymentPlan);
-    $stmt->bindParam(':user_budget', $userBudget);
-    $stmt->bindParam(':desired_locations', $desiredLocations);
-    $stmt->bindParam(':extra_description', $extraDescription);
-
-    $stmt->execute();
-
-    // Execute JavaScript to show a success alert
-    echo "<script>alert('Application submitted successfully.');</script>";
+// fetch the plot
+function displayPlot($id){
+    include('db.php'); // Assuming the path to your database connection script is 'serve/db.php'
+    $selectPlotsDataQuery = "SELECT * FROM plots, staff
+        WHERE plots.id = staff.plot_id
+        AND staff.plot_id = $id";
+    $stmt = $conn->query($selectPlotsDataQuery);
+    $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    foreach ($data as $d){
+        echo $d['plot_name'];
+    }
 }
 ?>
-
-
-
 
 <!doctype html>
 <html lang="en">
@@ -75,38 +80,37 @@ if (isset($_POST['submit'])) {
                 <nav class="sidebar-nav scroll-sidebar" data-simplebar="">
                     <ul id="sidebarnav">
                         <li class="sidebar-item">
-                            <a class="sidebar-link" href="./property__listings.php" aria-expanded="false">
+                            <a class="sidebar-link" href="dashboard.php" aria-expanded="false">
                                 <span>
-                                    <i class="ti ti-map"></i>
+                                    <i class="ti ti-layout-dashboard"></i>
                                 </span>
-                                <span class="hide-menu">Property Listings</span>
+                                <span class="hide-menu">Dashboard</span>
                             </a>
                         </li>
                         <li class="sidebar-item">
-                            <a class="sidebar-link" href="./plots__application.php" aria-expanded="false">
+                            <a class="sidebar-link" href="property__admin.php" aria-expanded="false">
                                 <span>
-                                    <i class="ti ti-clipboard"></i>
+                                    <i class="ti ti-checklist"></i>
                                 </span>
-                                <span class="hide-menu">Application</span>
+                                <span class="hide-menu">Listings</span>
                             </a>
                         </li>
                         <li class="sidebar-item">
-                            <a class="sidebar-link" href="./pay__calculation.php" aria-expanded="false">
+                            <a class="sidebar-link active" href="staff__admin.php" aria-expanded="false">
+                                <span>
+                                    <i class="ti ti-users"></i>
+                                </span>
+                                <span class="hide-menu">Staff</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link" href="./property__admin__approve.php" aria-expanded="false">
                                 <span>
                                     <i class="ti ti-article"></i>
                                 </span>
-                                <span class="hide-menu">Calculator</span>
+                                <span class="hide-menu">Approve</span>
                             </a>
                         </li>
-                        <li class="sidebar-item">
-                            <a class="sidebar-link" href="./invoice__pay.php" aria-expanded="false">
-                                <span>
-                                    <i class="ti ti-cards"></i>
-                                </span>
-                                <span class="hide-menu">Payments</span>
-                            </a>
-                        </li>
-
                     </ul>
                     <div class="unlimited-access hide-menu bg-light-primary position-relative mb-7 mt-5 rounded">
                         <div class="d-flex">
@@ -172,7 +176,7 @@ if (isset($_POST['submit'])) {
                                             <i class="ti ti-list-check fs-6"></i>
                                             <p class="mb-0 fs-3">My Task</p>
                                         </a>
-                                        <a href="serve/logout.php"
+                                        <a href="./logout.php"
                                             class="btn btn-outline-primary mx-3 mt-2 d-block">Logout</a>
                                     </div>
                                 </div>
@@ -184,59 +188,61 @@ if (isset($_POST['submit'])) {
             <!--  Header End -->
             <div class="container-fluid">
 
-
                 <div class="row">
                     <div class="card mb-0">
                         <div class="card-body">
-                            <form action="" method="post">
+                            <h2> <a href="staff__admin__add.php" class="btn btn-outline-success fs-4 mb-4 rounded-2">Add
+                                    Staff</a>
+                            </h2>
 
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="mb-3">
-                                            <label for="occupation" class="form-label">Occupation</label>
-                                            <input type="text" name="occupation" class="form-control" id="occupation"
-                                                required>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="mb-3">
-                                            <label for="payment_plan" class="form-label">Payment Plan</label>
-                                            <select name="payment_plan" class="form-control" id="payment_plan" required>
-                                                <option value="monthly">Monthly</option>
-                                                <option value="quarterly">Quarterly</option>
-                                                <option value="annually">Annually</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="mb-3">
-                                            <label for="user_budget" class="form-label">User Budget</label>
-                                            <input type="number" name="user_budget" class="form-control"
-                                                id="user_budget" required>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="mb-3">
-                                            <label for="desired_locations" class="form-label">Desired Locations</label>
-                                            <input type="text" name="desired_locations[]" class="form-control"
-                                                id="desired_locations" placeholder="Location 1, Location 2, ..."
-                                                required>
-                                            <!-- Add more input fields dynamically for additional desired locations -->
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="mb-3">
-                                    <label for="extra_description" class="form-label">Extra Description</label>
-                                    <textarea name="extra_description" class="form-control" id="extra_description"
-                                        rows="4" required></textarea>
-                                </div>
-
-                                <button type="submit" name="submit" class="btn btn-primary">Submit Application</button>
-                            </form>
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Name</th>
+                                        <th>Address</th>
+                                        <th>Property</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php foreach ($staffData as $staff) : ?>
+                                    <tr>
+                                        <form action="staff__admin.php" method="post">
+                                            <input type="hidden" name="staff_id" value="<?php echo $staff['id']; ?>">
+                                            <td>
+                                                <?php echo $staff['id']; ?>
+                                            </td>
+                                            <td>
+                                                <?php echo $staff['staff_name']; ?>
+                                            </td>
+                                            <td>
+                                                <?php echo $staff['address']; ?>
+                                            </td>
+                                            <td>
+                                                <?php if( $staff['plot_id'] == NULL ){ ?>
+                                                    <select class="form-control" name="plot_id">
+                                                        <?php foreach ($plotsData as $plot) : ?>
+                                                        <option value="<?php echo $plot['id']; ?>">
+                                                            <?php echo $plot['plot_name']; ?>
+                                                        </option>
+                                                        <?php endforeach ?>
+                                                    </select>
+                                                <?php }else{ displayPlot( $staff['plot_id']); } ?>
+                                            </td>
+                                            <td>
+                                                <?php if( $staff['plot_id'] == NULL ) : ?>
+                                                    <button type="submit" name="assign" class="btn btn-dark">assign</button>
+                                                <?php else: ?>
+                                                    <button type="submit" name="remove"
+                                                        class="btn btn-outline-primary">remove</button>
+                                                <?php endif ?>
+                                            </td>
+                                        </form>
+                                    </tr>
+                                    <?php endforeach; ?>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>

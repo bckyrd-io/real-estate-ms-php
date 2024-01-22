@@ -33,9 +33,6 @@ if (isset($_POST['submit'])) {
 ?>
 
 
-
-
-
 <!doctype html>
 <html lang="en">
 
@@ -55,8 +52,9 @@ if (isset($_POST['submit'])) {
             <!-- Sidebar scroll-->
             <div>
                 <div class="brand-logo d-flex align-items-center justify-content-between">
-                    <a href="./index.html" class="text-nowrap logo-img">
-                        <img src="assets/images/logos/dark-logo.svg" width="180" alt="" />
+                <a href="./index.html" class="text-nowrap logo-img">
+                        <h2>REAL-ESTATE</h2>
+                        <!-- <img src="assets/images/logos/dark-logo.svg" width="180" alt="" /> -->
                     </a>
                     <div class="close-btn d-xl-none d-block sidebartoggler cursor-pointer" id="sidebarCollapse">
                         <i class="ti ti-x fs-8"></i>
@@ -163,7 +161,7 @@ if (isset($_POST['submit'])) {
                         <div class="card-body">
                             <form action="" method="post" enctype="multipart/form-data">
                                 <div class="mb-3">
-                                    <label for="propertyImage" class="form-label">Property Image</label>
+                                    <label for="propertyImage" class="form-label">Property Video</label>
                                     <input type="file" name="property_image" class="form-control" id="propertyImage" accept="image/*" required>
                                 </div>
 
