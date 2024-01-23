@@ -69,7 +69,7 @@ if (isset($_GET['plot_id'])) {
         <aside class="left-sidebar">
             <!-- Sidebar scroll-->
             <div>
-                <!-- <div class="brand-logo d-flex align-items-center justify-content-between">
+                <div class="brand-logo d-flex align-items-center justify-content-between">
                     <a href="./index.php" class="text-nowrap logo-img">
                         <h2>REAL-ESTATE</h2>
                         <!-- <img src="assets/images/logos/dark-logo.svg" width="180" alt="" /> -->
@@ -77,7 +77,7 @@ if (isset($_GET['plot_id'])) {
                     <div class="close-btn d-xl-none d-block sidebartoggler cursor-pointer" id="sidebarCollapse">
                         <i class="ti ti-x fs-8"></i>
                     </div>
-                </div> -->
+                </div>
                 <!-- Sidebar navigation-->
                 <nav class="sidebar-nav scroll-sidebar " data-simplebar="">
                     <ul id="sidebarnav">
@@ -216,13 +216,8 @@ if (isset($_GET['plot_id'])) {
                                     <p class="card-text">Size: <?php echo $plot['size']; ?> hectares</p>
                                     <p class="card-text">Price: Mwk<?php echo $plot['price']; ?></p>
                                     <div class="row">
-<<<<<<< HEAD
                                         <a href="property__tour.php?id=<?php echo $plot['id']; ?>" target="_blank" class="btn btn-outline-primary mt-2">Tour Around</a>
                                         <a href="property__listings.php?plot_id=<?= $plot['id']; ?> " target="_blank" class="btn btn-primary mt-2">apply</a>
-=======
-                                        <a href="property__virtual.php?id=<?php echo $plot['id']; ?>" target="_blank" class="btn btn-outline-primary mt-2">Virtual Tour</a>
-                                        <!-- <button type="button" class=" btn btn-primary mt-2" data-plot-id="<?php echo $plot['id']; ?>">Schedule Tour</button> -->
->>>>>>> 3e531fabd1d287c861cad3d008cc7ecb890202d0
                                     </div>
                                 </div>
                             </div>
