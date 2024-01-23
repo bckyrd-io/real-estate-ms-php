@@ -199,7 +199,6 @@ $resultsData = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                                 </td>
                                             </form>
 
-
                                         </tr>
                                     <?php endforeach; ?>
                                 </tbody>
