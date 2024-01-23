@@ -1,24 +1,26 @@
 <?php
 session_start();
 include_once('db.php'); // Assuming the path to your database connection script is '/db.php'
-$user_id = 1;
+$user_id = $_SESSION['user_id'];
 
 // Fetch data from the database
 $selectInvoiceDataQuery = "
-    SELECT u.username, u.email, p.plot_name, p.location, p.size, p.price, pay.amount, pay.payment_date
-    FROM users u
-    JOIN payments pay ON u.id = pay.user_id
-    JOIN plots p ON pay.plot_id = p.id
-    WHERE u.id = $user_id";
+    SELECT * FROM users
+    INNER JOIN usersonplot ON users.id = usersonplot.user_id
+    INNER JOIN plots ON usersonplot.plot_id = plots.id
+    LEFT JOIN payments ON users.id = payments.user_id 
+    WHERE users.id = $user_id
+    AND usersonplot.status NOT IN ('applied', 'paid')
+";
+
 $stmt = $conn->query($selectInvoiceDataQuery);
 $invoiceData = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 // Calculate total
 $total = 0;
 foreach ($invoiceData as $data) {
-    $total += $data['amount'];
+    $total += $data['price'];
 }
-
 ?>
 
 
@@ -41,7 +43,7 @@ foreach ($invoiceData as $data) {
             <!-- Sidebar scroll-->
             <div>
                 <div class="brand-logo d-flex align-items-center justify-content-between">
-                    <a href="./index.html" class="text-nowrap logo-img">
+                    <a href="./index.php" class="text-nowrap logo-img">
                         <h2>REAL-ESTATE</h2>
                         <!-- <img src="assets/images/logos/dark-logo.svg" width="180" alt="" /> -->
                     </a>
@@ -115,7 +117,7 @@ foreach ($invoiceData as $data) {
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link nav-icon-hover" href="javascript:void(0)">
+                            <a class="nav-link nav-icon-hover" href="plots__application.php">
                                 <i class="ti ti-bell-ringing"></i>
                                 <div class="notification bg-primary rounded-circle"></div>
                             </a>
@@ -142,7 +144,7 @@ foreach ($invoiceData as $data) {
                                             <i class="ti ti-list-check fs-6"></i>
                                             <p class="mb-0 fs-3">My Task</p>
                                         </a>
-                                        <a href="serve/logout.php" class="btn btn-outline-primary mx-3 mt-2 d-block">Logout</a>
+                                        <a href="logout.php" class="btn btn-outline-primary mx-3 mt-2 d-block">Logout</a>
                                     </div>
                                 </div>
                             </li>
@@ -161,7 +163,6 @@ foreach ($invoiceData as $data) {
                                     <th>Location</th>
                                     <th>Size</th>
                                     <th>Price</th>
-                                    <th>Paid Amount</th>
                                     <th>Payment Date</th>
                                 </tr>
                             </thead>
@@ -172,7 +173,6 @@ foreach ($invoiceData as $data) {
                                         <td><?php echo htmlspecialchars($data['location']); ?></td>
                                         <td><?php echo htmlspecialchars($data['size']); ?></td>
                                         <td><?php echo htmlspecialchars($data['price']); ?></td>
-                                        <td><?php echo htmlspecialchars($data['amount']); ?></td>
                                         <td><?php echo htmlspecialchars($data['payment_date']); ?></td>
                                     </tr>
                                 <?php endforeach; ?>
@@ -181,7 +181,7 @@ foreach ($invoiceData as $data) {
                                         <div class="d-flex justify-content-between align-items-center">
                                             <strong>Total Amount Due: MWK <?php echo htmlspecialchars(number_format($total, 2)); ?></strong>
                                             <form action="checkout__process.php" method="POST">
-                                                <input type="hidden" name="user_id" value="<?php echo htmlspecialchars($user_id); ?>">
+                                                <input type="hidden" name="user_id" value="<?= htmlspecialchars($user_id); ?>">
                                                 <input type="hidden" name="payment_amount" value="<?php echo htmlspecialchars($total); ?>">
                                                 <button type="checkout" name="checkout" class="btn btn-outline-primary">Payment</button>
                                             </form>

@@ -32,8 +32,6 @@ if (isset($_POST['submit'])) {
         }
 
         // Redirect to a dashboard or home page
-      
-
         exit();
     } else {
         // Display an error message for invalid credentials
@@ -50,7 +48,7 @@ if (isset($_POST['submit'])) {
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Modernize Free</title>
+    <title>Real-Estate</title>
     <link rel="shortcut icon" type="image/png" href="assets/images/logos/favicon.png" />
     <link rel="stylesheet" href="assets/css/styles.min.css" />
 </head>
@@ -62,7 +60,7 @@ if (isset($_POST['submit'])) {
             <div class="d-flex align-items-center justify-content-center w-100">
                 <div class="row justify-content-center w-100">
                     <div class="col-md-8 col-lg-6 col-xxl-3">
-                    <a href="./index.html" class="text-nowrap logo-img text-center d-block py-3 w-100">
+                    <a href="./index.php" class="text-nowrap logo-img text-center d-block py-3 w-100">
                                    <h2>REAL-ESTATE</h2>
                                 </a>
                         <div class="card mb-0">
@@ -83,7 +81,7 @@ if (isset($_POST['submit'])) {
                                                 Remeber this Device
                                             </label>
                                         </div>
-                                        <a class="text-primary fw-bold" href="./index.html">Forgot Password ?</a>
+                                        <a class="text-primary fw-bold" href="./index.php">Forgot Password ?</a>
                                     </div>
                                     <button type="submit" name="submit" class="btn btn-primary w-100 py-8 fs-4 mb-4 rounded-2">Sign In</button>
                                     <div class="d-flex align-items-center justify-content-center">

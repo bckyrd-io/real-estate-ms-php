@@ -67,23 +67,21 @@ try {
     CREATE TABLE IF NOT EXISTS payments (
         id INT AUTO_INCREMENT PRIMARY KEY,
         user_id INT NOT NULL,
-        plot_id INT NOT NULL,
         amount DECIMAL(10, 2) NOT NULL,
         payment_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-        FOREIGN KEY (user_id) REFERENCES users(id),
-        FOREIGN KEY (plot_id) REFERENCES plots(id)
+        FOREIGN KEY (user_id) REFERENCES users(id)
     )";
     $connection->exec($createPaymentsTableQuery);
 
     // Create the "staff" table
-    $createPaymentsTableQuery = "
+    $createStaffTableQuery = "
     CREATE TABLE IF NOT EXISTS staff (
         id INT AUTO_INCREMENT PRIMARY KEY,
         staff_name VARCHAR(255) NOT NULL,
         address VARCHAR(255) NOT NULL,
         plot_id INT NULL
     )";
-    $connection->exec($createPaymentsTableQuery);
+    $connection->exec($createStaffTableQuery);
 
     // Create the "notifications" table
     $createNotificationsTableQuery = "
@@ -101,14 +99,11 @@ try {
     CREATE TABLE IF NOT EXISTS usersonplot (
         id INT AUTO_INCREMENT PRIMARY KEY,
         user_id INT NOT NULL,
-        plot_id INT,
-        status VARCHAR(50) NOT NULL,
-        occupation VARCHAR(255) NOT NULL,
-        payment_plan VARCHAR(50) NOT NULL,
-        user_budget DECIMAL(10, 2) NOT NULL,
-        desired_locations TEXT NOT NULL,
-        extra_description TEXT,
-        FOREIGN KEY (user_id) REFERENCES users(id)
+        plot_id INT NOT NULL,
+        status VARCHAR(50),
+        date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        FOREIGN KEY (user_id) REFERENCES users(id),
+        FOREIGN KEY (plot_id) REFERENCES plots(id)
     )";
     $connection->exec($createUsersonplotTableQuery);
 

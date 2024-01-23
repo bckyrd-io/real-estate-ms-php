@@ -4,32 +4,26 @@ include_once('db.php'); // Assuming the path to your database connection script 
 
 
 require __DIR__ . "/vendor/autoload.php";
-
 $stripe_secret_key = "sk_test_51NJc48IJv2NdkOsStIGmR69KKDffSapdj5d19uFkimzAvFKvW36MoN4e8PXzKyAFiV6TGn23TSerIlvxvSpe9TqH00p0b93AuS";
-
 \Stripe\Stripe::setApiKey($stripe_secret_key);
 
 
-$_SESSION['payment_amount'] = '';
-$_SESSION['user_id'] = '';
-$amount = '';
 if (isset($_POST['checkout'])) {
     // Convert amount to integer and ensure it's in cents for USD
-    $amount = intval($_POST['payment_amount']); // Multiplying by 100 to convert to cents
-    $_SESSION['payment_amount'] = $amount;
-    $_SESSION['user_id'] = $_POST['user_id'];
+    $payment_amount = $_POST['payment_amount']; // Multiplying by 100 to convert to cents
+    $user_id = $_POST['user_id'];
 
     $checkout_session = \Stripe\Checkout\Session::create([
         "mode" => "payment",
-        "success_url" => "http://localhost/real__estate/checkout__process.php?checkout_pay='paid'",
-        "cancel_url" => "http://localhost/index.php",
+        "success_url" => "http://localhost/real-estate/checkout__process.php?payment_amount=$amount&&user_id=$user_id ",
+        "cancel_url" => "http://localhost/real-estate/invoice__pay.php",
         "locale" => "auto",
         "line_items" => [
             [
                 "quantity" => 1,
                 "price_data" => [
                     "currency" => "usd",
-                    "unit_amount" => $amount,
+                    "unit_amount" => $payment_amount,
                     "product_data" => [
                         "name" => "Property"
                     ]
@@ -43,22 +37,22 @@ if (isset($_POST['checkout'])) {
 }
 
 
-if (isset($_GET['checkout_pay'])) {
-    $plot_id = 1;
+if (isset($_GET['payment_amount'])) {
     $payment_date = date('Y-m-d');
-    $user_id = 1;
-    // $user_id = $_SESSION['user_id'];
-    // $payment_amount = $_SESSION['payment_amount'];
-    $payment_amount = 12000;
-    // Insert payment details into database
-    $insertPaymentQuery = "INSERT INTO payments (user_id, plot_id, amount, payment_date) VALUES (?, ?, ?, ?)";
-    $stmt = $conn->prepare($insertPaymentQuery);
-    $stmt->execute([$user_id, $plot_id, $payment_amount, $payment_date]);
-    $stmt->execute([$user_id, $plot_id, $payment_amount, $payment_date]);
-    // Destroy all session
-    session_destroy();
+    $status = 'paid';
+    $user_id = $_GET['user_id'];
+    $payment_amount = $_GET['payment_amount'];
 
+    // Insert payment details into database
+    $insertPaymentQuery = "INSERT INTO payments (user_id, amount, payment_date) VALUES (?, ?, ?)";
+    $stmt = $conn->prepare($insertPaymentQuery);
+    $stmt->execute([$user_id, $payment_amount, $payment_date]);
+
+    $updateQuery = "UPDATE usersonplot SET status = :status WHERE user_id = :user_id";
+    $stmtUpdate = $conn->prepare($updateQuery);
+    $stmtUpdate->bindParam(':status', $status);
+    $stmtUpdate->bindParam(':user_id', $user_id);
+    $stmtUpdate->execute();
+  
     echo "<script>alert('Payment successful! Redirecting to invoice page...'); window.location.href='invoice__pay.php';</script>";
-} else {
-    echo "<script>alert('Payment failed or was cancelled.'); window.location.href='index.php';</script>";
-}
+} 

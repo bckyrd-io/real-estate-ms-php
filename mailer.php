@@ -61,7 +61,7 @@ try {
         $stmtNotification->execute();
 
         //Recipients
-        $mail->setFrom('bckyrd.io@gmail.com', 'Mailer Estate');
+        $mail->setFrom('bckyrd.io@gmail.com', 'Real-Estate');
         $mail->addAddress($email, $username);     //Add a recipient
         $mail->addReplyTo('bckyrd.io@gmail.com', 'Information');
 

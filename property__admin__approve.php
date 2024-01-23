@@ -3,25 +3,15 @@ session_start();
 include_once('db.php'); // Assuming the path to your database connection script is 'serve/db.php'
 
 // Fetch data from the "plots" table
-$selectDataQuery = "SELECT t.id as tour_id, t.tour_date, 
-    p.plot_name, p.location, p.price, 
-    pay.amount as payment_amount, pay.payment_date,
-    u.username, u.id as user_id, u.email,
-    o.status
-    FROM property_tours t
-    JOIN plots p ON t.plot_id = p.id
-    JOIN usersonplot o ON p.id = o.plot_id 
-    LEFT JOIN payments pay ON p.id = pay.plot_id AND pay.user_id = o.user_id
-    LEFT JOIN users u ON o.user_id = u.id";
+$selectDataQuery = " SELECT * FROM users
+    INNER JOIN usersonplot ON users.id = usersonplot.user_id
+    INNER JOIN plots ON plots.id = usersonplot.plot_id
+    LEFT JOIN property_tours ON plots.id = property_tours.plot_id ";
 $stmt = $conn->query($selectDataQuery);
 $resultsData = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-// Fetch data from the "plots" table
-$selectPlotsDataQuery = "SELECT * FROM plots";
-$stmtPlots = $conn->query($selectPlotsDataQuery);
-$plotsData = $stmtPlots->fetchAll(PDO::FETCH_ASSOC);
-
 ?>
+
 
 <!doctype html>
 <html lang="en">
@@ -42,7 +32,7 @@ $plotsData = $stmtPlots->fetchAll(PDO::FETCH_ASSOC);
             <!-- Sidebar scroll-->
             <div>
                 <div class="brand-logo d-flex align-items-center justify-content-between">
-                <a href="./index.html" class="text-nowrap logo-img">
+                    <a href="./index.php" class="text-nowrap logo-img">
                         <h2>REAL-ESTATE</h2>
                         <!-- <img src="assets/images/logos/dark-logo.svg" width="180" alt="" /> -->
                     </a>
@@ -90,7 +80,7 @@ $plotsData = $stmtPlots->fetchAll(PDO::FETCH_ASSOC);
                         <div class="d-flex">
                             <div class="unlimited-access-title me-3">
                                 <h6 class="fw-semibold fs-4 mb-6 text-dark w-85">Lets Go Home</h6>
-                                <a href="index.html" target="_blank" class="btn btn-primary fs-2 fw-semibold lh-sm">Click</a>
+                                <a href="index.php" target="_blank" class="btn btn-primary fs-2 fw-semibold lh-sm">Click</a>
                             </div>
                             <div class="unlimited-access-img">
                                 <img src="assets/images/backgrounds/rocket.png" alt="" class="img-fluid">
@@ -115,7 +105,7 @@ $plotsData = $stmtPlots->fetchAll(PDO::FETCH_ASSOC);
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link nav-icon-hover" href="javascript:void(0)">
+                            <a class="nav-link nav-icon-hover" href="property__admin__approve.php">
                                 <i class="ti ti-bell-ringing"></i>
                                 <div class="notification bg-primary rounded-circle"></div>
                             </a>
@@ -162,22 +152,23 @@ $plotsData = $stmtPlots->fetchAll(PDO::FETCH_ASSOC);
                                 <thead>
                                     <tr>
                                         <th>Customer</th>
+                                        <th>Email</th>
                                         <th>Status</th>
-                                        <th>Amount</th>
                                         <th>Property</th>
                                         <th>Date</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <?php foreach ($resultsData as $plot) : ?>
+                                    <?php foreach ($resultsData as $approve) : ?>
                                         <tr>
-                                            <td><?php echo $plot['username']; ?></td>
+                                            <td><?= $approve['username']; ?></td>
+                                            <td><?= $approve['email']; ?></td>
                                             <td>
                                                 <div class="d-flex align-items-center gap-2">
                                                     <span class="badge 
                                                     <?php
-                                                    switch (strtolower($plot['status'])) {
+                                                    switch (strtolower($approve['status'])) {
                                                         case 'scheduled':
                                                             echo 'bg-warning';
                                                             break; // Yellow
@@ -192,26 +183,18 @@ $plotsData = $stmtPlots->fetchAll(PDO::FETCH_ASSOC);
                                                             echo 'bg-secondary'; // Default color
                                                     }
                                                     ?>
-                                                    rounded-3 fw-semibold"><?php echo $plot['status']; ?></span>
+                                                    rounded-3 fw-semibold"><?= $approve['status']; ?></span>
                                                 </div>
                                             </td>
-                                            <td><?php echo $plot['payment_amount']; ?></td>
+                                            <td>
+                                                <?= $approve['plot_name']; ?>
+                                            </td>
+                                            <td>
+                                                <?= $approve['date']; ?>
+                                            </td>
                                             <form action="mailer.php" method="post">
                                                 <td>
-                                                    <select name="plot_id" class=" form-control form-control-md" aria-label="Default select example">
-                                                        <option selected>Select:</option>
-                                                        <?php foreach ($plotsData as $property) : ?>
-                                                            <option value="<?php echo $property['id']; ?>"><?php echo $property['plot_name']; ?></option>
-                                                        <?php endforeach; ?>
-                                                    </select>
-                                                </td>
-                                                <td>
-                                                    <input type="date" name="tour_date" class="form-control form-control-md" aria-describedby="Select Date">
-                                                </td>
-                                                <td>
-                                                    <input type="hidden" name="user_id" value="<?php echo $plot['user_id']; ?>">
-                                                    <input type="hidden" name="email" value="<?php echo $plot['email']; ?>">
-                                                    <input type="hidden" name="username" value="<?php echo $plot['username']; ?>">
+                                                  
                                                     <button type="submit" name="submit_approve" class="btn btn-outline-primary fs-2 fw-semibold form-control form-control-md">Send</button>
                                                 </td>
                                             </form>
