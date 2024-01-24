@@ -10,7 +10,6 @@ AND usersonplot.plot_id = plots.id
 AND usersonplot.user_id = $user_id";
 $stmtPlots = $conn->query($selectPlotsDataQuery);
 $plotsData = $stmtPlots->fetchAll(PDO::FETCH_ASSOC);
-
 ?>
 
 

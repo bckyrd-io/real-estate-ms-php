@@ -2,13 +2,10 @@
 session_start();
 include_once('db.php'); // Assuming the path to your database connection script is 'serve/db.php'
 
-// Fetch data from the "plots" table
-$selectPlotsDataQuery = "SELECT * FROM plots";
-$stmt = $conn->query($selectPlotsDataQuery);
-$plotsData = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
 // total payment
-$payQuery = "SELECT SUM(amount) as total FROM payments";
+$payQuery = "SELECT SUM(price) as total FROM plots ,usersonplot
+    WHERE usersonplot.plot_id = plots.id 
+    AND usersonplot.status = 'paid' ";
 $payStmt = $conn->query($payQuery);
 $payData = $payStmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
@@ -163,10 +160,7 @@ $payData = $payStmt->fetchAll(PDO::FETCH_ASSOC);
                                     </div>
                                     <div>
                                         <select class="form-select">
-                                            <option value="1">March 2023</option>
-                                            <option value="2">April 2023</option>
-                                            <option value="3">May 2023</option>
-                                            <option value="4">June 2023</option>
+                                            <option value="1">2024</option>
                                         </select>
                                     </div>
                                 </div>
@@ -187,7 +181,6 @@ $payData = $payStmt->fetchAll(PDO::FETCH_ASSOC);
                                                 <h4 class="fw-semibold mb-3">MWK
                                                     <?php echo $payData[0]['total'] ?>
                                                 </h4>
-
                                             </div>
                                             <div class="col-4">
                                                 <div class="d-flex justify-content-end">

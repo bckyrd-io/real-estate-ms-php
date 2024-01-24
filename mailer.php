@@ -30,13 +30,13 @@ try {
     // Submitted Notifications
     if (isset($_POST['submit_approve'])) {
         $plot_id = $_POST['plot_id'];
-        $tour_date = $_POST['tour_date'];
+        $tour_date = date('Y-m-d');
         $user_id = $_POST['user_id'];
         $email = $_POST['email'];
         $username = $_POST['username'];
 
         // Prepare the notification message based on the status
-        $notificationMessage = 'Your tour has been scheduled for ' . $tour_date . '.';
+        $notificationMessage = 'Your tour has been scheduled from ' . $tour_date . '.';
         $status = 'scheduled';
 
         // SQL query to update property_tours and usersonplot

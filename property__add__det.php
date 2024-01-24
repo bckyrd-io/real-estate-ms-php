@@ -52,7 +52,7 @@
                 <!-- Sidebar scroll-->
                 <div>
                     <div class="brand-logo d-flex align-items-center justify-content-between">
-                    <a href="./index.php" class="text-nowrap logo-img">
+                        <a href="./index.php" class="text-nowrap logo-img">
                             <h2>REAL-ESTATE</h2>
                             <!-- <img src="assets/images/logos/dark-logo.svg" width="180" alt="" /> -->
                         </a>
@@ -76,15 +76,23 @@
                                     <span>
                                         <i class="ti ti-checklist"></i>
                                     </span>
-                                    <span class="hide-menu">Edit Listings</span>
+                                    <span class="hide-menu">Listings</span>
                                 </a>
                             </li>
                             <li class="sidebar-item">
-                                <a class="sidebar-link" href="./property__admin__approve.php" aria-expanded="false">
+                                <a class="sidebar-link" href="staff__admin.php" aria-expanded="false">
+                                    <span>
+                                        <i class="ti ti-users"></i>
+                                    </span>
+                                    <span class="hide-menu">Staff</span>
+                                </a>
+                            </li>
+                            <li class="sidebar-item">
+                                <a class="sidebar-link active" href="./property__admin__approve.php" aria-expanded="false">
                                     <span>
                                         <i class="ti ti-article"></i>
                                     </span>
-                                    <span class="hide-menu">Approval</span>
+                                    <span class="hide-menu">Approve</span>
                                 </a>
                             </li>
                         </ul>

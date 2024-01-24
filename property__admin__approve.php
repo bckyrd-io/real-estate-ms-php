@@ -5,8 +5,8 @@ include_once('db.php'); // Assuming the path to your database connection script 
 // Fetch data from the "plots" table
 $selectDataQuery = " SELECT * FROM users
     INNER JOIN usersonplot ON users.id = usersonplot.user_id
-    INNER JOIN plots ON plots.id = usersonplot.plot_id
-    LEFT JOIN property_tours ON plots.id = property_tours.plot_id ";
+    INNER JOIN plots ON plots.id = usersonplot.plot_id ";
+    // LEFT JOIN property_tours ON plots.id = property_tours.plot_id ";
 $stmt = $conn->query($selectDataQuery);
 $resultsData = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
@@ -147,7 +147,6 @@ $resultsData = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     <div class="card mb-0">
                         <div class="card-body">
                             <!-- <h2>Plots Data</h2> -->
-
                             <table class="table">
                                 <thead>
                                     <tr>
@@ -178,7 +177,6 @@ $resultsData = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                                         case 'applied':
                                                             echo 'bg-dark';
                                                             break; // Blue
-                                                            // Add more cases as needed
                                                         default:
                                                             echo 'bg-secondary'; // Default color
                                                     }
@@ -186,15 +184,14 @@ $resultsData = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                                     rounded-3 fw-semibold"><?= $approve['status']; ?></span>
                                                 </div>
                                             </td>
-                                            <td>
-                                                <?= $approve['plot_name']; ?>
-                                            </td>
-                                            <td>
-                                                <?= $approve['date']; ?>
-                                            </td>
+                                            <td> <?= $approve['plot_name']; ?> </td>
+                                            <td> <?= $approve['date']; ?> </td>
                                             <form action="mailer.php" method="post">
                                                 <td>
-                                                  
+                                                    <input type="hidden" name="username" value="<?= $approve['username'] ?>">
+                                                    <input type="hidden" name="plot_id" value="<?= $approve['plot_id'] ?>">
+                                                    <input type="hidden" name="email" value="<?= $approve['email'] ?>">
+                                                    <input type="hidden" name="user_id" value="<?= $approve['user_id'] ?>">
                                                     <button type="submit" name="submit_approve" class="btn btn-outline-primary fs-2 fw-semibold form-control form-control-md">Send</button>
                                                 </td>
                                             </form>

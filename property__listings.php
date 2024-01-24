@@ -82,7 +82,7 @@ if (isset($_GET['plot_id'])) {
                 <nav class="sidebar-nav scroll-sidebar " data-simplebar="">
                     <ul id="sidebarnav">
                         <li class="sidebar-item">
-                            <a class="sidebar-link" href="./property__listings.php" aria-expanded="false">
+                            <a class="sidebar-link active" href="./property__listings.php" aria-expanded="false">
                                 <span>
                                     <i class="ti ti-map"></i>
                                 </span>
