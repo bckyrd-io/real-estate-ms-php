@@ -179,7 +179,7 @@ foreach ($invoiceData as $data) {
                                 <tr>
                                     <td colspan="6">
                                         <div class="d-flex justify-content-between align-items-center">
-                                            <strong>Total Amount Due: MWK <?php echo htmlspecialchars(number_format($total, 2)); ?></strong>
+                                            <strong>Total Amount Due: $ <?php echo htmlspecialchars(number_format($total, 2)); ?></strong>
                                             <form action="checkout__process.php" method="POST">
                                                 <input type="hidden" name="user_id" value="<?= htmlspecialchars($user_id); ?>">
                                                 <input type="hidden" name="payment_amount" value="<?php echo htmlspecialchars($total); ?>">

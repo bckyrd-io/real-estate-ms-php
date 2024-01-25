@@ -214,7 +214,7 @@ if (isset($_GET['plot_id'])) {
                                     <h5 class="card-title"><?php echo $plot['plot_name']; ?></h5>
                                     <p class="card-text">Location: <?php echo $plot['location']; ?></p>
                                     <p class="card-text">Size: <?php echo $plot['size']; ?> hectares</p>
-                                    <p class="card-text">Price: Mwk<?php echo $plot['price']; ?></p>
+                                    <p class="card-text">Price: $ <?php echo $plot['price']; ?></p>
                                     <div class="row">
                                         <a href="property__tour.php?id=<?php echo $plot['id']; ?>" target="_blank" class="btn btn-outline-primary mt-2">Tour Around</a>
                                         <a href="property__listings.php?plot_id=<?= $plot['id']; ?> " target="_blank" class="btn btn-primary mt-2">apply</a>

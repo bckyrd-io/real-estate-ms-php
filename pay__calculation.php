@@ -160,7 +160,7 @@
                                 <!-- Additional dropdowns can be added here for more factors -->
 
                                 <button type="button" class="btn btn-primary" onclick="calculatePrice()">Calculate Price</button>
-                                <p class="mt-3 text-primary">Total Price: Mwk<span id="totalPrice">0</span></p>
+                                <p class="mt-3 text-primary">Total Price: $ <span id="totalPrice">0</span></p>
                             </form>
                         </div>
                     </div>

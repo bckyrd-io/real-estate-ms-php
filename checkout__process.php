@@ -10,12 +10,12 @@ $stripe_secret_key = "sk_test_51NJc48IJv2NdkOsStIGmR69KKDffSapdj5d19uFkimzAvFKvW
 
 if (isset($_POST['checkout'])) {
     // Convert amount to integer and ensure it's in cents for USD
-    $payment_amount = $_POST['payment_amount']; // Multiplying by 100 to convert to cents
+    $payment_amount = $_POST['payment_amount'] * 100; 
     $user_id = $_POST['user_id'];
 
     $checkout_session = \Stripe\Checkout\Session::create([
         "mode" => "payment",
-        "success_url" => "http://localhost/real-estate/checkout__process.php?payment_amount=$amount&&user_id=$user_id ",
+        "success_url" => "http://localhost/real-estate/checkout__process.php?user_id=$user_id ",
         "cancel_url" => "http://localhost/real-estate/invoice__pay.php",
         "locale" => "auto",
         "line_items" => [
@@ -37,16 +37,15 @@ if (isset($_POST['checkout'])) {
 }
 
 
-if (isset($_GET['payment_amount'])) {
+if (isset($_GET['user_id'])) {
     $payment_date = date('Y-m-d');
     $status = 'paid';
     $user_id = $_GET['user_id'];
-    $payment_amount = $_GET['payment_amount'];
 
     // Insert payment details into database
-    $insertPaymentQuery = "INSERT INTO payments (user_id, amount, payment_date) VALUES (?, ?, ?)";
+    $insertPaymentQuery = "INSERT INTO payments (user_id, payment_date) VALUES (?, ?)";
     $stmt = $conn->prepare($insertPaymentQuery);
-    $stmt->execute([$user_id, $payment_amount, $payment_date]);
+    $stmt->execute([$user_id,$payment_date]);
 
     $updateQuery = "UPDATE usersonplot SET status = :status WHERE user_id = :user_id";
     $stmtUpdate = $conn->prepare($updateQuery);
