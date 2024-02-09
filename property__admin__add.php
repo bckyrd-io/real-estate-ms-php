@@ -6,6 +6,7 @@ if (isset($_POST['submit'])) {
     // Get plot input
     $plotName = $_POST['plot_name'];
     $location = $_POST['location'];
+    $location = $_POST['type'];
     $size = $_POST['size'];
     $price = $_POST['price'];
 
@@ -17,7 +18,7 @@ if (isset($_POST['submit'])) {
         // Image uploaded successfully, proceed with database insertion
 
         // SQL query to insert plot data
-        $insertQuery = "INSERT INTO plots (plot_name, location, size, price, image_path) VALUES (:plot_name, :location, :size, :price, :image_path)";
+        $insertQuery = "INSERT INTO plots (plot_name, location, type, size, price, image_path) VALUES (:plot_name, :location, :type, :size, :price, :image_path)";
 
         // Prepare the SQL statement
         $stmt = $conn->prepare($insertQuery);
@@ -25,6 +26,7 @@ if (isset($_POST['submit'])) {
         // Bind parameters
         $stmt->bindParam(':plot_name', $plotName);
         $stmt->bindParam(':location', $location);
+        $stmt->bindParam(':type', $type);
         $stmt->bindParam(':size', $size);
         $stmt->bindParam(':price', $price);
         $stmt->bindParam(':image_path', $uploadFile);
@@ -63,7 +65,7 @@ if (isset($_POST['submit'])) {
             <!-- Sidebar scroll-->
             <div>
                 <div class="brand-logo d-flex align-items-center justify-content-between">
-                <a href="./index.php" class="text-nowrap logo-img">
+                    <a href="./index.php" class="text-nowrap logo-img">
                         <h2>REAL-ESTATE</h2>
                         <!-- <img src="assets/images/logos/dark-logo.svg" width="180" alt="" /> -->
                     </a>
@@ -187,6 +189,14 @@ if (isset($_POST['submit'])) {
                                 <div class="mb-3">
                                     <label for="exampleInputtext1" class="form-label">Location</label>
                                     <input type="text" name="location" class="form-control" id="exampleInputtext1" aria-describedby="textHelp" required>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="exampleInputtext1" class="form-label">Type</label>
+                                    <select name="type" id="" class="form-control" aria-describedby="textHelp" required>
+                                        <option value="Residential">Residential</option>
+                                        <option value="Commecial">Commecial</option>
+                                    </select>
                                 </div>
 
                                 <div class="mb-3">

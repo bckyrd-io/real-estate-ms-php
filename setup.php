@@ -55,6 +55,7 @@ try {
         id INT AUTO_INCREMENT PRIMARY KEY,
         plot_name VARCHAR(255) NOT NULL,
         location VARCHAR(255) NOT NULL,
+        type VARCHAR(255) NOT NULL,
         size INT NOT NULL,
         price DECIMAL(10, 2) NOT NULL,
         image_path VARCHAR(255) NOT NULL,

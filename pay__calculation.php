@@ -137,8 +137,8 @@
                                     <label for="location">Location:</label>
                                     <select class="form-control" name="location" id="location">
                                         <!-- Add more options as needed -->
-                                        <option value="town">Country Side</option>
-                                        <option value="country">In Town</option>
+                                        <option value="town">Commecial Site</option>
+                                        <option value="country">Residential</option>
                                     </select>
                                 </div>
 

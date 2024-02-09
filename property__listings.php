@@ -269,8 +269,6 @@ if (isset($_GET['plot_id'])) {
     </script>
 
 
-
-
 </body>
 
 </html>
