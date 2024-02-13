@@ -12,7 +12,7 @@ This web-based application aims to enhance the real Estate experience by address
    Schedule virtual tours and physical appointments for a convenient exploration of available plots.
 
 3. **Simplified Property Search:**
-   Browse categorized plots by location, size, and price for a streamlined property search.
+   Browse categorized plots by type, size, and price for a streamlined property search.
 
 4. **Secure Online Payments:**
    Conveniently pay for plots and services online with our secure payment system.
