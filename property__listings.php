@@ -13,9 +13,9 @@ $uniqueSizes = [];
 $uniquePriceRanges = [];
 
 foreach ($plotsData as $plot) {
-    $location = strtolower(str_replace(' ', '-', $plot['location']));
-    $size = ($plot['size'] <= 100) ? 'small' : 'medium'; // Modify this logic as needed
-    $priceRange = ($plot['price'] <= 100000) ? 'low-price' : 'high-price'; // Modify this logic as needed
+    $location = strtolower(str_replace(' ', '-', $plot['type']));
+    $size = ($plot['size'] <= 300) ? 'small' : 'Big'; // Modify this logic as needed
+    $priceRange = ($plot['price'] <= 10000) ? 'low-price' : 'high-price'; // Modify this logic as needed
 
     $uniqueLocations[$location] = true;
     $uniqueSizes[$size] = true;
@@ -186,37 +186,35 @@ if (isset($_GET['plot_id'])) {
                     <button class="button btn btn-outline-success" data-filter="*">Show all</button>
                     <!-- Location Filters -->
                     <?php foreach ($uniqueLocations as $location) : ?>
-                        <button class="button btn btn-outline-success" data-filter=".<?php echo $location; ?>"><?php echo ucfirst($location); ?></button>
+                        <button class="button btn btn-outline-success" data-filter=".<?= $location; ?>"><?= ucfirst($location); ?></button>
                     <?php endforeach; ?>
-
                     <!-- Size Filters -->
                     <?php foreach ($uniqueSizes as $size) : ?>
-                        <button class="button btn btn-outline-success" data-filter=".<?php echo $size; ?>"><?php echo ucfirst($size); ?></button>
+                        <button class="button btn btn-outline-success" data-filter=".<?= $size; ?>"><?= ucfirst($size); ?></button>
                     <?php endforeach; ?>
-
                     <!-- Price Range Filters -->
                     <?php foreach ($uniquePriceRanges as $priceRange) : ?>
-                        <button class="button btn btn-outline-success" data-filter=".<?php echo $priceRange; ?>"><?php echo ucfirst($priceRange); ?></button>
+                        <button class="button btn btn-outline-success" data-filter=".<?= $priceRange; ?>"><?= ucfirst($priceRange); ?></button>
                     <?php endforeach; ?>
                 </div>
 
                 <div class="row grid">
                     <?php foreach ($plotsData as $plot) : ?>
                         <?php
-                        $locationClass = strtolower(str_replace(' ', '-', $plot['location']));
-                        $sizeClass = ($plot['size'] <= 100) ? 'small' : 'medium';
-                        $priceClass = ($plot['price'] <= 100000) ? 'low-price' : 'high-price';
+                        $locationClass = strtolower(str_replace(' ', '-', $plot['type']));
+                        $sizeClass = ($plot['size'] <= 300) ? 'small' : 'Big';
+                        $priceClass = ($plot['price'] <= 10000) ? 'low-price' : 'high-price';
                         ?>
-                        <div class="col-sm-6 col-xl-4 element-item <?php echo $locationClass; ?> <?php echo $sizeClass; ?> <?php echo $priceClass; ?>">
+                        <div class="col-sm-6 col-xl-4 element-item <?= $locationClass; ?> <?= $sizeClass; ?> <?= $priceClass; ?>">
                             <div class="card overflow-hidden rounded-2">
-                                <img src="<?php echo $plot['image_path']; ?>" class="card-img-top" alt="Plot Image">
+                                <img src="<?= $plot['image_path']; ?>" class="card-img-top" alt="Plot Image">
                                 <div class="card-body">
-                                    <h5 class="card-title"><?php echo $plot['plot_name']; ?></h5>
-                                    <p class="card-text">Location: <?php echo $plot['location']; ?></p>
-                                    <p class="card-text">Size: <?php echo $plot['size']; ?> hectares</p>
-                                    <p class="card-text">Price: $ <?php echo $plot['price']; ?></p>
+                                    <h5 class="card-title"><?= $plot['plot_name']; ?></h5>
+                                    <p class="card-text">Location: <?= $plot['location']; ?>- <?= $plot['type']; ?></p>
+                                    <p class="card-text">Size: <?= $plot['size']; ?> hectares</p>
+                                    <p class="card-text">Price: $ <?= $plot['price']; ?></p>
                                     <div class="row">
-                                        <a href="property__tour.php?id=<?php echo $plot['id']; ?>" target="_blank" class="btn btn-outline-primary mt-2">Tour Around</a>
+                                        <a href="property__tour.php?id=<?= $plot['id']; ?>" target="_blank" class="btn btn-outline-primary mt-2">Tour Around</a>
                                         <a href="property__listings.php?plot_id=<?= $plot['id']; ?> " target="_blank" class="btn btn-primary mt-2">apply</a>
                                     </div>
                                 </div>

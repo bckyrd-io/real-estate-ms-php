@@ -6,7 +6,7 @@ if (isset($_POST['submit'])) {
     // Get plot input
     $plotName = $_POST['plot_name'];
     $location = $_POST['location'];
-    $location = $_POST['type'];
+    $type = $_POST['type'];
     $size = $_POST['size'];
     $price = $_POST['price'];
 

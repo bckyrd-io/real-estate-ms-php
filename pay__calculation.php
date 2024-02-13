@@ -17,7 +17,7 @@
             <!-- Sidebar scroll-->
             <div>
                 <div class="brand-logo d-flex align-items-center justify-content-between">
-                <a href="./index.php" class="text-nowrap logo-img">
+                    <a href="./index.php" class="text-nowrap logo-img">
                         <h2>REAL-ESTATE</h2>
                         <!-- <img src="assets/images/logos/dark-logo.svg" width="180" alt="" /> -->
                     </a>
@@ -138,7 +138,7 @@
                                     <select class="form-control" name="location" id="location">
                                         <!-- Add more options as needed -->
                                         <option value="town">Commecial Site</option>
-                                        <option value="country">Residential</option>
+                                        <option value="country">Residential Site</option>
                                     </select>
                                 </div>
 
@@ -167,8 +167,6 @@
                 </div>
             </div>
             <!-- ... (rest of the body content remains unchanged) ... -->
-
-
 
         </div>
     </div>
