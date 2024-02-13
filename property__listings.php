@@ -189,9 +189,6 @@ if (isset($_GET['plot_id'])) {
                         <button class="button btn btn-outline-success" data-filter=".<?= $location; ?>"><?= ucfirst($location); ?></button>
                     <?php endforeach; ?>
                     <!-- Size Filters -->
-                    <?php foreach ($uniqueSizes as $size) : ?>
-                        <button class="button btn btn-outline-success" data-filter=".<?= $size; ?>"><?= ucfirst($size); ?></button>
-                    <?php endforeach; ?>
                     <!-- Price Range Filters -->
                     <?php foreach ($uniquePriceRanges as $priceRange) : ?>
                         <button class="button btn btn-outline-success" data-filter=".<?= $priceRange; ?>"><?= ucfirst($priceRange); ?></button>
@@ -202,7 +199,7 @@ if (isset($_GET['plot_id'])) {
                     <?php foreach ($plotsData as $plot) : ?>
                         <?php
                         $locationClass = strtolower(str_replace(' ', '-', $plot['type']));
-                        $sizeClass = ($plot['size'] <= 300) ? 'small' : 'Big';
+                        // $sizeClass = ($plot['size'] <= 300) ? 'small' : 'Big';
                         $priceClass = ($plot['price'] <= 10000) ? 'low-price' : 'high-price';
                         ?>
                         <div class="col-sm-6 col-xl-4 element-item <?= $locationClass; ?> <?= $sizeClass; ?> <?= $priceClass; ?>">
