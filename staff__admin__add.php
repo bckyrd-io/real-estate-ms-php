@@ -92,16 +92,14 @@ if (isset($_POST['submit'])) {
                         </li>
                     </ul>
                     <div class="unlimited-access hide-menu bg-light-primary position-relative mb-7 mt-5 rounded">
-                        <div class="d-flex">
+                        <a class="d-flex" href="index.php">
                             <div class="unlimited-access-title me-3">
                                 <h6 class="fw-semibold fs-4 mb-6 text-dark w-85">Lets Go Home</h6>
-                                <a href="index.php" target="_blank"
-                                    class="btn btn-primary fs-2 fw-semibold lh-sm">Click</a>
                             </div>
                             <div class="unlimited-access-img">
                                 <img src="assets/images/backgrounds/rocket.png" alt="" class="img-fluid">
                             </div>
-                        </div>
+                        </a>
                     </div>
                 </nav>
                 <!-- End Sidebar navigation -->
@@ -183,7 +181,7 @@ if (isset($_POST['submit'])) {
                                         aria-describedby="textHelp" required>
                                 </div>
                                 <button type="submit" name="submit"
-                                    class="btn btn-primary w-100 fs-4 mb-4 rounded-2">Add Staff</button>
+                                    class="btn btn-outline-primary fs-4 mb-4 rounded-2">Add Staff</button>
                             </form>
                         </div>
                     </div>

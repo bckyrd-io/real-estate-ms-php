@@ -89,15 +89,14 @@ foreach ($invoiceData as $data) {
 
                     </ul>
                     <div class="unlimited-access hide-menu bg-light-primary position-relative mb-7 mt-5 rounded">
-                        <div class="d-flex">
+                        <a class="d-flex" href="index.php">
                             <div class="unlimited-access-title me-3">
                                 <h6 class="fw-semibold fs-4 mb-6 text-dark w-85">Lets Go Home</h6>
-                                <a href="index.php" target="_blank" class="btn btn-primary fs-2 fw-semibold lh-sm">Click</a>
                             </div>
                             <div class="unlimited-access-img">
                                 <img src="assets/images/backgrounds/rocket.png" alt="" class="img-fluid">
                             </div>
-                        </div>
+                        </a>
                     </div>
                 </nav>
                 <!-- End Sidebar navigation -->
@@ -176,18 +175,22 @@ foreach ($invoiceData as $data) {
                                         <td><?php echo htmlspecialchars($data['payment_date']); ?></td>
                                     </tr>
                                 <?php endforeach; ?>
-                                <tr>
-                                    <td colspan="6">
-                                        <div class="d-flex justify-content-between align-items-center">
-                                            <strong>Total Amount Due: $ <?php echo htmlspecialchars(number_format($total, 2)); ?></strong>
-                                            <form action="checkout__process.php" method="POST">
-                                                <input type="hidden" name="user_id" value="<?= htmlspecialchars($user_id); ?>">
-                                                <input type="hidden" name="payment_amount" value="<?php echo htmlspecialchars($total); ?>">
-                                                <button type="checkout" name="checkout" class="btn btn-outline-primary">Payment</button>
-                                            </form>
-                                        </div>
-                                    </td>
-                                </tr>
+                                <!--Hide Pay Button -->
+                                <?php if (!empty($invoiceData)) { ?>
+                                    <tr>
+                                        <td colspan="6">
+                                            <div class="d-flex justify-content-between align-items-center">
+                                                <strong>Total Amount Due: $ <?php echo htmlspecialchars(number_format($total, 2)); ?></strong>
+                                                <form action="checkout__process.php" method="POST">
+                                                    <input type="hidden" name="user_id" value="<?= htmlspecialchars($user_id); ?>">
+                                                    <input type="hidden" name="payment_amount" value="<?php echo htmlspecialchars($total); ?>">
+                                                    <button type="checkout" name="checkout" class="btn btn-outline-primary">Payment</button>
+                                                </form>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                <?php } ?> 
+                                
                             </tbody>
                         </table>
                     </div>

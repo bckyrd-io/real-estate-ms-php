@@ -2,7 +2,7 @@
 session_start();
 include_once('db.php'); // Assuming the path to your database connection script is 'serve/db.php'
 
-$user_id =$_SESSION['user_id'];
+$user_id = $_SESSION['user_id'];
 // Fetch data from the "plots" table
 $selectPlotsDataQuery = "SELECT * FROM plots, users, usersonplot
 WHERE usersonplot.user_id = users.id 
@@ -10,6 +10,30 @@ AND usersonplot.plot_id = plots.id
 AND usersonplot.user_id = $user_id";
 $stmtPlots = $conn->query($selectPlotsDataQuery);
 $plotsData = $stmtPlots->fetchAll(PDO::FETCH_ASSOC);
+
+
+// Submit plot application
+if (isset($_GET['plot_id'])) {
+    // Default status
+    $user_id = $_SESSION['user_id'];
+    $status = 'applied';
+    $date = date("Y-m-d");
+    $plot_id = $_GET['plot_id'];
+
+    // SQL query to insert user data
+    $insertQuery = "INSERT INTO usersonplot ( user_id, plot_id, status, date ) 
+                VALUES ( :user_id, :plot_id, :status, :date )";
+    $stmt = $conn->prepare($insertQuery);
+
+    $stmt->bindParam(':user_id', $user_id);
+    $stmt->bindParam(':plot_id', $plot_id);
+    $stmt->bindParam(':status', $status);
+    $stmt->bindParam(':date', $date);
+    $stmt->execute();
+
+    // Execute JavaScript to show a success alert
+    echo "<script>alert('Application submitted successfully.');</script>";
+}
 ?>
 
 
@@ -19,7 +43,7 @@ $plotsData = $stmtPlots->fetchAll(PDO::FETCH_ASSOC);
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Real Estate Ms</title>
+    <title>Real Estate</title>
     <link rel="shortcut icon" type="image/png" href="assets/images/logos/favicon.png" />
     <link rel="stylesheet" href="assets/css/styles.min.css" />
 </head>
@@ -78,15 +102,14 @@ $plotsData = $stmtPlots->fetchAll(PDO::FETCH_ASSOC);
 
                     </ul>
                     <div class="unlimited-access hide-menu bg-light-primary position-relative mb-7 mt-5 rounded">
-                        <div class="d-flex">
+                        <a class="d-flex" href="index.php">
                             <div class="unlimited-access-title me-3">
                                 <h6 class="fw-semibold fs-4 mb-6 text-dark w-85">Lets Go Home</h6>
-                                <a href="index.php" target="_blank" class="btn btn-primary fs-2 fw-semibold lh-sm">Click</a>
                             </div>
                             <div class="unlimited-access-img">
                                 <img src="assets/images/backgrounds/rocket.png" alt="" class="img-fluid">
                             </div>
-                        </div>
+                        </a>
                     </div>
                 </nav>
                 <!-- End Sidebar navigation -->
@@ -148,16 +171,38 @@ $plotsData = $stmtPlots->fetchAll(PDO::FETCH_ASSOC);
                 <div class="row">
                     <div class="card mb-0">
                         <div class="card-body">
+                            <form action="" method="post" enctype="multipart/form-data">
+                                <div class="mb-3">
+                                    <label for="exampleInputtext1" class="form-label">Plot Name</label>
+                                    <input type="text" name="plot_name" class="form-control" id="exampleInputtext1" aria-describedby="textHelp" required>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="exampleInputtext1" class="form-label">Location</label>
+                                    <input type="text" name="location" class="form-control" id="exampleInputtext1" aria-describedby="textHelp" required>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="exampleInputtext1" class="form-label">Type</label>
+                                    <select name="type" id="" class="form-control" aria-describedby="textHelp" required>
+                                        <option value="Residential">Residential</option>
+                                        <option value="Commecial">Commecial</option>
+                                    </select>
+                                </div>
+
+
+                                <button type="submit" name="submit" class="btn btn-outline-primary fs-4 mb-4 rounded-2">Click To Apply</button>
+                            </form>
                             <!-- <h2>Plots Data</h2> -->
 
                             <table class="table">
                                 <thead>
-                                    <tr>
+                                    <!-- <tr>
                                         <th>Plot Name</th>
                                         <th>location</th>
                                         <th>Amount</th>
                                         <th>Date</th>
-                                    </tr>
+                                    </tr> -->
                                 </thead>
                                 <tbody>
                                     <?php foreach ($plotsData as $plot) : ?>

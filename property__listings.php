@@ -26,30 +26,8 @@ $uniqueLocations = array_keys($uniqueLocations);
 $uniqueSizes = array_keys($uniqueSizes);
 $uniquePriceRanges = array_keys($uniquePriceRanges);
 
-
-// Submit plot application
-if (isset($_GET['plot_id'])) {
-    // Default status
-    $user_id = $_SESSION['user_id'];
-    $status = 'applied';
-    $date = date("Y-m-d");
-    $plot_id = $_GET['plot_id'];
-
-    // SQL query to insert user data
-    $insertQuery = "INSERT INTO usersonplot ( user_id, plot_id, status, date ) 
-                VALUES ( :user_id, :plot_id, :status, :date )";
-    $stmt = $conn->prepare($insertQuery);
-
-    $stmt->bindParam(':user_id', $user_id);
-    $stmt->bindParam(':plot_id', $plot_id);
-    $stmt->bindParam(':status', $status);
-    $stmt->bindParam(':date', $date);
-    $stmt->execute();
-
-    // Execute JavaScript to show a success alert
-    echo "<script>alert('Application submitted successfully.');</script>";
-}
 ?>
+
 
 <!doctype html>
 <html lang="en">
@@ -116,15 +94,14 @@ if (isset($_GET['plot_id'])) {
 
                     </ul>
                     <div class="unlimited-access hide-menu bg-light-primary position-relative mb-7 mt-5 rounded">
-                        <div class="d-flex">
+                        <a class="d-flex" href="index.php">
                             <div class="unlimited-access-title me-3">
                                 <h6 class="fw-semibold fs-4 mb-6 text-dark w-85">Lets Go Home</h6>
-                                <a href="index.php" target="_blank" class="btn btn-primary fs-2 fw-semibold lh-sm">Click</a>
                             </div>
                             <div class="unlimited-access-img">
                                 <img src="assets/images/backgrounds/rocket.png" alt="" class="img-fluid">
                             </div>
-                        </div>
+                        </a>
                     </div>
                 </nav>
                 <!-- End Sidebar navigation -->
@@ -212,7 +189,6 @@ if (isset($_GET['plot_id'])) {
                                     <p class="card-text">Price: $ <?= $plot['price']; ?></p>
                                     <div class="row">
                                         <a href="property__tour.php?id=<?= $plot['id']; ?>" target="_blank" class="btn btn-outline-primary mt-2">Tour Around</a>
-                                        <a href="property__listings.php?plot_id=<?= $plot['id']; ?> " target="_blank" class="btn btn-primary mt-2">apply</a>
                                     </div>
                                 </div>
                             </div>
