@@ -186,6 +186,11 @@ if (isset($_POST['apply'])) {
                         <div class="card-body">
                             <form action="" method="post" enctype="multipart/form-data">
                                 <div class="mb-3">
+                                    <label for="exampleInputtext1" class="form-label">User Name</label>
+                                    <input type="text" name="user_name" class="form-control" id="exampleInputtext1" placeholder="use your username only here"  required>
+                                </div>
+
+                                <div class="mb-3">
                                     <label for="exampleInputtext1" class="form-label">Plot Name</label>
                                     <input type="text" name="plot_name" class="form-control" id="exampleInputtext1" aria-describedby="textHelp" placeholder="Make Sure the Plot Name Matches" required>
                                 </div>

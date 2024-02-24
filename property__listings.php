@@ -3,7 +3,12 @@ session_start();
 include_once('db.php'); // Adjust this path to your database connection script
 
 // Fetch data from the "plots" table
-$selectPlotsDataQuery = "SELECT * FROM plots";
+$selectPlotsDataQuery = "SELECT plots.*
+FROM plots
+LEFT JOIN usersonplot ON plots.id = usersonplot.plot_id
+WHERE usersonplot.plot_id IS NULL OR usersonplot.status != 'paid';
+
+    ";
 $stmt = $conn->query($selectPlotsDataQuery);
 $plotsData = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
