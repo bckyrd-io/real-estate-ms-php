@@ -13,26 +13,39 @@ $plotsData = $stmtPlots->fetchAll(PDO::FETCH_ASSOC);
 
 
 // Submit plot application
-if (isset($_GET['plot_id'])) {
-    // Default status
-    $user_id = $_SESSION['user_id'];
-    $status = 'applied';
-    $date = date("Y-m-d");
-    $plot_id = $_GET['plot_id'];
+if (isset($_POST['apply'])) {
+    // Fetch of listed plot
+    $plotName = "%" . $_POST['plot_name'] . "%"; // Prepare the plot name for a LIKE search
+    $query = "SELECT id FROM plots WHERE plot_name LIKE :plotName LIMIT 1"; // Use LIKE in your query
+    $stmt = $conn->prepare($query); // Prepare the statement
+    $stmt->execute([':plotName' => $plotName]); // Execute with parameters
+    $plot = $stmt->fetch(PDO::FETCH_ASSOC); // Fetch the result
 
-    // SQL query to insert user data
-    $insertQuery = "INSERT INTO usersonplot ( user_id, plot_id, status, date ) 
+    if ($plot !== false) {
+        $plot_id = $plot['id']; // Here's your plot ID
+        // Do something with $plot_id
+        // Default status
+        $user_id = $_SESSION['user_id'];
+        $status = 'applied';
+        $date = date("Y-m-d");
+
+        // SQL query to insert user data
+        $insertQuery = "INSERT INTO usersonplot ( user_id, plot_id, status, date ) 
                 VALUES ( :user_id, :plot_id, :status, :date )";
-    $stmt = $conn->prepare($insertQuery);
+        $stmt = $conn->prepare($insertQuery);
 
-    $stmt->bindParam(':user_id', $user_id);
-    $stmt->bindParam(':plot_id', $plot_id);
-    $stmt->bindParam(':status', $status);
-    $stmt->bindParam(':date', $date);
-    $stmt->execute();
+        $stmt->bindParam(':user_id', $user_id);
+        $stmt->bindParam(':plot_id', $plot_id);
+        $stmt->bindParam(':status', $status);
+        $stmt->bindParam(':date', $date);
+        $stmt->execute();
 
-    // Execute JavaScript to show a success alert
-    echo "<script>alert('Application submitted successfully.');</script>";
+        // Execute JavaScript to show a success alert
+        echo "<script>alert('Application submitted successfully.');</script>";
+    } else {
+        // Plot not found
+        echo "<script>alert('that doesnt exist to apply for .');</script>";
+    }
 }
 ?>
 
@@ -191,7 +204,7 @@ if (isset($_GET['plot_id'])) {
                                 </div>
 
 
-                                <button type="submit" name="submit" class="btn btn-outline-primary fs-4 mb-4 rounded-2">Click To Apply</button>
+                                <button type="submit" name="apply" class="btn btn-outline-primary fs-4 mb-4 rounded-2">Click To Apply</button>
                             </form>
                             <!-- <h2>Plots Data</h2> -->
 
@@ -209,8 +222,31 @@ if (isset($_GET['plot_id'])) {
                                         <tr>
                                             <td><?= $plot['plot_name']; ?></td>
                                             <td><?= $plot['location']; ?></td>
-                                            <td><?= $plot['price']; ?></td>
+                                            <td><?= $plot['type']; ?></td>
+                                            <td>$ <?= $plot['price']; ?></td>
                                             <td><?= $plot['date']; ?></td>
+                                            <td>
+                                                <div class="d-flex align-items-center gap-2">
+                                                    <span class="badge 
+                                                    <?php
+                                                    switch (strtolower($plot['status'])) {
+                                                        case 'scheduled':
+                                                            echo 'bg-warning';
+                                                            break; // Yellow
+                                                        case 'paid':
+                                                            echo 'bg-success';
+                                                            break; // Green
+                                                        case 'applied':
+                                                            echo 'bg-dark';
+                                                            break; // Blue
+                                                        default:
+                                                            echo 'bg-secondary'; // Default color
+                                                    }
+                                                    ?>
+                                                    rounded-3 fw-semibold"><?= $plot['status']; ?></span>
+                                                </div>
+                                            </td>
+
                                             <td></td>
                                         </tr>
                                     <?php endforeach; ?>
