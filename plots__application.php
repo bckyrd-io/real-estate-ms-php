@@ -187,7 +187,7 @@ if (isset($_POST['apply'])) {
                             <form action="" method="post" enctype="multipart/form-data">
                                 <div class="mb-3">
                                     <label for="exampleInputtext1" class="form-label">Plot Name</label>
-                                    <input type="text" name="plot_name" class="form-control" id="exampleInputtext1" aria-describedby="textHelp" required>
+                                    <input type="text" name="plot_name" class="form-control" id="exampleInputtext1" aria-describedby="textHelp" placeholder="Make Sure the Plot Name Matches" required>
                                 </div>
 
                                 <div class="mb-3">
