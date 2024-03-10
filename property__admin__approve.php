@@ -10,6 +10,10 @@ $selectDataQuery = " SELECT * FROM users
 $stmt = $conn->query($selectDataQuery);
 $resultsData = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+if(isset($_GET['mail'])){
+    echo "<script>alert('Schedule email Sent.');</script>";
+}
+
 ?>
 
 
