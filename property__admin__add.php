@@ -152,19 +152,7 @@ if (isset($_POST['submit'])) {
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-end dropdown-menu-animate-up" aria-labelledby="drop2">
                                     <div class="message-body">
-                                        <a href="javascript:void(0)" class="d-flex align-items-center gap-2 dropdown-item">
-                                            <i class="ti ti-user fs-6"></i>
-                                            <p class="mb-0 fs-3">My Profile</p>
-                                        </a>
-                                        <a href="javascript:void(0)" class="d-flex align-items-center gap-2 dropdown-item">
-                                            <i class="ti ti-mail fs-6"></i>
-                                            <p class="mb-0 fs-3">My Account</p>
-                                        </a>
-                                        <a href="javascript:void(0)" class="d-flex align-items-center gap-2 dropdown-item">
-                                            <i class="ti ti-list-check fs-6"></i>
-                                            <p class="mb-0 fs-3">My Task</p>
-                                        </a>
-                                        <a href="logout.php" class="btn btn-outline-primary mx-3 mt-2 d-block">Logout</a>
+                                        <a href="./logout.php" class="btn btn-outline-primary mx-3 mt-2 d-block">Logout</a>
                                     </div>
                                 </div>
                             </li>
@@ -199,7 +187,7 @@ if (isset($_POST['submit'])) {
                                 </div>
 
                                 <div class="mb-3">
-                                    <label for="exampleInputtext1" class="form-label">Size</label>
+                                    <label for="size">Size (in sq.ft):</label>
                                     <input type="number" name="size" class="form-control" id="exampleInputtext1" aria-describedby="textHelp" required>
                                 </div>
 

@@ -135,19 +135,7 @@ if (isset($_POST['request'])) {
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-end dropdown-menu-animate-up" aria-labelledby="drop2">
                                     <div class="message-body">
-                                        <a href="javascript:void(0)" class="d-flex align-items-center gap-2 dropdown-item">
-                                            <i class="ti ti-user fs-6"></i>
-                                            <p class="mb-0 fs-3">My Profile</p>
-                                        </a>
-                                        <a href="javascript:void(0)" class="d-flex align-items-center gap-2 dropdown-item">
-                                            <i class="ti ti-mail fs-6"></i>
-                                            <p class="mb-0 fs-3">My Account</p>
-                                        </a>
-                                        <a href="javascript:void(0)" class="d-flex align-items-center gap-2 dropdown-item">
-                                            <i class="ti ti-list-check fs-6"></i>
-                                            <p class="mb-0 fs-3">My Task</p>
-                                        </a>
-                                        <a href="logout.php" class="btn btn-outline-primary mx-3 mt-2 d-block">Logout</a>
+                                        <a href="./logout.php" class="btn btn-outline-primary mx-3 mt-2 d-block">Logout</a>
                                     </div>
                                 </div>
                             </li>
@@ -169,7 +157,7 @@ if (isset($_POST['request'])) {
                     <!-- Display additional plot media with descriptions -->
                     <form action="" method="post" class="row justify-content-between w-100">
                         <!-- <div class="row justify-content-center w-100"> -->
-                        <input type="hidden" name="plot_id" value="<?= $plotDetails['id'] ?>" >
+                        <input type="hidden" name="plot_id" value="<?= $plotDetails['id'] ?>">
                         <button type="submit" class="btn btn-outline-primary mt-2" name="request">Request For Visit</button>
                         <a href="property__virtual.php?id=<?php echo $_GET['id']; ?>" target="_blank" class="btn btn-outline-primary mt-2">Take Virtual Tour</a>
                     </form>

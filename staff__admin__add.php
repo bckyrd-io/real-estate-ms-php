@@ -6,7 +6,7 @@ if (isset($_POST['submit'])) {
     // Get plot input
     $staff_name = $_POST['staff_name'];
     $address = $_POST['address'];
-   
+
     // SQL query to insert plot data
     $insertQuery = "INSERT INTO staff (staff_name, address) VALUES (:staff_name, :address)";
 
@@ -40,8 +40,7 @@ if (isset($_POST['submit'])) {
 
 <body>
     <!--  Body Wrapper -->
-    <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
-        data-sidebar-position="fixed" data-header-position="fixed">
+    <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full" data-sidebar-position="fixed" data-header-position="fixed">
         <!-- Sidebar Start -->
         <aside class="left-sidebar">
             <!-- Sidebar scroll-->
@@ -114,8 +113,7 @@ if (isset($_POST['submit'])) {
                 <nav class="navbar navbar-expand-lg navbar-light">
                     <ul class="navbar-nav">
                         <li class="nav-item d-block d-xl-none">
-                            <a class="nav-link sidebartoggler nav-icon-hover" id="headerCollapse"
-                                href="javascript:void(0)">
+                            <a class="nav-link sidebartoggler nav-icon-hover" id="headerCollapse" href="javascript:void(0)">
                                 <i class="ti ti-menu-2"></i>
                             </a>
                         </li>
@@ -130,31 +128,12 @@ if (isset($_POST['submit'])) {
                         <ul class="navbar-nav flex-row ms-auto align-items-center justify-content-end">
                             <!-- <a href="https://adminmart.com/product/modernize-free-bootstrap-admin-dashboard/" target="_blank" class="btn btn-primary">Download Free</a> -->
                             <li class="nav-item dropdown">
-                                <a class="nav-link nav-icon-hover" href="javascript:void(0)" id="drop2"
-                                    data-bs-toggle="dropdown" aria-expanded="false">
-                                    <img src="assets/images/profile/user-1.jpg" alt="" width="35" height="35"
-                                        class="rounded-circle">
+                                <a class="nav-link nav-icon-hover" href="javascript:void(0)" id="drop2" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <img src="assets/images/profile/user-1.jpg" alt="" width="35" height="35" class="rounded-circle">
                                 </a>
-                                <div class="dropdown-menu dropdown-menu-end dropdown-menu-animate-up"
-                                    aria-labelledby="drop2">
+                                <div class="dropdown-menu dropdown-menu-end dropdown-menu-animate-up" aria-labelledby="drop2">
                                     <div class="message-body">
-                                        <a href="javascript:void(0)"
-                                            class="d-flex align-items-center gap-2 dropdown-item">
-                                            <i class="ti ti-user fs-6"></i>
-                                            <p class="mb-0 fs-3">My Profile</p>
-                                        </a>
-                                        <a href="javascript:void(0)"
-                                            class="d-flex align-items-center gap-2 dropdown-item">
-                                            <i class="ti ti-mail fs-6"></i>
-                                            <p class="mb-0 fs-3">My Account</p>
-                                        </a>
-                                        <a href="javascript:void(0)"
-                                            class="d-flex align-items-center gap-2 dropdown-item">
-                                            <i class="ti ti-list-check fs-6"></i>
-                                            <p class="mb-0 fs-3">My Task</p>
-                                        </a>
-                                        <a href="logout.php"
-                                            class="btn btn-outline-primary mx-3 mt-2 d-block">Logout</a>
+                                        <a href="./logout.php" class="btn btn-outline-primary mx-3 mt-2 d-block">Logout</a>
                                     </div>
                                 </div>
                             </li>
@@ -171,17 +150,14 @@ if (isset($_POST['submit'])) {
                             <form action="" method="post" enctype="multipart/form-data">
                                 <div class="mb-3">
                                     <label for="exampleInputtext1" class="form-label">Staff Name</label>
-                                    <input type="text" name="staff_name" class="form-control" id="exampleInputtext1"
-                                        aria-describedby="textHelp" required>
+                                    <input type="text" name="staff_name" class="form-control" id="exampleInputtext1" aria-describedby="textHelp" required>
                                 </div>
 
                                 <div class="mb-3">
                                     <label for="exampleInputtext1" class="form-label">Address</label>
-                                    <input type="text" name="address" class="form-control" id="exampleInputtext1"
-                                        aria-describedby="textHelp" required>
+                                    <input type="text" name="address" class="form-control" id="exampleInputtext1" aria-describedby="textHelp" required>
                                 </div>
-                                <button type="submit" name="submit"
-                                    class="btn btn-outline-primary fs-4 mb-4 rounded-2">Add Staff</button>
+                                <button type="submit" name="submit" class="btn btn-outline-primary fs-4 mb-4 rounded-2">Add Staff</button>
                             </form>
                         </div>
                     </div>
@@ -190,7 +166,7 @@ if (isset($_POST['submit'])) {
             </div>
         </div>
     </div>
-    
+
     <script src="assets/libs/jquery/dist/jquery.min.js"></script>
     <script src="assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="assets/js/sidebarmenu.js"></script>
