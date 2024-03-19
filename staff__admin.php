@@ -13,7 +13,7 @@ $stmt = $conn->query($selectPlotsDataQuery);
 $plotsData = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 // Update Staff Assign
-if(isset($_POST['assign'])){
+if (isset($_POST['assign'])) {
     // SQL query to update property_Assign and staffonplot
     $updateAssignQuery = "UPDATE staff SET plot_id = :plot_id WHERE id = :staff_id";
     $stmtAssign = $conn->prepare($updateAssignQuery);
@@ -24,7 +24,7 @@ if(isset($_POST['assign'])){
 }
 
 // Update Staff Remove
-if(isset($_POST['remove'])){
+if (isset($_POST['remove'])) {
     // SQL query to update property_Assign and staffonplot
     $updateAssignQuery = "UPDATE staff SET plot_id = NULL WHERE id = :staff_id";
     $stmtAssign = $conn->prepare($updateAssignQuery);
@@ -35,14 +35,15 @@ if(isset($_POST['remove'])){
 }
 
 // fetch the plot
-function displayPlot($id){
+function displayPlot($id)
+{
     include('db.php'); // Assuming the path to your database connection script is 'serve/db.php'
     $selectPlotsDataQuery = "SELECT * FROM plots, staff
         WHERE plots.id = staff.plot_id
         AND staff.plot_id = $id";
     $stmt = $conn->query($selectPlotsDataQuery);
     $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    foreach ($data as $d){
+    foreach ($data as $d) {
         echo $d['plot_name'];
     }
 }
@@ -61,16 +62,16 @@ function displayPlot($id){
 
 <body>
     <!--  Body Wrapper -->
-    <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
-        data-sidebar-position="fixed" data-header-position="fixed">
+    <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full" data-sidebar-position="fixed" data-header-position="fixed">
         <!-- Sidebar Start -->
         <aside class="left-sidebar">
             <!-- Sidebar scroll-->
             <div>
                 <div class="brand-logo d-flex align-items-center justify-content-between">
                     <a href="./index.php" class="text-nowrap logo-img">
-                        <h2>REAL-ESTATE</h2>
-                        <!-- <img src="assets/images/logos/dark-logo.svg" width="180" alt="" /> -->
+                        <img src="assets/images/logos/favicon.png" height="30px" alt="" />
+                        <strong class="text-primary">CHERRYWOOD</strong>
+
                     </a>
                     <div class="close-btn d-xl-none d-block sidebartoggler cursor-pointer" id="sidebarCollapse">
                         <i class="ti ti-x fs-8"></i>
@@ -90,32 +91,49 @@ function displayPlot($id){
                         <li class="sidebar-item">
                             <a class="sidebar-link" href="property__admin.php" aria-expanded="false">
                                 <span>
-                                    <i class="ti ti-checklist"></i>
+                                    <i class="ti ti-article"></i>
                                 </span>
                                 <span class="hide-menu">Listings</span>
                             </a>
                         </li>
                         <li class="sidebar-item">
-                            <a class="sidebar-link active" href="staff__admin.php" aria-expanded="false">
+                            <a class="sidebar-link" href="./pay__calculation.php" aria-expanded="false">
+                                <span>
+                                    <i class="ti ti-checklist"></i>
+                                </span>
+                                <span class="hide-menu">Calculator</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link" href="./property__admin__approve.php" aria-expanded="false">
+                                <span>
+                                    <i class="ti ti-edit"></i>
+                                </span>
+                                <span class="hide-menu">Approve</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link" href="./property__admin__request.php" aria-expanded="false">
+                                <span>
+                                    <i class="ti ti-location"></i>
+                                </span>
+                                <span class="hide-menu">Request</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link" href="staff__admin.php" aria-expanded="false">
                                 <span>
                                     <i class="ti ti-users"></i>
                                 </span>
                                 <span class="hide-menu">Staff</span>
                             </a>
                         </li>
-                        <li class="sidebar-item">
-                            <a class="sidebar-link" href="./property__admin__approve.php" aria-expanded="false">
-                                <span>
-                                    <i class="ti ti-article"></i>
-                                </span>
-                                <span class="hide-menu">Approve</span>
-                            </a>
-                        </li>
+
                     </ul>
                     <div class="unlimited-access hide-menu bg-light-primary position-relative mb-7 mt-5 rounded">
                         <a class="d-flex" href="index.php">
                             <div class="unlimited-access-title me-3">
-                                <h6 class="fw-semibold fs-4 mb-6 text-dark w-85">Lets Go Home</h6>
+                                <h6 class="fw-semibold fs-4 mb-6 text-dark w-85">Go Home __</h6>
                             </div>
                             <div class="unlimited-access-img">
                                 <img src="assets/images/backgrounds/rocket.png" alt="" class="img-fluid">
@@ -135,8 +153,7 @@ function displayPlot($id){
                 <nav class="navbar navbar-expand-lg navbar-light">
                     <ul class="navbar-nav">
                         <li class="nav-item d-block d-xl-none">
-                            <a class="nav-link sidebartoggler nav-icon-hover" id="headerCollapse"
-                                href="javascript:void(0)">
+                            <a class="nav-link sidebartoggler nav-icon-hover" id="headerCollapse" href="javascript:void(0)">
                                 <i class="ti ti-menu-2"></i>
                             </a>
                         </li>
@@ -151,16 +168,12 @@ function displayPlot($id){
                         <ul class="navbar-nav flex-row ms-auto align-items-center justify-content-end">
                             <!-- <a href="https://adminmart.com/product/modernize-free-bootstrap-admin-dashboard/" target="_blank" class="btn btn-primary">Download Free</a> -->
                             <li class="nav-item dropdown">
-                                <a class="nav-link nav-icon-hover" href="javascript:void(0)" id="drop2"
-                                    data-bs-toggle="dropdown" aria-expanded="false">
-                                    <img src="assets/images/profile/user-1.jpg" alt="" width="35" height="35"
-                                        class="rounded-circle">
+                                <a class="nav-link nav-icon-hover" href="javascript:void(0)" id="drop2" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <img src="assets/images/profile/user-1.jpg" alt="" width="35" height="35" class="rounded-circle">
                                 </a>
-                                <div class="dropdown-menu dropdown-menu-end dropdown-menu-animate-up"
-                                    aria-labelledby="drop2">
+                                <div class="dropdown-menu dropdown-menu-end dropdown-menu-animate-up" aria-labelledby="drop2">
                                     <div class="message-body">
-                                        <a href="./logout.php"
-                                            class="btn btn-outline-primary mx-3 mt-2 d-block">Logout</a>
+                                        <a href="./logout.php" class="btn btn-outline-primary mx-3 mt-2 d-block">Logout</a>
                                     </div>
                                 </div>
                             </li>
@@ -190,39 +203,40 @@ function displayPlot($id){
                                 </thead>
                                 <tbody>
                                     <?php foreach ($staffData as $staff) : ?>
-                                    <tr>
-                                        <form action="staff__admin.php" method="post">
-                                            <input type="hidden" name="staff_id" value="<?php echo $staff['id']; ?>">
-                                            <td>
-                                                <?php echo $staff['id']; ?>
-                                            </td>
-                                            <td>
-                                                <?php echo $staff['staff_name']; ?>
-                                            </td>
-                                            <td>
-                                                <?php echo $staff['address']; ?>
-                                            </td>
-                                            <td>
-                                                <?php if( $staff['plot_id'] == NULL ){ ?>
-                                                    <select class="form-control" name="plot_id">
-                                                        <?php foreach ($plotsData as $plot) : ?>
-                                                        <option value="<?php echo $plot['id']; ?>">
-                                                            <?php echo $plot['plot_name']; ?>
-                                                        </option>
-                                                        <?php endforeach ?>
-                                                    </select>
-                                                <?php }else{ displayPlot( $staff['plot_id']); } ?>
-                                            </td>
-                                            <td>
-                                                <?php if( $staff['plot_id'] == NULL ) : ?>
-                                                    <button type="submit" name="assign" class="btn btn-dark">assign</button>
-                                                <?php else: ?>
-                                                    <button type="submit" name="remove"
-                                                        class="btn btn-outline-primary">remove</button>
-                                                <?php endif ?>
-                                            </td>
-                                        </form>
-                                    </tr>
+                                        <tr>
+                                            <form action="staff__admin.php" method="post">
+                                                <input type="hidden" name="staff_id" value="<?php echo $staff['id']; ?>">
+                                                <td>
+                                                    <?php echo $staff['id']; ?>
+                                                </td>
+                                                <td>
+                                                    <?php echo $staff['staff_name']; ?>
+                                                </td>
+                                                <td>
+                                                    <?php echo $staff['address']; ?>
+                                                </td>
+                                                <td>
+                                                    <?php if ($staff['plot_id'] == NULL) { ?>
+                                                        <select class="form-control" name="plot_id">
+                                                            <?php foreach ($plotsData as $plot) : ?>
+                                                                <option value="<?php echo $plot['id']; ?>">
+                                                                    <?php echo $plot['plot_name']; ?>
+                                                                </option>
+                                                            <?php endforeach ?>
+                                                        </select>
+                                                    <?php } else {
+                                                        displayPlot($staff['plot_id']);
+                                                    } ?>
+                                                </td>
+                                                <td>
+                                                    <?php if ($staff['plot_id'] == NULL) : ?>
+                                                        <button type="submit" name="assign" class="btn btn-dark">assign</button>
+                                                    <?php else : ?>
+                                                        <button type="submit" name="remove" class="btn btn-outline-primary">remove</button>
+                                                    <?php endif ?>
+                                                </td>
+                                            </form>
+                                        </tr>
                                     <?php endforeach; ?>
                                 </tbody>
                             </table>

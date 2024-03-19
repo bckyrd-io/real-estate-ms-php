@@ -54,18 +54,19 @@ $uniquePriceRanges = array_keys($uniquePriceRanges);
             <div>
                 <div class="brand-logo d-flex align-items-center justify-content-between">
                     <a href="./index.php" class="text-nowrap logo-img">
-                        <h2>REAL-ESTATE</h2>
-                        <!-- <img src="assets/images/logos/dark-logo.svg" width="180" alt="" /> -->
+                        <img src="assets/images/logos/favicon.png" height="30px" alt="" />
+                        <strong class="text-primary">CHERRYWOOD</strong>
+
                     </a>
                     <div class="close-btn d-xl-none d-block sidebartoggler cursor-pointer" id="sidebarCollapse">
                         <i class="ti ti-x fs-8"></i>
                     </div>
                 </div>
                 <!-- Sidebar navigation-->
-                <nav class="sidebar-nav scroll-sidebar " data-simplebar="">
+                <nav class="sidebar-nav scroll-sidebar" data-simplebar="">
                     <ul id="sidebarnav">
                         <li class="sidebar-item">
-                            <a class="sidebar-link active" href="./property__listings.php" aria-expanded="false">
+                            <a class="sidebar-link" href="./property__listings.php" aria-expanded="false">
                                 <span>
                                     <i class="ti ti-map"></i>
                                 </span>
@@ -81,14 +82,6 @@ $uniquePriceRanges = array_keys($uniquePriceRanges);
                             </a>
                         </li>
                         <li class="sidebar-item">
-                            <a class="sidebar-link" href="./pay__calculation.php" aria-expanded="false">
-                                <span>
-                                    <i class="ti ti-article"></i>
-                                </span>
-                                <span class="hide-menu">Calculator</span>
-                            </a>
-                        </li>
-                        <li class="sidebar-item">
                             <a class="sidebar-link" href="./invoice__pay.php" aria-expanded="false">
                                 <span>
                                     <i class="ti ti-cards"></i>
@@ -101,7 +94,7 @@ $uniquePriceRanges = array_keys($uniquePriceRanges);
                     <div class="unlimited-access hide-menu bg-light-primary position-relative mb-7 mt-5 rounded">
                         <a class="d-flex" href="index.php">
                             <div class="unlimited-access-title me-3">
-                                <h6 class="fw-semibold fs-4 mb-6 text-dark w-85">Lets Go Home</h6>
+                                <h6 class="fw-semibold fs-4 mb-6 text-dark w-85">Go Home __</h6>
                             </div>
                             <div class="unlimited-access-img">
                                 <img src="assets/images/backgrounds/rocket.png" alt="" class="img-fluid">

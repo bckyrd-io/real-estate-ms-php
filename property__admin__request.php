@@ -2,17 +2,6 @@
 session_start();
 include_once('db.php'); // Assuming the path to your database connection script is 'serve/db.php'
 
-// total payment
-$payQuery = "SELECT SUM(price) as total FROM plots ,usersonplot
-    WHERE usersonplot.plot_id = plots.id 
-    AND usersonplot.status = 'paid' ";
-$payStmt = $conn->query($payQuery);
-$payData = $payStmt->fetchAll(PDO::FETCH_ASSOC);
-
-
-
-
-
 // Fetch data from the "plots" table
 $selectDataQuery = " SELECT * FROM users
     INNER JOIN usersonplot ON users.id = usersonplot.user_id
@@ -27,26 +16,16 @@ if (isset($_GET['mail'])) {
 
 ?>
 
+
 <!doctype html>
 <html lang="en">
 
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Real Estate</title>
+    <title>Real Estate Ms</title>
     <link rel="shortcut icon" type="image/png" href="assets/images/logos/favicon.png" />
     <link rel="stylesheet" href="assets/css/styles.min.css" />
-    <!-- datatables -->
-    <link rel="stylesheet" href="./plugins/jquery.dataTables.min.css">
-    <link rel="stylesheet" href="./plugins/buttons.dataTables.min.css">
-
-    <style>
-        .dt-button{
-            background: none !important;
-            border: solid 1px green !important;
-            /* color: white !important; */
-        }
-    </style>
 </head>
 
 <body>
@@ -102,7 +81,7 @@ if (isset($_GET['mail'])) {
                             </a>
                         </li>
                         <li class="sidebar-item">
-                            <a class="sidebar-link" href="./property__admin__approve.php" aria-expanded="false">
+                            <a class="sidebar-link" href="./property__admin__request.php" aria-expanded="false">
                                 <span>
                                     <i class="ti ti-location"></i>
                                 </span>
@@ -134,6 +113,7 @@ if (isset($_GET['mail'])) {
             </div>
             <!-- End Sidebar scroll-->
         </aside>
+        <!--  Sidebar End -->
         <!--  Main wrapper -->
         <div class="body-wrapper">
             <!--  Header Start -->
@@ -171,84 +151,62 @@ if (isset($_GET['mail'])) {
             </header>
             <!--  Header End -->
             <div class="container-fluid">
-                <!--  Row 1 -->
-                <div class="row">
-                    <div class="col-lg-8 d-flex align-items-strech">
-                        <div class="card w-100">
-                            <div class="card-body">
-                                <div class="d-sm-flex d-block align-items-center justify-content-between mb-9">
-                                    <div class="mb-3 mb-sm-0">
-                                        <h5 class="card-title fw-semibold">Plots Sales </h5>
-                                    </div>
-                                    <div>
-                                        <select class="form-select">
-                                            <option value="1">2024</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div id="chart"></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4">
-                        <div class="row">
 
-                            <div class="col-lg-12">
-                                <!-- Monthly Earnings -->
-                                <div class="card">
-                                    <div class="card-body">
-                                        <div class="row alig n-items-start">
-                                            <div class="col-8">
-                                                <h5 class="card-title mb-9 fw-semibold"> Earnings </h5>
-                                                <h4 class="fw-semibold mb-3">$
-                                                    <?php echo $payData[0]['total'] ?>
-                                                </h4>
-                                            </div>
-                                            <div class="col-4">
-                                                <div class="d-flex justify-content-end">
-                                                    <div class="text-white bg-dark rounded-circle p-6 d-flex align-items-center justify-content-center">
-                                                        <i class="ti ti-currency-dollar fs-6"></i>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div id="earning"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
                 <div class="row">
-                    <div class="col-lg-8  align-items-strech">
-                        <div class="card mb-0">
-                            <div class="card-body">
-                                <!-- <h2>Plots Data</h2> -->
-                                <table class="table" id="example">
-                                    <thead>
+                    <div class="card mb-0">
+                        <div class="card-body">
+                            <!-- <h2>Plots Data</h2> -->
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Customer</th>
+                                        <th>Email</th>
+                                        <th>Status</th>
+                                        <th>Property</th>
+                                        <th>Date</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php foreach ($resultsData as $approve) : ?>
                                         <tr>
-                                            <th>Customer</th>
-                                            <th>Email</th>
-                                            <th>Property</th>
+                                            <td><?= $approve['username']; ?></td>
+                                            <td><?= $approve['email']; ?></td>
+                                            <td>
+                                                <div class="d-flex align-items-center gap-2">
+                                                    <span class="badge 
+                                                    <?php
+                                                    switch (strtolower($approve['status'])) {
+                                                        case 'scheduled':
+                                                            echo 'bg-warning';
+                                                            break; // Yellow
+                                                        default:
+                                                            echo ''; // Default color
+                                                    }
+                                                    ?>
+                                                    rounded-3 fw-semibold"><?= $approve['status']; ?></span>
+                                                </div>
+                                            </td>
+                                            <td> <?= $approve['plot_name']; ?> </td>
+                                            <td> <?= $approve['date']; ?> </td>
+                                            <form action="mailer.php" method="post">
+                                                <td>
+                                                    <input type="hidden" name="username" value="<?= $approve['username'] ?>">
+                                                    <input type="hidden" name="plot_id" value="<?= $approve['plot_id'] ?>">
+                                                    <input type="hidden" name="email" value="<?= $approve['email'] ?>">
+                                                    <input type="hidden" name="user_id" value="<?= $approve['user_id'] ?>">
+                                                    <button type="submit" name="submit_approve" class="btn btn-outline-primary fs-2 fw-semibold form-control form-control-md">Send</button>
+                                                </td>
+                                            </form>
+
                                         </tr>
-                                    </thead>
-                                    <tbody>
-                                        <?php foreach ($resultsData as $approve) : ?>
-                                            <tr>
-                                                <td><?= $approve['username']; ?></td>
-                                                <td><?= $approve['email']; ?></td>
-                                                <td> <?= $approve['plot_name']; ?> </td>
-
-
-                                            </tr>
-                                        <?php endforeach; ?>
-                                    </tbody>
-                                </table>
-                            </div>
+                                    <?php endforeach; ?>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
-
                 </div>
+
             </div>
         </div>
     </div>
@@ -259,28 +217,6 @@ if (isset($_GET['mail'])) {
     <script src="assets/libs/apexcharts/dist/apexcharts.min.js"></script>
     <script src="assets/libs/simplebar/dist/simplebar.js"></script>
     <script src="assets/js/dashboard.js"></script>
-
-
-
-    <script src="plugins/jquery.dataTables.min.js"></script>
-    <script src="plugins/dataTables.buttons.min.js"></script>
-    <script src="plugins/jszip.min.js"></script>
-    <script src="plugins/pdfmake.min.js"></script>
-    <script src="plugins/vfs_fonts.js"></script>
-    <script src="plugins/buttons.html5.min.js"></script>
-    <script src="plugins/buttons.print.min.js"></script>
-
-
-    <script>
-        $(document).ready(async function() {
-            const table = $('#example').DataTable({
-                dom: 'Bfrtip',
-                buttons: [
-                    'excel', 'pdf'
-                ]
-            });
-        });
-    </script>
 </body>
 
 </html>

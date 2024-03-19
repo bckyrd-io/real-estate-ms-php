@@ -25,9 +25,9 @@ if (isset($_POST['submit'])) {
         $_SESSION['username'] = $user['username'];
         $_SESSION['role'] = $user['role'];
 
-        if($user['role'] == 'admin') {
+        if ($user['role'] == 'admin') {
             header('Location: dashboard.php'); // Change 'dashboard.php' to the appropriate page
-        }else{
+        } else {
             header('Location: property__listings.php'); // Change 'dashboard.php' to the appropriate page
         }
 
@@ -36,7 +36,7 @@ if (isset($_POST['submit'])) {
     } else {
         // Display an error message for invalid credentials
         // Execute JavaScript to show an alert
-    echo "<script>alert('Invailid Username or Password.');</script>";
+        echo "<script>alert('Invailid Username or Password.');</script>";
     }
 }
 ?>
@@ -60,9 +60,12 @@ if (isset($_POST['submit'])) {
             <div class="d-flex align-items-center justify-content-center w-100">
                 <div class="row justify-content-center w-100">
                     <div class="col-md-8 col-lg-6 col-xxl-3">
-                    <a href="./index.php" class="text-nowrap logo-img text-center d-block py-3 w-100">
-                                   <h2>REAL-ESTATE</h2>
-                                </a>
+                        <a href="./index.php" class="text-nowrap logo-img">
+
+                            <img src="assets/images/logos/favicon.png" height="30px" alt="" />
+                            <strong class="text-primary">CHERRYWOOD</strong>
+                            <p class="col-md-6">Real Estate Management</p>
+                        </a>
                         <div class="card mb-0">
                             <div class="card-body">
                                 <form action="" method="post">

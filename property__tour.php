@@ -75,14 +75,6 @@ if (isset($_POST['request'])) {
                             </a>
                         </li>
                         <li class="sidebar-item">
-                            <a class="sidebar-link" href="./pay__calculation.php" aria-expanded="false">
-                                <span>
-                                    <i class="ti ti-article"></i>
-                                </span>
-                                <span class="hide-menu">Calculator</span>
-                            </a>
-                        </li>
-                        <li class="sidebar-item">
                             <a class="sidebar-link" href="./invoice__pay.php" aria-expanded="false">
                                 <span>
                                     <i class="ti ti-cards"></i>

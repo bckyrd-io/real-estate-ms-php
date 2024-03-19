@@ -10,7 +10,7 @@ $selectDataQuery = " SELECT * FROM users
 $stmt = $conn->query($selectDataQuery);
 $resultsData = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-if(isset($_GET['mail'])){
+if (isset($_GET['mail'])) {
     echo "<script>alert('Schedule email Sent.');</script>";
 }
 
@@ -37,8 +37,9 @@ if(isset($_GET['mail'])){
             <div>
                 <div class="brand-logo d-flex align-items-center justify-content-between">
                     <a href="./index.php" class="text-nowrap logo-img">
-                        <h2>REAL-ESTATE</h2>
-                        <!-- <img src="assets/images/logos/dark-logo.svg" width="180" alt="" /> -->
+                        <img src="assets/images/logos/favicon.png" height="30px" alt="" />
+                        <strong class="text-primary">CHERRYWOOD</strong>
+
                     </a>
                     <div class="close-btn d-xl-none d-block sidebartoggler cursor-pointer" id="sidebarCollapse">
                         <i class="ti ti-x fs-8"></i>
@@ -58,9 +59,33 @@ if(isset($_GET['mail'])){
                         <li class="sidebar-item">
                             <a class="sidebar-link" href="property__admin.php" aria-expanded="false">
                                 <span>
-                                    <i class="ti ti-checklist"></i>
+                                    <i class="ti ti-article"></i>
                                 </span>
                                 <span class="hide-menu">Listings</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link" href="./pay__calculation.php" aria-expanded="false">
+                                <span>
+                                    <i class="ti ti-checklist"></i>
+                                </span>
+                                <span class="hide-menu">Calculator</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link" href="./property__admin__approve.php" aria-expanded="false">
+                                <span>
+                                    <i class="ti ti-edit"></i>
+                                </span>
+                                <span class="hide-menu">Approve</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link" href="./property__admin__request.php" aria-expanded="false">
+                                <span>
+                                    <i class="ti ti-location"></i>
+                                </span>
+                                <span class="hide-menu">Request</span>
                             </a>
                         </li>
                         <li class="sidebar-item">
@@ -71,19 +96,12 @@ if(isset($_GET['mail'])){
                                 <span class="hide-menu">Staff</span>
                             </a>
                         </li>
-                        <li class="sidebar-item">
-                            <a class="sidebar-link active" href="./property__admin__approve.php" aria-expanded="false">
-                                <span>
-                                    <i class="ti ti-article"></i>
-                                </span>
-                                <span class="hide-menu">Approve</span>
-                            </a>
-                        </li>
+
                     </ul>
                     <div class="unlimited-access hide-menu bg-light-primary position-relative mb-7 mt-5 rounded">
                         <a class="d-flex" href="index.php">
                             <div class="unlimited-access-title me-3">
-                                <h6 class="fw-semibold fs-4 mb-6 text-dark w-85">Lets Go Home</h6>
+                                <h6 class="fw-semibold fs-4 mb-6 text-dark w-85">Go Home __</h6>
                             </div>
                             <div class="unlimited-access-img">
                                 <img src="assets/images/backgrounds/rocket.png" alt="" class="img-fluid">
@@ -159,17 +177,14 @@ if(isset($_GET['mail'])){
                                                     <span class="badge 
                                                     <?php
                                                     switch (strtolower($approve['status'])) {
-                                                        case 'scheduled':
-                                                            echo 'bg-warning';
-                                                            break; // Yellow
                                                         case 'paid':
                                                             echo 'bg-success';
                                                             break; // Green
                                                         case 'applied':
-                                                            echo 'bg-dark';
+                                                            echo 'bg-warning';
                                                             break; // Blue
                                                         default:
-                                                            echo 'bg-secondary'; // Default color
+                                                            echo ''; // Default color
                                                     }
                                                     ?>
                                                     rounded-3 fw-semibold"><?= $approve['status']; ?></span>

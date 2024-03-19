@@ -19,12 +19,12 @@ $(function () {
                 fontFamily: 'inherit',
                 sparkline: { enabled: false },
             },
-            colors: ["#8a0000"],
+            colors: ["#13deb9"],
             plotOptions: {
                 bar: {
                     horizontal: false,
-                    columnWidth: "35%",
-                    borderRadius: 6
+                    columnWidth: "10%",
+                    borderRadius: 0
                 },
             },
             dataLabels: { enabled: false },
@@ -71,25 +71,25 @@ $(function () {
                     sparkline: { enabled: true },
                     group: "sparklines",
                     fontFamily: "Plus Jakarta Sans', sans-serif",
-                    foreColor: "#adb0bb",
+                 
                 },
                 series: [{
                     name: "Earnings",
-                    color: "#8a0000",
+                    color: "#ffae1f",
                     data: totalEarnings,
                 }],
                 stroke: { curve: "smooth", width: 2 },
                 fill: {
                     colors: ["#f3feff"],
                     type: "solid",
-                    opacity: 0.05,
+                   
                 },
-                markers: { size: 0 },
+                markers: { size: 10 },
                 xaxis: { categories: earningsMonths },
                 tooltip: {
                     theme: "dark",
                     fixed: { enabled: true, position: "right" },
-                    x: { show: false },
+                    x: { show:  true},
                 },
             };
             new ApexCharts(document.querySelector("#earning"), earningOptions).render();
