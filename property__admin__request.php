@@ -5,7 +5,9 @@ include_once('db.php'); // Assuming the path to your database connection script 
 // Fetch data from the "plots" table
 $selectDataQuery = " SELECT * FROM users
     INNER JOIN usersonplot ON users.id = usersonplot.user_id
-    INNER JOIN plots ON plots.id = usersonplot.plot_id ";
+    INNER JOIN plots ON plots.id = usersonplot.plot_id
+    WHERE usersonplot.status != 'paid'
+    AND usersonplot.status != 'applied' ";
 // LEFT JOIN property_tours ON plots.id = property_tours.plot_id ";
 $stmt = $conn->query($selectDataQuery);
 $resultsData = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -178,10 +180,10 @@ if (isset($_GET['mail'])) {
                                                     <?php
                                                     switch (strtolower($approve['status'])) {
                                                         case 'scheduled':
-                                                            echo 'bg-warning';
+                                                            echo 'bg-success';
                                                             break; // Yellow
                                                         default:
-                                                            echo ''; // Default color
+                                                            echo 'bg-warning'; // Default color
                                                     }
                                                     ?>
                                                     rounded-3 fw-semibold"><?= $approve['status']; ?></span>

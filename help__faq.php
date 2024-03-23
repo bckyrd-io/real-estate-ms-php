@@ -1,22 +1,3 @@
-<?php
-session_start();
-include_once('db.php'); // Assuming the path to your database connection script is 'serve/db.php'
-$selectedPlotId = $_GET['id']; // Example plot ID
-
-// Query to fetch plot details
-$queryPlotDetails = "SELECT * FROM plots WHERE id = :plot_id";
-$stmt = $conn->prepare($queryPlotDetails);
-$stmt->execute(['plot_id' => $selectedPlotId]);
-$plotDetails = $stmt->fetch(PDO::FETCH_ASSOC);
-
-// Query to fetch plot media with descriptions
-$queryPlotMedia = "SELECT * FROM plot_media WHERE plot_id = :plot_id";
-$stmt = $conn->prepare($queryPlotMedia);
-$stmt->execute(['plot_id' => $selectedPlotId]);
-$plotMedia = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-?>
-
 <!doctype html>
 <html lang="en">
 
@@ -135,36 +116,45 @@ $plotMedia = $stmt->fetchAll(PDO::FETCH_ASSOC);
             </header>
             <!--  Header End -->
             <div class="container-fluid">
+                <div class="card mb-0">
+                    <div class="card-body">
+                        <table class="table">
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <strong>How do I search for properties?</strong><br>
+                                        You can search for properties using our advanced search feature, which allows you to filter properties based on location, price range, property type, and more.
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <strong>Can I filter properties based on specific criteria?</strong><br>
+                                        Yes, you can filter properties based on various criteria such as price, number of bedrooms, bathrooms, property type, amenities, and more to find exactly what you're looking for.
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <strong>How do I schedule a property viewing?</strong><br>
+                                        Once you find a property you're interested in, you can easily schedule a viewing by contacting the property agent or using our online booking system, if available.
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <strong>What payment options are available for purchasing a property?</strong><br>
+                                        We offer various payment options depending on the property and the seller's preferences. Common payment methods include bank transfers, checks, and online payment platforms.
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <strong>How do I list my property for sale or rent on your platform?</strong><br>
+                                        Listing your property on our platform is easy. Simply sign up as a seller, provide the necessary details about your property, upload photos, and set your desired price and terms. Our team will review your listing and make it live once approved.
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
 
-                <div class="col">
-                    <?php if ($plotDetails) : ?>
-                        <h4>Tour Of
-                            <?php echo htmlspecialchars($plotDetails['plot_name']); ?> -
-                            <?php echo htmlspecialchars($plotDetails['location']); ?>
-                        </h4>
-                    <?php endif; ?>
+                    </div>
 
-                    <!-- Display additional plot media with descriptions -->
-                    <?php foreach ($plotMedia as $media) : ?>
-                        <div class="col-sm-12 col-xl-6 mt-3">
-                            <div class="card">
-                                <video class="card-img-top" autoplay controls>
-                                    <?php if (isset($media['media_path']) && $media['media_path']) : ?>
-                                        <source src="<?php echo htmlspecialchars($media['media_path']); ?>" type="video/mp4">
-                                        Your browser does not support the video tag.
-                                    <?php else : ?>
-                                        <p>Video not available.</p>
-                                    <?php endif; ?>
-                                </video>
-
-                                <div class="card-body">
-                                    <p class="card-text">
-                                        <?php echo htmlspecialchars($media['description']); ?>
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    <?php endforeach; ?>
                 </div>
             </div>
         </div>
@@ -173,9 +163,6 @@ $plotMedia = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <script src="assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="assets/js/sidebarmenu.js"></script>
     <script src="assets/js/app.min.js"></script>
-    <script src="assets/libs/apexcharts/dist/apexcharts.min.js"></script>
-    <script src="assets/libs/simplebar/dist/simplebar.js"></script>
-    <script src="assets/js/dashboard.js"></script>
 </body>
 
 </html>

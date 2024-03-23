@@ -38,8 +38,8 @@ foreach ($invoiceData as $data) {
 <body>
     <!--  Body Wrapper -->
     <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full" data-sidebar-position="fixed" data-header-position="fixed">
-        <!-- Sidebar Start -->
-        <aside class="left-sidebar">
+         <!-- Sidebar Start -->
+         <aside class="left-sidebar">
             <!-- Sidebar scroll-->
             <div>
                 <div class="brand-logo d-flex align-items-center justify-content-between">
@@ -77,6 +77,14 @@ foreach ($invoiceData as $data) {
                                     <i class="ti ti-cards"></i>
                                 </span>
                                 <span class="hide-menu">Payments</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link" href="./help__faq.php" aria-expanded="false">
+                                <span>
+                                    <i class="ti ti-help"></i>
+                                </span>
+                                <span class="hide-menu">Help Feature</span>
                             </a>
                         </li>
 

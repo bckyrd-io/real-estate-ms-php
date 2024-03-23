@@ -89,6 +89,14 @@ $uniquePriceRanges = array_keys($uniquePriceRanges);
                                 <span class="hide-menu">Payments</span>
                             </a>
                         </li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link" href="./help__faq.php" aria-expanded="false">
+                                <span>
+                                    <i class="ti ti-help"></i>
+                                </span>
+                                <span class="hide-menu">Help Feature</span>
+                            </a>
+                        </li>
 
                     </ul>
                     <div class="unlimited-access hide-menu bg-light-primary position-relative mb-7 mt-5 rounded">

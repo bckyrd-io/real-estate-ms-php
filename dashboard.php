@@ -10,20 +10,15 @@ $payStmt = $conn->query($payQuery);
 $payData = $payStmt->fetchAll(PDO::FETCH_ASSOC);
 
 
+$stmt = $conn->prepare("SELECT location, COUNT(p.id) AS total_plots, SUM(CASE WHEN usp.status = 'paid' THEN 1 ELSE 0 END) AS sold_plots, COUNT(p.id) - SUM(CASE WHEN usp.status = 'paid' THEN 1 ELSE 0 END) AS available_plots FROM plots p LEFT JOIN usersonplot usp ON p.id = usp.plot_id GROUP BY location;");
+$stmt->execute();
+$results = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+// Initialize variables for overall counts
+$overallTotalPlots = 0;
+$overallSoldPlots = 0;
+$overallAvailablePlots = 0;
 
-
-// Fetch data from the "plots" table
-$selectDataQuery = " SELECT * FROM users
-    INNER JOIN usersonplot ON users.id = usersonplot.user_id
-    INNER JOIN plots ON plots.id = usersonplot.plot_id ";
-// LEFT JOIN property_tours ON plots.id = property_tours.plot_id ";
-$stmt = $conn->query($selectDataQuery);
-$resultsData = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-if (isset($_GET['mail'])) {
-    echo "<script>alert('Schedule email Sent.');</script>";
-}
 
 ?>
 
@@ -41,7 +36,7 @@ if (isset($_GET['mail'])) {
     <link rel="stylesheet" href="./plugins/buttons.dataTables.min.css">
 
     <style>
-        .dt-button{
+        .dt-button {
             background: none !important;
             border: solid 1px green !important;
             /* color: white !important; */
@@ -102,7 +97,7 @@ if (isset($_GET['mail'])) {
                             </a>
                         </li>
                         <li class="sidebar-item">
-                            <a class="sidebar-link" href="./property__admin__approve.php" aria-expanded="false">
+                            <a class="sidebar-link" href="./property__admin__request.php" aria-expanded="false">
                                 <span>
                                     <i class="ti ti-location"></i>
                                 </span>
@@ -223,27 +218,40 @@ if (isset($_GET['mail'])) {
                     <div class="col-lg-8  align-items-strech">
                         <div class="card mb-0">
                             <div class="card-body">
-                                <!-- <h2>Plots Data</h2> -->
-                                <table class="table" id="example">
+                                <table id="example" class="table" style="width: 100%;">
                                     <thead>
                                         <tr>
-                                            <th>Customer</th>
-                                            <th>Email</th>
-                                            <th>Property</th>
+                                            <th>Location</th>
+                                            <th>Total Plots</th>
+                                            <th>Sold Plots</th>
+                                            <th>Available Plots</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <?php foreach ($resultsData as $approve) : ?>
+                                        <?php foreach ($results as $row) { ?>
                                             <tr>
-                                                <td><?= $approve['username']; ?></td>
-                                                <td><?= $approve['email']; ?></td>
-                                                <td> <?= $approve['plot_name']; ?> </td>
-
-
+                                                <td><?= $row['location'] ?></td>
+                                                <td><?= $row['total_plots'] ?></td>
+                                                <td><?= $row['sold_plots'] ?></td>
+                                                <td><?= $row['available_plots'] ?></td>
                                             </tr>
-                                        <?php endforeach; ?>
+                                            <?php
+                                            // Accumulate overall counts for each location
+                                            $overallTotalPlots += $row['total_plots'];
+                                            $overallSoldPlots += $row['sold_plots'];
+                                            $overallAvailablePlots = $overallTotalPlots - $overallSoldPlots; // Ensure consistency
+                                            ?>
+                                        <?php } ?>
+
+                                        <tr>
+                                            <th>Total</th>
+                                            <th><?= $overallTotalPlots ?></th>
+                                            <th><?= $overallSoldPlots ?></th>
+                                            <th><?= $overallAvailablePlots ?></th>
+                                        </tr>
                                     </tbody>
                                 </table>
+
                             </div>
                         </div>
                     </div>

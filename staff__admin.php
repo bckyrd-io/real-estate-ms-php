@@ -21,6 +21,7 @@ if (isset($_POST['assign'])) {
     $stmtAssign->bindParam(':plot_id', $_POST['plot_id']);
     $stmtAssign->execute();
     echo "<script>alert('Staff Assigned successfully.');</script>";
+    header("location:staff__admin.php");
 }
 
 // Update Staff Remove
@@ -32,20 +33,22 @@ if (isset($_POST['remove'])) {
     //$stmtAssign->bindParam(':plot_id', NULL');
     $stmtAssign->execute();
     echo "<script>alert('Staff rEMOved successfully.');</script>";
+    header("location:staff__admin.php");
 }
 
 // fetch the plot
 function displayPlot($id)
 {
-    include('db.php'); // Assuming the path to your database connection script is 'serve/db.php'
-    $selectPlotsDataQuery = "SELECT * FROM plots, staff
-        WHERE plots.id = staff.plot_id
-        AND staff.plot_id = $id";
-    $stmt = $conn->query($selectPlotsDataQuery);
-    $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    foreach ($data as $d) {
-        echo $d['plot_name'];
-    }
+    include('db.php');
+
+    $selectPlotNameQuery = "SELECT plots.plot_name FROM plots, staff
+                       WHERE plots.id = staff.plot_id
+                       AND staff.plot_id = :id";
+    $stmt = $conn->prepare($selectPlotNameQuery);
+    $stmt->bindParam(':id', $id);
+    $stmt->execute();
+    $plotName = $stmt->fetchColumn();  // Fetch a single column value
+    echo $plotName;  // Output the plot name
 }
 ?>
 
@@ -58,7 +61,9 @@ function displayPlot($id)
     <title>Real Estate Ms</title>
     <link rel="shortcut icon" type="image/png" href="assets/images/logos/favicon.png" />
     <link rel="stylesheet" href="assets/css/styles.min.css" />
+    <!-- <meta http-equiv="refresh" content="1"> -->
 </head>
+
 
 <body>
     <!--  Body Wrapper -->
@@ -194,7 +199,6 @@ function displayPlot($id)
                             <table class="table">
                                 <thead>
                                     <tr>
-                                        <th>ID</th>
                                         <th>Name</th>
                                         <th>Address</th>
                                         <th>Property</th>
@@ -206,9 +210,6 @@ function displayPlot($id)
                                         <tr>
                                             <form action="staff__admin.php" method="post">
                                                 <input type="hidden" name="staff_id" value="<?php echo $staff['id']; ?>">
-                                                <td>
-                                                    <?php echo $staff['id']; ?>
-                                                </td>
                                                 <td>
                                                     <?php echo $staff['staff_name']; ?>
                                                 </td>
@@ -254,6 +255,7 @@ function displayPlot($id)
     <script src="assets/libs/apexcharts/dist/apexcharts.min.js"></script>
     <script src="assets/libs/simplebar/dist/simplebar.js"></script>
     <script src="assets/js/dashboard.js"></script>
+
 </body>
 
 </html>

@@ -44,60 +44,73 @@ if (isset($_POST['request'])) {
     <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full" data-sidebar-position="fixed" data-header-position="fixed">
         <!-- Sidebar Start -->
         <aside class="left-sidebar">
-            <!-- Sidebar scroll-->
-            <div>
-                <div class="brand-logo d-flex align-items-center justify-content-between">
-                    <a href="./index.php" class="text-nowrap logo-img">
-                        <h2>REAL-ESTATE</h2>
-                        <!-- <img src="assets/images/logos/dark-logo.svg" width="180" alt="" /> -->
-                    </a>
-                    <div class="close-btn d-xl-none d-block sidebartoggler cursor-pointer" id="sidebarCollapse">
-                        <i class="ti ti-x fs-8"></i>
-                    </div>
-                </div>
-                <!-- Sidebar navigation-->
-                <nav class="sidebar-nav scroll-sidebar " data-simplebar="">
-                    <ul id="sidebarnav">
-                        <li class="sidebar-item">
-                            <a class="sidebar-link active" href="./property__listings.php" aria-expanded="false">
-                                <span>
-                                    <i class="ti ti-map"></i>
-                                </span>
-                                <span class="hide-menu">Property Listings</span>
-                            </a>
-                        </li>
-                        <li class="sidebar-item">
-                            <a class="sidebar-link" href="./plots__application.php" aria-expanded="false">
-                                <span>
-                                    <i class="ti ti-clipboard"></i>
-                                </span>
-                                <span class="hide-menu">Application</span>
-                            </a>
-                        </li>
-                        <li class="sidebar-item">
-                            <a class="sidebar-link" href="./invoice__pay.php" aria-expanded="false">
-                                <span>
-                                    <i class="ti ti-cards"></i>
-                                </span>
-                                <span class="hide-menu">Payments</span>
-                            </a>
-                        </li>
+            <!-- Sidebar Start -->
+            <aside class="left-sidebar">
+                <!-- Sidebar scroll-->
+                <div>
+                    <div class="brand-logo d-flex align-items-center justify-content-between">
+                        <a href="./index.php" class="text-nowrap logo-img">
+                            <img src="assets/images/logos/favicon.png" height="30px" alt="" />
+                            <strong class="text-primary">CHERRYWOOD</strong>
 
-                    </ul>
-                    <div class="unlimited-access hide-menu bg-light-primary position-relative mb-7 mt-5 rounded">
-                        <a class="d-flex" href="index.php">
-                            <div class="unlimited-access-title me-3">
-                                <h6 class="fw-semibold fs-4 mb-6 text-dark w-85">Lets Go Home</h6>
-                            </div>
-                            <div class="unlimited-access-img">
-                                <img src="assets/images/backgrounds/rocket.png" alt="" class="img-fluid">
-                            </div>
                         </a>
+                        <div class="close-btn d-xl-none d-block sidebartoggler cursor-pointer" id="sidebarCollapse">
+                            <i class="ti ti-x fs-8"></i>
+                        </div>
                     </div>
-                </nav>
-                <!-- End Sidebar navigation -->
-            </div>
-            <!-- End Sidebar scroll-->
+                    <!-- Sidebar navigation-->
+                    <nav class="sidebar-nav scroll-sidebar" data-simplebar="">
+                        <ul id="sidebarnav">
+                            <li class="sidebar-item">
+                                <a class="sidebar-link" href="./property__listings.php" aria-expanded="false">
+                                    <span>
+                                        <i class="ti ti-map"></i>
+                                    </span>
+                                    <span class="hide-menu">Property Listings</span>
+                                </a>
+                            </li>
+                            <li class="sidebar-item">
+                                <a class="sidebar-link" href="./plots__application.php" aria-expanded="false">
+                                    <span>
+                                        <i class="ti ti-clipboard"></i>
+                                    </span>
+                                    <span class="hide-menu">Application</span>
+                                </a>
+                            </li>
+                            <li class="sidebar-item">
+                                <a class="sidebar-link" href="./invoice__pay.php" aria-expanded="false">
+                                    <span>
+                                        <i class="ti ti-cards"></i>
+                                    </span>
+                                    <span class="hide-menu">Payments</span>
+                                </a>
+                            </li>
+                            <li class="sidebar-item">
+                                <a class="sidebar-link" href="./help__faq.php" aria-expanded="false">
+                                    <span>
+                                        <i class="ti ti-help"></i>
+                                    </span>
+                                    <span class="hide-menu">Help Feature</span>
+                                </a>
+                            </li>
+
+                        </ul>
+                        <div class="unlimited-access hide-menu bg-light-primary position-relative mb-7 mt-5 rounded">
+                            <a class="d-flex" href="index.php">
+                                <div class="unlimited-access-title me-3">
+                                    <h6 class="fw-semibold fs-4 mb-6 text-dark w-85">Go Home __</h6>
+                                </div>
+                                <div class="unlimited-access-img">
+                                    <img src="assets/images/backgrounds/rocket.png" alt="" class="img-fluid">
+                                </div>
+                            </a>
+                        </div>
+                    </nav>
+                    <!-- End Sidebar navigation -->
+                </div>
+                <!-- End Sidebar scroll-->
+            </aside>
+            <!--  Sidebar End -->
         </aside>
         <!--  Sidebar End -->
         <!--  Main wrapper -->

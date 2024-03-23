@@ -62,7 +62,7 @@
                             </a>
                         </li>
                         <li class="sidebar-item">
-                            <a class="sidebar-link" href="./property__admin__approve.php" aria-expanded="false">
+                            <a class="sidebar-link" href="./property__admin__request.php" aria-expanded="false">
                                 <span>
                                     <i class="ti ti-location"></i>
                                 </span>
@@ -157,7 +157,8 @@
 
                                 <div class="form-group mb-3">
                                     <label for="size">Size (in sq.ft):</label>
-                                    <input type="number" class="form-control" name="size" id="size" min="1" required>
+                                    <input type="number" class="form-control" name="size" id="size" min="500" max="5000" placeholder="Enter From 500 - 5000 Square Feet" required>
+                                    <!-- <input type="number" class="form-control" name="size" id="size" min="1" required> -->
                                 </div>
 
                                 <!-- Additional dropdowns can be added here for more factors -->
@@ -180,45 +181,69 @@
     <script src="assets/libs/apexcharts/dist/apexcharts.min.js"></script>
     <script src="assets/libs/simplebar/dist/simplebar.js"></script>
     <script src="assets/js/dashboard.js"></script>
+    
     <script>
-        function calculatePrice() {
-            var location = $('#location').val();
-            var propertyType = $('#propertyType').val();
-            var size = parseFloat($('#size').val()) || 0;
+  // Function to calculate the estimated total price
+  function calculatePrice() {
+    var size = parseFloat($('#size').val()) || 0;
 
-            var basePrice = getBasePrice(propertyType);
-            var locationMultiplier = getLocationMultiplier(location);
-            var totalPrice = basePrice * size * locationMultiplier;
+    // Ensure size is within a valid range (500-5000 sq ft)
+    if (size < 500 || size > 5000) {
+      alert("Please enter a valid size between 500 and 5000 sq ft.");
+      return;
+    }
 
-            $('#totalPrice').text(totalPrice.toFixed(2));
-        }
+    var location = $('#location').val();
+    var propertyType = $('#propertyType').val();
 
-        function getBasePrice(propertyType) {
-            switch (propertyType) {
-                case 'apartment':
-                    return 150;
-                case 'house':
-                    return 200;
-                case 'land':
-                    return 100;
-                default:
-                    return 100;
-            }
-        }
+    // Get base price based on property type (adjusted based on average market data would be ideal)
+    var basePrice = getBasePrice(propertyType);
 
-        function getLocationMultiplier(location) {
-            switch (location) {
-                case 'town':
-                    return 1.2;
-                case 'country':
-                    return 1.5;
-                case 'locationC':
-                    return 1.8;
-                default:
-                    return 1.0;
-            }
-        }
-    </script>
+    // Get location multiplier based on location (consider using a location API for more accurate data)
+    var locationMultiplier = getLocationMultiplier(location);
+
+    // Calculate total price using base price, size, and location multiplier
+    var totalPrice = basePrice * size * locationMultiplier;
+
+    // Display the formatted total price on the webpage
+    $('#totalPrice').text(totalPrice.toFixed(2));
+  }
+
+  // Function to assign a base price based on property type (replace with actual market data)
+  function getBasePrice(propertyType) {
+    switch (propertyType) {
+      case 'apartment':
+        // Consider researching average price per sq ft for apartments in your target market
+        return 150; // Placeholder value, replace with a more accurate base price
+      case 'house':
+        // Consider researching average price per sq ft for houses in your target market  
+        return 200; // Placeholder value, replace with a more accurate base price
+      case 'land':
+        // Consider researching average price per sq ft for land in your target market  
+        return 100; // Placeholder value, replace with a more accurate base price
+      default:
+        return 100;
+    }
+  }
+
+  // Function to assign a location multiplier (consider using real estate data based on zip codes) 
+  function getLocationMultiplier(location) {
+    switch (location) {
+      case 'town':
+        // Ideal: Use real estate data to determine a location multiplier for towns in your target market
+        return 1.2; // Placeholder value, replace with a more data-driven multiplier
+      case 'country':
+        // Ideal: Use real estate data to determine a location multiplier for rural areas in your target market
+        return 1.5; // Placeholder value, replace with a more data-driven multiplier
+      case 'locationC':
+        // Ideal: Use real estate data to determine a location multiplier for locationC in your target market
+        return 1.8; // Placeholder value, replace with a more data-driven multiplier
+      default:
+        return 1.0;
+    }
+  }
+</script>
+
 </body>
 
 </html>

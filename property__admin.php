@@ -72,7 +72,7 @@ $plotsData = $stmt->fetchAll(PDO::FETCH_ASSOC);
                             </a>
                         </li>
                         <li class="sidebar-item">
-                            <a class="sidebar-link" href="./property__admin__approve.php" aria-expanded="false">
+                            <a class="sidebar-link" href="./property__admin__request.php" aria-expanded="false">
                                 <span>
                                     <i class="ti ti-location"></i>
                                 </span>
