@@ -155,7 +155,7 @@ if (isset($_POST['request'])) {
                     </ul>
                     <div class="navbar-collapse justify-content-end px-0" id="navbarNav">
                         <ul class="navbar-nav flex-row ms-auto align-items-center justify-content-end">
-                            <!-- <a href="https://adminmart.com/product/modernize-free-bootstrap-admin-dashboard/" target="_blank" class="btn btn-primary">Download Free</a> -->
+                            <!-- <a href="https://adminmart.com/product/modernize-free-bootstrap-admin-dashboard/" target="_self" class="btn btn-primary">Download Free</a> -->
                             <li class="nav-item dropdown">
                                 <a class="nav-link nav-icon-hover" href="javascript:void(0)" id="drop2" data-bs-toggle="dropdown" aria-expanded="false">
                                     <img src="assets/images/profile/user-1.jpg" alt="" width="35" height="35" class="rounded-circle">
@@ -186,7 +186,7 @@ if (isset($_POST['request'])) {
                         <!-- <div class="row justify-content-center w-100"> -->
                         <input type="hidden" name="plot_id" value="<?= $plotDetails['id'] ?>">
                         <button type="submit" class="btn btn-outline-primary mt-2" name="request">Request For Visit</button>
-                        <a href="property__virtual.php?id=<?php echo $_GET['id']; ?>" target="_blank" class="btn btn-outline-primary mt-2">Take Virtual Tour</a>
+                        <a href="property__virtual.php?id=<?php echo $_GET['id']; ?>" target="_self" class="btn btn-outline-primary mt-2">Take Virtual Tour</a>
                     </form>
                 </div>
             </div>
