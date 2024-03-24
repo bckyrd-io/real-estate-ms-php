@@ -6,15 +6,11 @@ include_once('db.php'); // Assuming the path to your database connection script 
 $selectDataQuery = " SELECT * FROM users
     INNER JOIN usersonplot ON users.id = usersonplot.user_id
     INNER JOIN plots ON plots.id = usersonplot.plot_id
-    WHERE usersonplot.status != 'paid'
-    AND usersonplot.status != 'applied' ";
+    WHERE usersonplot.status NOT IN ('applied', 'paid')";
 // LEFT JOIN property_tours ON plots.id = property_tours.plot_id ";
 $stmt = $conn->query($selectDataQuery);
 $resultsData = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-if (isset($_GET['mail'])) {
-    echo "<script>alert('Schedule email Sent.');</script>";
-}
 
 ?>
 
@@ -182,8 +178,11 @@ if (isset($_GET['mail'])) {
                                                         case 'scheduled':
                                                             echo 'bg-success';
                                                             break; // Yellow
+                                                        case 'visit':
+                                                            echo 'bg-info';
+                                                            break; // Yellow
                                                         default:
-                                                            echo 'bg-warning'; // Default color
+                                                            echo ''; // Default color
                                                     }
                                                     ?>
                                                     rounded-3 fw-semibold"><?= $approve['status']; ?></span>
@@ -191,13 +190,13 @@ if (isset($_GET['mail'])) {
                                             </td>
                                             <td> <?= $approve['plot_name']; ?> </td>
                                             <td> <?= $approve['date']; ?> </td>
-                                            <form action="mailer.php" method="post">
+                                            <form action="mailer__request.php" method="post">
                                                 <td>
                                                     <input type="hidden" name="username" value="<?= $approve['username'] ?>">
                                                     <input type="hidden" name="plot_id" value="<?= $approve['plot_id'] ?>">
                                                     <input type="hidden" name="email" value="<?= $approve['email'] ?>">
                                                     <input type="hidden" name="user_id" value="<?= $approve['user_id'] ?>">
-                                                    <button type="submit" name="submit_approve" class="btn btn-outline-primary fs-2 fw-semibold form-control form-control-md">Send</button>
+                                                    <button type="submit" name="submit_approve" class="btn btn-outline-primary fs-2 fw-semibold form-control form-control-md">confirm</button>
                                                 </td>
                                             </form>
 

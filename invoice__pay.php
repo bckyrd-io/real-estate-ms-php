@@ -10,7 +10,7 @@ $selectInvoiceDataQuery = "
     INNER JOIN plots ON usersonplot.plot_id = plots.id
     LEFT JOIN payments ON users.id = payments.user_id 
     WHERE users.id = $user_id
-    AND usersonplot.status NOT IN ('applied', 'paid')
+    AND usersonplot.status NOT IN ('applied', 'paid','visit','scheduled')
 ";
 
 $stmt = $conn->query($selectInvoiceDataQuery);

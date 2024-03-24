@@ -36,8 +36,8 @@ try {
         $username = $_POST['username'];
 
         // Prepare the notification message based on the status
-        $notificationMessage = 'Your tour has been scheduled from ' . $tour_date . '.';
-        $status = 'scheduled';
+        $notificationMessage = 'You Can Go on And pay ' . $tour_date . '.';
+        $status = 'pending';
 
         // SQL query to update property_tours and usersonplot
         $updateToursQuery = "UPDATE property_tours SET tour_date = :tour_date WHERE plot_id = :plot_id";
@@ -67,13 +67,13 @@ try {
 
         //Content
         $mail->isHTML(true);                                  //Set email format to HTML
-        $mail->Subject = 'Real Estate Mail';
+        $mail->Subject = 'Real Estate Mail For Pending Payments';
         $mail->Body    = $notificationMessage;
         $mail->AltBody = $notificationMessage;
         $mail->send();
 
         // After executing the database update and other operations
-        echo "<script>alert('Schedule email Sent.'); window.location.href='property__admin__approve.php';</script>";
+        echo "<script>alert('Pending Pay Email Sent.'); window.location.href='property__admin__approve.php';</script>";
     }
 } catch (Exception $e) {
     echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";

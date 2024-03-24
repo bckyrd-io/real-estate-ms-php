@@ -11,20 +11,42 @@ $plotDetails = $stmt->fetch(PDO::FETCH_ASSOC);
 
 
 if (isset($_POST['request'])) {
-    // //update status to requested
-    $status = 'scheduled';
-    $plot_id = $_POST['plot_id'];
-    $user_id =  $_SESSION['user_id'];
-    // // SQL query to update property_tours and usersonplot
-    $updateToursQuery = "UPDATE usersonplot SET status= :status WHERE plot_id = :plot_id 
-        AND user_id = :user_id";
-    $stmtTours = $conn->prepare($updateToursQuery);
-    $stmtTours->bindParam(':plot_id', $plot_id);
-    $stmtTours->bindParam(':user_id', $user_id);
-    $stmtTours->bindParam(':status', $status);
-    $stmtTours->execute();
-    echo "  <script> alert('request sent successfuly. wait for email !')</script>";
+    // Validate plot_id (optional, good practice)
+    $plot_id = (int) $_POST['plot_id']; // Cast to integer for security
+
+    // Check if plot exists for the user
+    $checkPlotQuery = "SELECT COUNT(*) AS user_plot_count 
+                       FROM usersonplot 
+                       WHERE plot_id = :plot_id AND user_id = :user_id";
+    $stmtCheckPlot = $conn->prepare($checkPlotQuery);
+    $stmtCheckPlot->bindParam(':plot_id', $plot_id);
+    $stmtCheckPlot->bindParam(':user_id', $_SESSION['user_id']);
+    $stmtCheckPlot->execute();
+
+    $userPlotCount = $stmtCheckPlot->fetchColumn(); // Get the count
+    $stmtCheckPlot->closeCursor(); // Close the cursor
+
+    if ($userPlotCount > 0) {
+        // Plot exists for the user, proceed with update
+        $status = 'visit';
+        $user_id = $_SESSION['user_id'];
+        // Update usersonplot table
+        $updateToursQuery = "UPDATE usersonplot SET status= :status WHERE plot_id = :plot_id 
+                         AND user_id = :user_id";
+        $stmtTours = $conn->prepare($updateToursQuery);
+        $stmtTours->bindParam(':plot_id', $plot_id);
+        $stmtTours->bindParam(':user_id', $user_id);
+        $stmtTours->bindParam(':status', $status);
+        if ($stmtTours->execute()) {
+            echo " <script> alert('Request sent successfully. Wait for email!')</script>";
+        } else {
+            echo " <script> alert('There was an error processing your request.')</script>";
+        }
+    } else {
+        echo "  <script> alert('You cannot request this plot. It might not be assigned to you.')</script>";
+    }
 }
+
 
 ?>
 
