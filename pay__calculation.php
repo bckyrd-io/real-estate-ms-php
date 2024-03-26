@@ -156,8 +156,8 @@
                                 </div>
 
                                 <div class="form-group mb-3">
-                                    <label for="size">Size (in sq.ft):</label>
-                                    <input type="number" class="form-control" name="size" id="size" min="500" max="5000" placeholder="Enter From 500 - 5000 Square Feet" required>
+                                    <label for="size">Size (in sq.metres):</label>
+                                    <input type="number" class="form-control" name="size" id="size" min="50" max="500" placeholder="Enter From 50 - 500 Square Metres" required>
                                     <!-- <input type="number" class="form-control" name="size" id="size" min="1" required> -->
                                 </div>
 
@@ -187,9 +187,9 @@
   function calculatePrice() {
     var size = parseFloat($('#size').val()) || 0;
 
-    // Ensure size is within a valid range (500-5000 sq ft)
-    if (size < 500 || size > 5000) {
-      alert("Please enter a valid size between 500 and 5000 sq ft.");
+    // Ensure size is within a valid range (300-500 sq metres)
+    if (size < 50 || size > 500) {
+      alert("Please enter a valid size between 50 and 150 sq metres.");
       return;
     }
 
@@ -213,13 +213,13 @@
   function getBasePrice(propertyType) {
     switch (propertyType) {
       case 'apartment':
-        // Consider researching average price per sq ft for apartments in your target market
+        // Consider researching average price per sq metres for apartments in your target market
         return 150; // Placeholder value, replace with a more accurate base price
       case 'house':
-        // Consider researching average price per sq ft for houses in your target market  
+        // Consider researching average price per sq metres for houses in your target market  
         return 200; // Placeholder value, replace with a more accurate base price
       case 'land':
-        // Consider researching average price per sq ft for land in your target market  
+        // Consider researching average price per sq metres for land in your target market  
         return 100; // Placeholder value, replace with a more accurate base price
       default:
         return 100;

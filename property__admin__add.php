@@ -205,8 +205,8 @@ if (isset($_POST['submit'])) {
                                 </div>
 
                                 <div class="mb-3">
-                                    <label for="size">Size (in sq.ft):</label>
-                                    <input type="number" name="size" class="form-control" id="exampleInputtext1" aria-describedby="textHelp" required>
+                                    <label for="size">Size (in sq.metres):</label>
+                                    <input type="number" name="size" class="form-control" id="exampleInputtext1" aria-describedby="textHelp" min="50" max="500" placeholder="min 50 - max 500" required>
                                 </div>
 
                                 <div class="mb-3">

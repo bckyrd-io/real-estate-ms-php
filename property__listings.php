@@ -179,7 +179,7 @@ $uniquePriceRanges = array_keys($uniquePriceRanges);
                                 <div class="card-body">
                                     <h5 class="card-title"><?= $plot['plot_name']; ?></h5>
                                     <p class="card-text">Location: <?= $plot['location']; ?>- <?= $plot['type']; ?></p>
-                                    <p class="card-text">Size: <?= $plot['size']; ?> hectares</p>
+                                    <p class="card-text">Size: <?= $plot['size']; ?> Square Metres</p>
                                     <p class="card-text">Price: $ <?= $plot['price']; ?></p>
                                     <div class="row">
                                         <a href="property__tour.php?id=<?= $plot['id']; ?>" target="_self" class="btn btn-outline-primary mt-2">Tour Around</a>
